@@ -75,7 +75,7 @@ const UserSchema = mongoose.Schema(
             default: [],
         },
     },
-    { timestamps: true } // Tự động tạo createdAt & updatedAt
+    { timestamps: true } 
 );
 
 const UserModel = mongoose.model("Users", UserSchema);

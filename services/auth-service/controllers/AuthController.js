@@ -3,8 +3,6 @@ const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 
 
-
-
 const loginUser = async (req, res)=>{
     const {username, password} = req.body;
     try {
@@ -34,3 +32,6 @@ const loginUser = async (req, res)=>{
     }
 
 }
+
+
+module.exports = {loginUser}

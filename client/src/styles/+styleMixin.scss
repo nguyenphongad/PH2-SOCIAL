@@ -1,0 +1,12 @@
+$main_color  : #EB2F96;
+$main_color-50  : #FEE5F6;
+$color_white: #ffffff;
+$color_black: #000000;
+
+
+@mixin styleDisFlexCenter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s;
+}

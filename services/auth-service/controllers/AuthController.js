@@ -12,7 +12,7 @@ const loginUser = async (req, res) => {
             const vad = await bcrypt.compare(password, checkUser.password);
 
             if (!vad) {
-                res.status(400).json({ message: "PASSWORD KHÔNG CHÍNH XÁC", status: false });
+                res.status(201).json({ message: "Password không chính xác!", status: false });
                 return;
             } else {
                 const token = jwt.sign(
@@ -20,10 +20,10 @@ const loginUser = async (req, res) => {
                     process.env.JWTKEY,
                     { expiresIn: "1h" }
                 );
-                res.status(200).json({ checkUser, status: true, token });
+                res.status(200).json({ message: "Đăng nhập thành công",checkUser, status: true, token });
             }
         } else {
-            res.status(400).json({ message: "USER KHÔNG TỒN TẠI", status: false });
+            res.status(201).json({ message: "Username không tồn tại!", status: false });
         }
 
     } catch (error) {
@@ -42,7 +42,7 @@ const registerUser = async (req, res) => {
         });
 
         if (existingUser) {
-            return res.status(400).json({ message: 'Tên người dùng, số điện thoại hoặc email đã được đăng ký' });
+            return res.status(201).json({ message: 'Tên người dùng, số điện thoại hoặc email đã được đăng ký' });
         }
 
         const hashPassword = await bcrypt.hash(password, 10); // Lặp 10 lần băm

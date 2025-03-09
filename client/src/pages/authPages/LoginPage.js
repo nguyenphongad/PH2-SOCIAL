@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch} from 'react-redux';
-import text_logo from "../../assets/logo/text_logo.png"
+import { Link, Links, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { loginUser } from '../../redux/thunks/authThunk';
+
+import { toast } from 'react-toastify';
+import LoadingButton from '../../components/loadingComponent.js/LoadingButton';
+import AuthContainer from './AuthContainer';
 
 const LoginPage = () => {
 
@@ -13,88 +16,91 @@ const LoginPage = () => {
 
     const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-
-
+    // const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
         setIsLoading(true);
 
         try {
-
             const result = await dispatch(loginUser(credentials));
+
+            const msg = result.payload.message
+
             if (loginUser.fulfilled.match(result)) {
-                console.log("log oke")
+                toast.success(msg);
             } else {
-                console.log("login that bai")
+                toast.error(msg);
             }
 
         } catch (error) {
-            console.log(error)
+            toast.error("Đăng nhập không thành công!");
+
         } finally {
-            setIsLoading(false)
+            setIsLoading(false);
         }
 
     }
 
 
-
-
-    return (
-        <div className='container_page_auth'>
-            <div className='layout_intro'>
+    const FormLogin = () => {
+        return (
+            <>
                 <div>
-                    <img src={text_logo} alt="text logo" className='img_logo' />
-
-                    <div className='text_intro'>
-                        Public Hangout 2<br />
-                        Trang mạng xã hội kết nối giữa mọi nơi.<br />
-                        Nhắn tin, chia sẻ khoảnh khắc với mọi người.
-                    </div>
+                    <input
+                        type="text"
+                        placeholder="Username"
+                        value={credentials.username}
+                        onChange={(e) => {
+                            setCredentials({ ...credentials, username: e.target.value })
+                        }}
+                    />
                 </div>
-            </div>
-            <div className='box_layout_form'>
-                <div className='form_border'>
-                    <div>
-                        <input
-                            type="text"
-                            placeholder="Username"
-                            value={credentials.username}
-                            onChange={(e)=>{
-                                setCredentials({...credentials, username: e.target.value})
-                            }}
-                        />
-                    </div>
-                    <div>
-                        <input
-                            type="password"
-                            placeholder='Password'
-                            value={credentials.password}
-                            onChange={(e)=>{
-                                setCredentials({...credentials, password: e.target.value})
-                            }}
-                        />
-                    </div>
-                    <div>
-                        <button onClick={handleLogin}>
-                            ĐĂNG NHẬP
-                        </button>
-                    </div>
-                    <div>
-                        <Link to="/forgot-password">Quên mật khẩu?</Link>
-                    </div>
-                    <div>
-                        ___________________ hoặc ___________________
-                    </div>
-                    <div>
+                <div>
+                    <input
+                        type="password"
+                        placeholder='Password'
+                        value={credentials.password}
+                        onChange={(e) => {
+                            setCredentials({ ...credentials, password: e.target.value })
+                        }}
+                    />
+                </div>
+                <div>
+                    <button>
+                        {
+                            isLoading ?
+                                <LoadingButton size={30} />
+                                :
+                                <span onClick={handleLogin}>ĐĂNG NHẬP</span>
+                        }
+                    </button>
+
+                </div>
+                <div>
+                    <Link to="/forgot-password">Quên mật khẩu?</Link>
+                </div>
+                <div style={{ textAlign: "center" }}>
+                    ________________ hoặc ________________
+                </div>
+                <div>
+                    <Link to="/register">
                         <button className='btn_reg'>
                             ĐĂNG KÝ
                         </button>
-                    </div>
+                    </Link>
+
                 </div>
-            </div>
-        </div>
+            </>
+        )
+    }
+
+    return (
+        <>
+            <AuthContainer>
+                <FormLogin />
+            </AuthContainer>
+        </>
     )
 }
 

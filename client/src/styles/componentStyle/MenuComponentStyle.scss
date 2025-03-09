@@ -1,0 +1,67 @@
+.container_menu {
+    width: 280px;
+    height: 100vh;
+    border-right: 1px solid #eaeaea;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0px;
+
+    .box_logo_menu {
+        display: flex;
+        justify-content: center;
+        padding: 20px 0px;
+
+        .img_text_logo_menu {
+            width: 110px;
+        }
+    }
+
+    > div {
+        height: 100%;
+        padding:0px 15px;
+
+
+        >a {
+            padding: 20px 10px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #202020;
+            display: flex;
+            align-items: center;
+            border-radius: 15px;
+            .name_menu {
+                font-weight: 600;
+                margin-top: -5px;
+                margin-left: 10px;
+            }
+
+            .icon_menu {
+
+                svg {
+                    font-size: 20px;
+                }
+            }
+
+        }
+
+        >a.active {
+            background-color: $main_color;
+
+            .name_menu {
+                color: $color_white !important;
+            }
+
+            .icon_menu {
+                svg {
+                    font-weight: 700;
+                    color: $color_white;
+
+                    path {
+                        color: $color_white;
+                    }
+                }
+            }
+        }
+    }
+}

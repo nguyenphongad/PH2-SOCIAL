@@ -10,6 +10,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Bounce, ToastContainer } from 'react-toastify'
 
 import { logout } from "../redux/slices/authSlice";
+import SearchPageIndex from '../pages/searchPages/SearchPageIndex'
+import MorePageIndex from '../pages/morePages/MorePageIndex'
+import HomePageIndex from '../pages/homePages/HomePageIndex'
+import NoticationPageIndex from '../pages/notificationPages/NoticationPageIndex'
+import PostPageIndex from '../pages/postPages/PostPageIndex'
 
 export const ProtectedAuth = ({ component }) => {
     const { token } = useSelector(state => state.auth);
@@ -29,7 +34,7 @@ const MainView = () => {
         <>
             <ToastContainer
                 position="top-right"
-                autoClose={5000}
+                autoClose={3000}
                 hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick={false}
@@ -47,7 +52,14 @@ const MainView = () => {
 
                 {/* Các route yêu cầu đăng nhập */}
                 <Route element={<RequireAuth />}>
-                    <Route path="/" element={<LayoutIndex />} />
+                    <Route path="/" element={<LayoutIndex />} >
+                        <Route path="/" element={<HomePageIndex />} />
+                        <Route path="/post" element={<PostPageIndex />} />
+                        <Route path="/search" element={<SearchPageIndex />} />
+                        <Route path="/chat" element={<ChatPageIndex />} />
+                        <Route path="/notification" element={<NoticationPageIndex />} />
+                        <Route path="/more" element={<MorePageIndex />} />
+                    </Route>
                     <Route path="*" element={<NotFoundPages />} />
                 </Route>
 

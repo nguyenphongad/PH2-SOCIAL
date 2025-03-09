@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { loginUser } from "../thunks/authThunk";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 const token = localStorage.getItem("USER_TOKEN");
 
@@ -9,7 +9,7 @@ const isValidToken = (token) => {
     try {
         if (!token) return false;
         const decoded = jwtDecode(token);
-        return decoded.exp * 1000 > Date.now();  
+        return decoded.exp * 1000 > Date.now();
     } catch (error) {
         return false;
     }

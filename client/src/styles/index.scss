@@ -20,6 +20,16 @@ ul {
     padding: 0px !important;
 }
 
+.container_layout_main{
+    width: 100%;
+    display: flex;
+    .box_outlet_main{
+        width: 100%;
+        padding: 30px;
+    }
+}
+
+
 //loading
 .loading-container {
     width: 100% !important;
@@ -39,3 +49,8 @@ ul {
 
 @import "./AuthPageStyle/AuthPageStyle.scss";
 @import "./componentStyle/HeaderComponentStyle.scss";
+@import "./componentStyle/MenuComponentStyle.scss";
+
+
+@import "./HomePagesStyle/HomeIndex.scss";
+@import "./MorePageStyles/MorePageIndex.scss"

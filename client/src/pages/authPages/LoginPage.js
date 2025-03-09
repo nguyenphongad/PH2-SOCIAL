@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch} from 'react-redux';
 import text_logo from "../../assets/logo/text_logo.png"
 import { loginUser } from '../../redux/thunks/authThunk';
 
 const LoginPage = () => {
-
-
 
     const [credentials, setCredentials] = useState({
         username: "",

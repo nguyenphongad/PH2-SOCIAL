@@ -5,33 +5,40 @@ const jwt = require("jsonwebtoken")
 
 const loginUser = async (req, res) => {
     const { username, password } = req.body;
-    try {
-        const checkUser = await UserModel.findOne({ username: username })
 
-        if (checkUser) {
-            const vad = await bcrypt.compare(password, checkUser.password);
-
-            if (!vad) {
-                res.status(201).json({ message: "Password không chính xác!", status: false });
-                return;
-            } else {
-                const token = jwt.sign(
-                    { username: checkUser.username, id: checkUser._id },
-                    process.env.JWTKEY,
-                    { expiresIn: "1h" }
-                );
-                res.status(200).json({ message: "Đăng nhập thành công",checkUser, status: true, token });
-            }
-        } else {
-            res.status(201).json({ message: "Username không tồn tại!", status: false });
-        }
-
-    } catch (error) {
-        console.log("lỗi")
-        res.status(500).json(error);
+    if (!username || !password) {
+        return res.status(400).json({ message: "Không được để trống!", status: false });
     }
 
-}
+    try {
+        const checkUser = await UserModel.findOne({ username });
+        if (!checkUser) {
+            return res.status(404).json({ message: "Username không tồn tại!", status: false });
+        }
+
+        const isPasswordValid = await bcrypt.compare(password, checkUser.password);
+        if (!isPasswordValid) {
+            return res.status(401).json({ message: "Password không chính xác!", status: false });
+        }
+        const token = jwt.sign(
+            { username: checkUser.username, id: checkUser._id },
+            process.env.JWTKEY,
+            { expiresIn: "1h" }
+        );
+
+        res.status(200).json({
+            message: "Đăng nhập thành công",
+            user: { username: checkUser.username, id: checkUser._id }, 
+            status: true,
+            token
+        });
+
+    } catch (error) {
+        console.error("Lỗi đăng nhập:", error);
+        res.status(500).json({ message: "Lỗi server, vui lòng thử lại!", status: false });
+    }
+};
+
 
 
 const registerUser = async (req, res) => {
@@ -71,7 +78,7 @@ const registerUser = async (req, res) => {
                 username: user.username,
                 email: user.email,
                 phoneNumber: user.phoneNumber,
-                createdAt: user.createdAt, 
+                createdAt: user.createdAt,
             }
         });
     } catch (error) {

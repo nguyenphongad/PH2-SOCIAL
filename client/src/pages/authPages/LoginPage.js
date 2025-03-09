@@ -16,26 +16,38 @@ const LoginPage = () => {
 
     const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
+
+        if (!credentials.username.trim() || !credentials.password.trim()) {
+            toast.warning("Không để trống các trường!");
+            return;
+        }
+
+        if (isLoading) return;
+
         setIsLoading(true);
 
         try {
             const result = await dispatch(loginUser(credentials));
 
-            const msg = result.payload.message
+            // console.log("Kết quả từ API:", result);
 
             if (loginUser.fulfilled.match(result)) {
+                const msg = result.payload?.message;
                 toast.success(msg);
             } else {
+                const msg = result.payload?.message || "Lỗi không xác định";
                 toast.error(msg);
             }
 
         } catch (error) {
-            toast.error("Đăng nhập không thành công!");
+            const errorMessage = error?.response?.data?.message || "Đăng nhập không thành công!";
+            toast.error(errorMessage);
 
+            // console.error("Lỗi đăng nhập:", error);
         } finally {
             setIsLoading(false);
         }
@@ -43,62 +55,51 @@ const LoginPage = () => {
     }
 
 
-    const FormLogin = () => {
-        return (
-            <>
-                <div>
-                    <input
-                        type="text"
-                        placeholder="Username"
-                        value={credentials.username}
-                        onChange={(e) => {
-                            setCredentials({ ...credentials, username: e.target.value })
-                        }}
-                    />
-                </div>
-                <div>
-                    <input
-                        type="password"
-                        placeholder='Password'
-                        value={credentials.password}
-                        onChange={(e) => {
-                            setCredentials({ ...credentials, password: e.target.value })
-                        }}
-                    />
-                </div>
-                <div>
-                    <button>
-                        {
-                            isLoading ?
-                                <LoadingButton size={30} />
-                                :
-                                <span onClick={handleLogin}>ĐĂNG NHẬP</span>
-                        }
-                    </button>
-
-                </div>
-                <div>
-                    <Link to="/forgot-password">Quên mật khẩu?</Link>
-                </div>
-                <div style={{ textAlign: "center" }}>
-                    ________________ hoặc ________________
-                </div>
-                <div>
-                    <Link to="/register">
-                        <button className='btn_reg'>
-                            ĐĂNG KÝ
-                        </button>
-                    </Link>
-
-                </div>
-            </>
-        )
-    }
-
     return (
         <>
             <AuthContainer>
-                <FormLogin />
+                <>
+                    <div>
+                        <input
+                            type="text"
+                            placeholder="Username"
+                            value={credentials.username}
+                            onChange={(e) => {
+                                setCredentials({ ...credentials, username: e.target.value })
+                            }}
+                        />
+                    </div>
+                    <div>
+                        <input
+                            type="password"
+                            placeholder='Password'
+                            value={credentials.password}
+                            onChange={(e) => {
+                                setCredentials({ ...credentials, password: e.target.value })
+                            }}
+                        />
+                    </div>
+                    <div>
+                        <div>
+                            <button onClick={handleLogin} disabled={isLoading}>
+                                {isLoading ? <LoadingButton size={30} /> : "ĐĂNG NHẬP"}
+                            </button>
+                        </div>
+
+                    </div>
+                    <div>
+                        <Link to="/forgot-password">Quên mật khẩu?</Link>
+                    </div>
+                    <div style={{ textAlign: "center" }}>
+                        ________________ hoặc ________________
+                    </div>
+                    <div>
+                        <button className='btn_reg' onClick={() => navigate('/register')}>
+                            ĐĂNG KÝ
+                        </button>
+
+                    </div>
+                </>
             </AuthContainer>
         </>
     )

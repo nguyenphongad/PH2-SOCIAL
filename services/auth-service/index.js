@@ -31,7 +31,7 @@ mongoose
     .connect(process.env.MONGODB_URL) 
     .then(()=>{
         app.listen(process.env.PORT,()=>{
-            console.log('listening at port ' + process.env.PORT);
+            console.log('server AUTTH-SERVICE listening at port ' + process.env.PORT);
         })
     })
     .catch((error)=>console.log(error));

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import LoginPage from '../pages/authPages/LoginPage'
 import RegisterPage from '../pages/authPages/RegisterPage'
@@ -6,13 +6,21 @@ import NotFoundPages from '../pages/chatPages/NotFoundPages'
 import ChatPageIndex from '../pages/chatPages/ChatPageIndex'
 import LayoutIndex from '../pages/LayoutIndex'
 import RequireAuth from '../middlewares/RequireAuth'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Bounce, ToastContainer } from 'react-toastify'
 
-const auth = false;
+import { logout } from "../redux/slices/authSlice";
 
 export const ProtectedAuth = ({ component }) => {
     const { token } = useSelector(state => state.auth);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (!token) {
+            dispatch(logout());
+        }
+    }, [token, dispatch]);
+
     return token ? <Navigate to="/" /> : component;
 };
 
@@ -40,11 +48,11 @@ const MainView = () => {
                 {/* Các route yêu cầu đăng nhập */}
                 <Route element={<RequireAuth />}>
                     <Route path="/" element={<LayoutIndex />} />
-                    <Route path="*" element={<Navigate to="/"/>} />
+                    <Route path="*" element={<NotFoundPages />} />
                 </Route>
 
                 {/* Redirect tất cả trang không tìm thấy về Home */}
-                <Route path="*" element={<NotFoundPages/>} />
+                <Route path="*" element={<NotFoundPages />} />
 
             </Routes>
         </>

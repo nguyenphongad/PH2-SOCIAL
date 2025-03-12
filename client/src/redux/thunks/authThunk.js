@@ -15,7 +15,7 @@ export const loginUser = createAsyncThunk(
             if (error.response) {
                 return rejectWithValue(error.response.data);
             } else {
-                return rejectWithValue({ message: "Lỗi không xác định thunk" });
+                return rejectWithValue({ message: "Lỗi không xác định thunks - server bị lỗi/chưa khởi động" });
             }
         }
     }

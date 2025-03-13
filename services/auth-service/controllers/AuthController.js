@@ -28,7 +28,7 @@ const loginUser = async (req, res) => {
 
         res.status(200).json({
             message: "Đăng nhập thành công",
-            user: { username: checkUser.username, id: checkUser._id }, 
+            user: { username: checkUser.username, id: checkUser._id },
             status: true,
             token
         });
@@ -87,5 +87,37 @@ const registerUser = async (req, res) => {
     }
 };
 
+const checkToken = async (req, res) => {
+    try {
+        // Lấy token từ header authorization
+        const token = req.header("Authorization")?.split(" ")[1];
+        // console.log(token)
 
-module.exports = { loginUser, registerUser }
+        if (!token) {
+            return res.status(401).json({ message: "Không có token, không được phép truy cập", isLogin: false });
+        }
+
+        // Giải mã token để lấy thông tin user
+        const decoded = jwt.verify(token, process.env.JWTKEY);
+
+        // Tìm người dùng theo id từ decoded token
+        const user = await UserModel.findById(decoded.id).select("-password");
+
+        if (!user) {
+            return res.status(404).json({ message: "Người dùng không tồn tại", isNotFound: true });
+        }
+
+        // console.log(res);
+        // Trả về thông tin người dùng
+        return res.status(200).json({ user, isLogin: true });
+
+
+    } catch (error) {
+        console.error("Lỗi xác thực token:", error.message);
+        return res.status(401).json({ message: "Token không hợp lệ", isLogin: false });
+    }
+};
+
+
+
+module.exports = { loginUser, registerUser, checkToken }

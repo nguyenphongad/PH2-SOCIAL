@@ -7,7 +7,7 @@
         height: 400px;
         background-color: #eaeaea;
         border-radius: 15px;
-        @include styleDisFlexCenter();
+        text-align: center;
     }
 
     .box_select_more {

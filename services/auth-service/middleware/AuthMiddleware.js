@@ -3,20 +3,29 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 const sec = process.env.JWTKEY;
-const authMiddleWare = async (req, res, next)=>{
+
+const authMiddleware = async (req, res, next) => {
     try {
-        const token  = req.headers.authorization.split(" ")[1];
-        console.log(token);
+        const token = req.headers.authorization?.split(" ")[1];
 
-        if(token){
-            const decoded = jwt.verify(token, sec);
-            req.body._id = decoded?.id
+        if (!token) {
+            return res.status(401).json({ message: "Token không tồn tại" });
         }
+
+        // Giải mã token và kiểm tra tính hợp lệ
+        const decoded = jwt.verify(token, sec);
+
+        // Thêm thông tin người dùng vào request để sử dụng ở các route sau
+        req.body._id = decoded?.id;
+
         next();
-
     } catch (error) {
-        console.log(error)
-    }
-}
+        console.error("Token không hợp lệ hoặc đã hết hạn:", error);
 
-module.exports  = authMiddleWare;
+        return res.status(401).json({
+            message: "Token không hợp lệ hoặc đã hết hạn",
+        });
+    }
+};
+
+module.exports = authMiddleware;

@@ -1,14 +1,16 @@
-import instance from '../config/auth.axios.config';
+import instance from '../config/user.axios.config';
 
-export const get = async (uri,token, params) => {
+export const get = async (uri, token, params) => {
     try {
         const headers = {};
         if (token) {
             headers.Authorization = `Bearer ${token}`;
         }
-        // console.log('Headers:', headers.Authorization );
 
-        const res = await instance.get(uri, { headers, params });
+        const res = await instance.get(uri, {
+            headers,  
+            params,   
+        });
         return res;
     } catch (error) {
         throw error;

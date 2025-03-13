@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { Navigate, Route, Routes } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Navigate, Route, Routes, useLocation, useParams } from 'react-router-dom'
 import LoginPage from '../pages/authPages/LoginPage'
 import RegisterPage from '../pages/authPages/RegisterPage'
 import NotFoundPages from '../pages/chatPages/NotFoundPages'
@@ -15,8 +15,13 @@ import MorePageIndex from '../pages/morePages/MorePageIndex'
 import HomePageIndex from '../pages/homePages/HomePageIndex'
 import NoticationPageIndex from '../pages/notificationPages/NoticationPageIndex'
 import PostPageIndex from '../pages/postPages/PostPageIndex'
+import { checkToken } from '../redux/thunks/authThunk'
+import { getUserProfile } from '../redux/thunks/userThunk'
+
+
 
 export const ProtectedAuth = ({ component }) => {
+
     const { token } = useSelector(state => state.auth);
     const dispatch = useDispatch();
 
@@ -29,7 +34,70 @@ export const ProtectedAuth = ({ component }) => {
     return token ? <Navigate to="/" /> : component;
 };
 
+
 const MainView = () => {
+    const { token } = useSelector((state) => state.auth); // Lấy token và user từ Redux store
+
+    const username =  useLocation().pathname
+
+
+    const dispatch = useDispatch();
+
+    const [userCheck, setUserCheck] = useState("");
+    const [userPeople, setUserPeople] = useState({});
+    const [isNotFound,setIsNotFound] = useState(false)
+
+    useEffect(() => {
+        const fetchCurrentUser = async () => {
+            if (token) {
+                const resultAction = await dispatch(checkToken(token));
+                if (checkToken.fulfilled.match(resultAction)) {
+                    setUserCheck(resultAction.payload.user);  
+
+                    console.log("userCheck " + userCheck)
+
+                } else {
+                    console.log('Error during token check');
+                    
+                }
+            }
+        };
+
+        fetchCurrentUser();
+    }, [token, dispatch]);
+
+    // Fetch thông tin người dùng được truy cập (nếu có username trong URL)
+    useEffect(() => {
+        const fetchUserProfile = async () => {
+            if (token && username) {
+                const action = await dispatch(getUserProfile(username, token));
+                if (getUserProfile.fulfilled.match(action)) {
+                    const profile = action.payload;
+                    setUserPeople({
+                        ...profile,
+                        isMe: profile.username === userCheck?.username
+                    });
+
+                    // console.log("pp " + userPeople.isNotFoud)
+
+                } else {
+                    console.log("Error fetching user profile");
+                    setUserPeople(action.payload);
+
+                    // console.log(userPeople)
+                    // setIsNotFound(true);
+                }
+            }
+        };
+
+        fetchUserProfile();
+    }, [token, username, userCheck, dispatch]);
+
+
+    // if (status === "loading") {
+    //     return <div>Đang kiểm tra token...</div>;
+    // }
+
     return (
         <>
             <ToastContainer
@@ -50,17 +118,23 @@ const MainView = () => {
                 <Route path="/login" element={<ProtectedAuth component={<LoginPage />} />} />
                 <Route path="/register" element={<ProtectedAuth component={<RegisterPage />} />} />
 
+
                 {/* Các route yêu cầu đăng nhập */}
                 <Route element={<RequireAuth />}>
-                    <Route path="/" element={<LayoutIndex />} >
+                    <Route path="/" element={<LayoutIndex userCheck={userCheck} />} >
+
                         <Route path="/" element={<HomePageIndex />} />
                         <Route path="/post" element={<PostPageIndex />} />
                         <Route path="/search" element={<SearchPageIndex />} />
                         <Route path="/chat" element={<ChatPageIndex />} />
                         <Route path="/notification" element={<NoticationPageIndex />} />
-                        <Route path="/more" element={<MorePageIndex />} />
+                        <Route path="/404" element={<NotFoundPages />} />
+
+                        {/* <Route path={`/${userCheck?.username}`} element={<MorePageIndex userCheck={userCheck} />} /> */}
+                        {username && <Route path={`/${username}`} element={ userPeople.isNotFoud  ? <NotFoundPages/> :  <MorePageIndex userPeople={userPeople} />} />}
+
+                        <Route path="*" element={<NotFoundPages />} />
                     </Route>
-                    <Route path="*" element={<NotFoundPages />} />
                 </Route>
 
                 {/* Redirect tất cả trang không tìm thấy về Home */}

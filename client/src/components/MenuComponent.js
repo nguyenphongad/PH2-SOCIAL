@@ -64,10 +64,12 @@ const MenuComponent = ({ userCheck }) => {
         {
             id: 5,
             role: "",
-            name_menu: 'Cá nhân',
+            // name_menu: 'Cá nhân',
+            name_menu: `${userCheck.name}`,
             icon_before: <CgMoreO />,
             to_link: `/${userCheck.username}`,
             submenu: true,
+            isIconImage: true
         },
     ];
 
@@ -76,7 +78,11 @@ const MenuComponent = ({ userCheck }) => {
         return (
             <div key={index.id}>
                 <NavLink to={index.to_link}>
-                    <div className='icon_menu'>{index.icon_before}</div>
+                    {
+                        index.isIconImage ? <img src={userCheck.profilePicture} className='img_icon_menu'/>
+                            :
+                            <div className='icon_menu'>{index.icon_before}</div>
+                    }
                     <div className='name_menu'>{index.name_menu}</div>
                 </NavLink>
             </div>

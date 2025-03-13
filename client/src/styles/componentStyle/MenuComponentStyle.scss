@@ -17,9 +17,9 @@
         }
     }
 
-    > div {
+    >div {
         height: 100%;
-        padding:0px 15px;
+        padding: 0px 15px;
 
 
         >a {
@@ -30,6 +30,7 @@
             display: flex;
             align-items: center;
             border-radius: 15px;
+
             .name_menu {
                 font-weight: 600;
                 margin-top: -5px;
@@ -43,6 +44,9 @@
                 }
             }
 
+        }
+        a:last-child{
+            border:1px solid #f3f3f3
         }
 
         >a.active {
@@ -64,4 +68,12 @@
             }
         }
     }
+}
+
+
+.img_icon_menu {
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    border:2px solid #fff;
 }

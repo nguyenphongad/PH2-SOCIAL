@@ -17,7 +17,7 @@ const logo_text = require("../assets/logo/text_logo.png")
 const MenuComponent = ({ userCheck }) => {
 
 
-    console.log("menu " + JSON.stringify(userCheck, null, 2));
+    // console.log("menu " + JSON.stringify(userCheck, null, 2));
 
 
     const ARRAY_LIST_MENU = [
@@ -64,8 +64,8 @@ const MenuComponent = ({ userCheck }) => {
         {
             id: 5,
             role: "",
-            // name_menu: 'Cá nhân',
-            name_menu: `${userCheck.name}`,
+            name_menu: 'Trang cá nhân',
+            // name_menu: `${userCheck.name}`,
             icon_before: <CgMoreO />,
             to_link: `/${userCheck.username}`,
             submenu: true,

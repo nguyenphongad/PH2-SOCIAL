@@ -4,7 +4,7 @@ const getProfileByUsername = async (req, res) => {
     try {
         const { username } = req.params;
 
-        console.log("ctlus " + username);
+        // console.log("ctlus " + username);
 
         if (!username) {
             return res.status(400).json({ message: "Username không hợp lệ" });

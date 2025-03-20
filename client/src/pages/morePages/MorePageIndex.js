@@ -11,21 +11,15 @@ import { toast } from 'react-toastify';
 import { Button, Modal, Space } from 'antd';
 import { getUserProfile } from '../../redux/thunks/userThunk';
 import { Navigate } from 'react-router-dom';
+import PostMeComponent from './PostMeComponent';
 const { confirm } = Modal;
 
 
-const MorePageIndex = ({userPeople}) => {
+const MorePageIndex = ({ userPeople }) => {
 
     const [open, setOpen] = useState(false);
     const dispatch = useDispatch();
     const isLogin = useSelector((state) => state.auth.isLogin);
-
-    // const { user, status, error } = useSelector((state) => state.user)
-
-    // useEffect(() => {
-    //     dispatch(getUserProfile())
-    // }, [dispatch, username])
-
 
     if (!isLogin) {
         return null;
@@ -48,43 +42,80 @@ const MorePageIndex = ({userPeople}) => {
     }
 
     return (
-        <div className='container_more_page'>
+        <>
+            <div className='container_more_page' style={userPeople.isMe ?  {} : {display:"block"}}>
 
 
-            <Modal
-                title={`Bạn quyến định đăng xuất tài khoản ${userPeople.username} ?`}
-                open={open}
-                onOk={handleLogout}
-                onCancel={hideModal}
-                okText={"Đăng xuất"}
-                cancelText="Không"
-                className='modal_confilm_logout'
-            >
-            </Modal>
+                <Modal
+                    title={`Bạn quyến định đăng xuất tài khoản ${userPeople.username} ?`}
+                    open={open}
+                    onOk={handleLogout}
+                    onCancel={hideModal}
+                    okText={"Đăng xuất"}
+                    cancelText="Không"
+                    className='modal_confilm_logout'
+                >
+                </Modal>
 
 
-            <div className='box_account_more'>
-                trang ca nhan
-                <h1>{userPeople.username}</h1>
-                <h1>{userPeople.name}</h1>
-                <h1>{userPeople.isMe ? "là tôi" : "người khác"}</h1>
+                <div style={{width:"100%"}}>
+                    <div className='box_account_more'>
+                        <div className='box_image_avt'>
+                            <img src={userPeople.profilePicture} alt="avatar" className='image_avatar' />
+                        </div>
+                        <div className='box_info_me'>
+                            <div id="user_name">@{userPeople.username}</div>
+                            <div id="line_social">
+                                <div>
+                                    0 bài viết
+                                </div>
+                                <div>
+                                    13 người theo dõi
+                                </div>
+                                <div>
+                                    Đang theo dõi {0} người dùng
+                                </div>
+                            </div>
+                            <div id="">{userPeople.name}</div>
+                            {/* <div>{userPeople.isMe ? "là tôi" : "người khác"}</div> */}
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <PostMeComponent />
+
+
+
+                </div>
+
+
+
+                {userPeople.isMe ?
+
+                    <div className='box_select_more'>
+                        <button>
+                            <IoSettingsOutline />
+                            <span>Cập nhật</span>
+
+                        </button>
+                        <button onClick={showModal}>
+                            <AiOutlineLogout />
+                            <span>Đăng xuất</span>
+                        </button>
+
+                    </div>
+
+
+                    : ""}
+
+
+
             </div>
-            <div className='box_select_more'>
-                <button>
-                    <IoSettingsOutline />
-                    <span>Cài đặt</span>
-
-                </button>
-                <button onClick={showModal}>
-                    <AiOutlineLogout />
-                    <span>Đăng xuất</span>
-                </button>
-
-            </div>
-
-
-
-        </div>
+        </>
     )
 }
 

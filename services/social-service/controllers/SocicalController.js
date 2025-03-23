@@ -3,7 +3,7 @@ const UserModel = require("../model/UserModel");
 const followUser = async (req, res) => {
     try {
         const { id: usernameToFollow } = req.params;
-        const userID = req.user.id;
+        const userID = req.user.userID;
 
         // Không thể follow chính mình
         const currentUser = await UserModel.findById(userID);
@@ -27,7 +27,7 @@ const followUser = async (req, res) => {
         }
 
         // Lấy ObjectId của user cần follow
-        const userToFollowId = userToFollow._id.toString();
+        const userToFollowId = userToFollow.userID.toString();
 
 
         if (userID === userToFollowId) {
@@ -70,7 +70,7 @@ const followUser = async (req, res) => {
                 type: "follow",
                 status: true,
                 message: "Follow thành công",
-                follower: currentUser._id,
+                follower: currentUser.userID,
                 follow_user: userToFollowId
             })
         }

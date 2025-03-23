@@ -16,7 +16,7 @@ const authMiddleware = async (req, res, next) => {
         const decoded = jwt.verify(token, sec);
 
         // Thêm thông tin người dùng vào request để sử dụng ở các route sau
-        req.body._id = decoded?.id;
+        req.body.userID = decoded?.userID;
 
         next();
     } catch (error) {

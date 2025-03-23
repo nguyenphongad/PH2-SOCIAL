@@ -35,7 +35,7 @@ const UserSchema = mongoose.Schema(
         },
         profilePicture: {
             type: String,
-            default: "",
+            default: "https://tinhdaunhuy.com/wp-content/uploads/2015/08/default-avatar.jpg",
         },
         bio: {
             type: String,

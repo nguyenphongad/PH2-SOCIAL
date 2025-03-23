@@ -1,4 +1,5 @@
 const UserModel = require('../model/UserModel');
+const mongoose = require("mongoose")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 
@@ -21,14 +22,14 @@ const loginUser = async (req, res) => {
             return res.status(401).json({ message: "Password không chính xác!", status: false });
         }
         const token = jwt.sign(
-            { username: checkUser.username, id: checkUser._id },
+            { username: checkUser.username, userID: checkUser.userID },
             process.env.JWTKEY,
             { expiresIn: "1h" }
         );
 
         res.status(200).json({
             message: "Đăng nhập thành công",
-            user: { username: checkUser.username, id: checkUser._id },
+            user: { username: checkUser.username, userID: checkUser.userID },
             status: true,
             token
         });
@@ -100,8 +101,9 @@ const checkToken = async (req, res) => {
         // Giải mã token để lấy thông tin user
         const decoded = jwt.verify(token, process.env.JWTKEY);
 
+
         // Tìm người dùng theo id từ decoded token
-        const user = await UserModel.findById(decoded.id).select("-password");
+        const user = await UserModel.findOne({ userID: new mongoose.Types.ObjectId(decoded.userID) });
 
         if (!user) {
             return res.status(404).json({ message: "Người dùng không tồn tại", isNotFound: true });

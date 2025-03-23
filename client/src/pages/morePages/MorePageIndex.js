@@ -17,7 +17,7 @@ const { confirm } = Modal;
 
 const MorePageIndex = ({ userPeople }) => {
 
-    console.log(userPeople)
+    // console.log(userPeople)
 
     const [open, setOpen] = useState(false);
     const dispatch = useDispatch();
@@ -45,7 +45,7 @@ const MorePageIndex = ({ userPeople }) => {
 
     return (
         <>
-            <div className='container_more_page' style={userPeople.isMe ?  {} : {display:"block"}}>
+            <div className='container_more_page' style={userPeople.isMe ? {} : { display: "block" }}>
 
 
                 <Modal
@@ -60,7 +60,7 @@ const MorePageIndex = ({ userPeople }) => {
                 </Modal>
 
 
-                <div style={{width:"100%"}}>
+                <div style={{ width: "100%" }}>
                     <div className='box_account_more'>
                         <div className='box_image_avt'>
                             <img src={userPeople.profilePicture} alt="avatar" className='image_avatar' />
@@ -69,18 +69,31 @@ const MorePageIndex = ({ userPeople }) => {
                             <div id="user_name">@{userPeople.username}</div>
                             <div id="line_social">
                                 <div>
-                                {userPeople.posts && userPeople.posts.length ? userPeople.posts.length : 0} bài viết
+                                    {userPeople.posts && userPeople.posts.length ? userPeople.posts.length : 0} bài viết
 
                                 </div>
                                 <div>
-                                {userPeople.followers && userPeople.followers.length ? userPeople.followers.length : 0} người theo dõi
+                                    {userPeople.followers && userPeople.followers.length ? userPeople.followers.length : 0} người theo dõi
                                 </div>
                                 <div>
                                     Đang theo dõi  {userPeople.following && userPeople.following.length ? userPeople.following.length : 0} người dùng
                                 </div>
                             </div>
                             <div id="">{userPeople.name}</div>
-                            {/* <div>{userPeople.isMe ? "là tôi" : "người khác"}</div> */}
+                            <div>{userPeople.isMe ? "" :
+                                <div>
+                                    <button>
+                                        FOLLOW
+                                    </button>
+                                    <button>
+                                        NHẮN TIN
+                                    </button>
+                                    <button>
+                                        ... (chặn, chia sẻ)
+                                    </button>
+                                </div>
+
+                            }</div>
 
                         </div>
 

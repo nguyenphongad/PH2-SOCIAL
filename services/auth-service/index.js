@@ -6,12 +6,6 @@ const cors  = require('cors');
 
 // routes
 const AuthRoute = require('./routes/AuthRouter');
-// const UserRouter = require('./Routes/UserRoute.js');
-// const PostRoute  = require('./Routes/PostRoute.js');
-// const UploadRoute = require('./Routes/UploadRoute.js');
-// 
-// const ChatRoute  = require('./Routes/ChatRoute.js');
-// const MessageRoute = require("./Routes/MessageRoute.js");
 
 const path = require('path')
 
@@ -31,15 +25,10 @@ mongoose
     .connect(process.env.MONGODB_URL) 
     .then(()=>{
         app.listen(process.env.PORT,()=>{
-            console.log('server AUTTH-SERVICE listening at port ' + process.env.PORT);
+            console.log('server AUTH-SERVICE listening at port ' + process.env.PORT);
         })
     })
     .catch((error)=>console.log(error));
 
 
 app.use('/auth', AuthRoute)
-// app.use('/user', UserRouter)
-// app.use('/post', PostRoute)
-// app.use('/upload', UploadRoute)
-// app.use('/chat', ChatRoute)
-// app.use("/message", MessageRoute)

@@ -17,6 +17,8 @@ const { confirm } = Modal;
 
 const MorePageIndex = ({ userPeople }) => {
 
+    console.log(userPeople)
+
     const [open, setOpen] = useState(false);
     const dispatch = useDispatch();
     const isLogin = useSelector((state) => state.auth.isLogin);
@@ -67,13 +69,14 @@ const MorePageIndex = ({ userPeople }) => {
                             <div id="user_name">@{userPeople.username}</div>
                             <div id="line_social">
                                 <div>
-                                    0 bài viết
+                                {userPeople.posts && userPeople.posts.length ? userPeople.posts.length : 0} bài viết
+
                                 </div>
                                 <div>
-                                    13 người theo dõi
+                                {userPeople.followers && userPeople.followers.length ? userPeople.followers.length : 0} người theo dõi
                                 </div>
                                 <div>
-                                    Đang theo dõi {0} người dùng
+                                    Đang theo dõi  {userPeople.following && userPeople.following.length ? userPeople.following.length : 0} người dùng
                                 </div>
                             </div>
                             <div id="">{userPeople.name}</div>

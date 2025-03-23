@@ -1,5 +1,5 @@
 const express = require('express');
-const postMiddleware = require('../middleware/UserMiddleware');
+const postMiddleware = require('../middleware/PostMiddleware');
 const { createPost } = require('../controllers/PostController');
 const { route } = require('../../auth-service/routes/AuthRoute');
 

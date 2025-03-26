@@ -18,6 +18,9 @@ const socialSlice = createSlice({
 
             state.user = action.payload;
         },
+        setIsFollowing: (state, action) => {
+            state.isFollowing = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -59,5 +62,5 @@ const socialSlice = createSlice({
     }
 })
 
-export const { setFollowUser } = socialSlice.actions;
+export const { setFollowUser,setIsFollowing } = socialSlice.actions;
 export default socialSlice.reducer

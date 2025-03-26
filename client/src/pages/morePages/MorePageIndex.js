@@ -9,9 +9,14 @@ import { logout } from '../../redux/slices/authSlice';
 // thunk
 import { checkFollowStatus, followUser } from '../../redux/thunks/socialThunk';
 
+//toast
+import { toast } from 'react-toastify';
+
 
 // component
 import PostMeComponent from './PostMeComponent';
+import LoadingButton from '../../components/loadingComponent.js/LoadingButton';
+
 
 //react icon
 import { AiOutlineLogout } from "react-icons/ai";
@@ -19,10 +24,11 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { MdMoreHoriz } from "react-icons/md";
 import { SlUserFollow } from "react-icons/sl";
 import { IoIosSend } from "react-icons/io";
-import { toast } from 'react-toastify';
+import { RiUserUnfollowLine } from "react-icons/ri";
 
 // ant
 import { Button, Modal, Space } from 'antd';
+import { setIsFollowing } from '../../redux/slices/socialSlice';
 const { confirm } = Modal;
 
 
@@ -37,12 +43,13 @@ const MorePageIndex = ({ userPeople }) => {
     // state
     const [open, setOpen] = useState(false);
     const [openModalSelect, setOpenModalSelect] = useState(false);
+    const [isProcessing, setIsProcessing] = useState(false);
 
 
     // selector
     const { token } = useSelector((state) => state.auth);
     const isLogin = useSelector((state) => state.auth.isLogin);
-    const { isFollowing, status } = useSelector((state) => state.social); 
+    const { isFollowing, status } = useSelector((state) => state.social);
 
 
     // get Url pathname
@@ -67,11 +74,25 @@ const MorePageIndex = ({ userPeople }) => {
         }, 1000);
     }
 
-    const handleFollowUser = () => {
-        if (username) {
-            dispatch(followUser(username, token));
+    const handleFollowUser = async () => {
+        if (isProcessing) return;
+
+        setIsProcessing(true);
+
+        try {
+            await dispatch(followUser(username, token));
+            dispatch(setIsFollowing(!isFollowing));
+            
+
+            toast.success(isFollowing ? 'Bỏ follow thành công!' : 'Follow thành công!');
+
+
+        } catch (error) {
+            toast.error('Đã xảy ra lỗi. Vui lòng thử lại!');
+        } finally {
+            setIsProcessing(false); // Hoàn tất xử lý
         }
-    }
+    };
 
     if (!isLogin) {
         return null;
@@ -148,10 +169,30 @@ const MorePageIndex = ({ userPeople }) => {
 
 
 
-                                        <button onClick={handleFollowUser}>
-                                            <SlUserFollow />
-                                            {isFollowing ? 'HUỶ THEO DÕI' : 'THEO DÕI'}
+                                        <button onClick={handleFollowUser} disabled={isProcessing}>
+                                            {isFollowing ? (
+                                                <>
+                                                    {isProcessing ? (
+                                                        <LoadingButton size={18} />  
+                                                    ) : (
+                                                        <>
+                                                            <RiUserUnfollowLine /> HUỶ THEO DÕI
+                                                        </>
+                                                    )}
+                                                </>
+                                            ) : (
+                                                <>
+                                                    {isProcessing ? (
+                                                        <LoadingButton size={18} /> 
+                                                    ) : (
+                                                        <>
+                                                            <SlUserFollow /> THEO DÕI
+                                                        </>
+                                                    )}
+                                                </>
+                                            )}
                                         </button>
+
 
 
 

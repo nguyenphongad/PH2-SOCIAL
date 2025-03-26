@@ -6,7 +6,7 @@ const LoadingButton = ({ size }) => {
         <span className="loading-container">
             <ClipLoader
                 color={"#ffffff"}
-                size={30}
+                size={size}
                 aria-label="Loading Spinner"
                 data-testid="loader"
                 className='loading_icon'

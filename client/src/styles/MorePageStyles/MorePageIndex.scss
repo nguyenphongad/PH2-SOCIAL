@@ -5,13 +5,13 @@
     .box_account_more {
         width: 100%;
         // height: 400px;
-        background-color: #eaeaea;
+        background-color: #f4f4f4;
         border-radius: 15px;
         display: flex;
         padding: 30px;
 
         .image_avatar {
-            width: 140px;
+            width: 150px;
             border-radius: 100%;
         }
 
@@ -28,10 +28,45 @@
                 justify-content: space-between;
 
                 >div {
-                    margin: 20px 0px;
+                    margin: 10px 0px;
                     margin-right: 15px;
                 }
             }
+
+            .line_btn_sl {
+                display: flex;
+                >button {
+                    margin: 12px 0px;
+                    margin-right: 20px;
+                    padding: 7px 15px;
+                    background-color: $main_color;
+                    border-radius: 5px;
+                    border: none;
+                    color: $color_white;
+                    font-size: 17px;
+                    font-weight: 600;
+                    cursor: pointer;
+
+                    svg {
+                        color: #fff;
+                        margin-right: 15px;
+
+                        path {
+                            color: #fff;
+                        }
+
+                    }
+                }
+
+                >button:last-child {
+                    svg {
+                        margin: 0px;
+                    }
+                }
+            }
+
+
+
         }
 
 
@@ -87,16 +122,17 @@
 
 
 
-.box_post_me_container{
+.box_post_me_container {
     width: 100%;
-    background-color: #eaeaea;
+    background-color: #f4f4f4;
     border-radius: 10px;
     margin: 20px 0px;
     padding: 30px;
-    .tab_post{
+
+    .tab_post {
         text-align: center;
         padding: 5px 0px;
-        border-bottom:1px solid;
+        border-bottom: 1px solid;
 
     }
 }

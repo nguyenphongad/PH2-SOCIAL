@@ -1,27 +1,77 @@
 import React, { useEffect, useState } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
+import { Navigate, useLocation, useParams } from 'react-router-dom';
+
+// slice
 import { logout } from '../../redux/slices/authSlice';
+
+// thunk
+import { checkFollowStatus, followUser } from '../../redux/thunks/socialThunk';
+
+
+// component
+import PostMeComponent from './PostMeComponent';
+
+//react icon
 import { AiOutlineLogout } from "react-icons/ai";
 import { IoSettingsOutline } from "react-icons/io5";
-
+import { MdMoreHoriz } from "react-icons/md";
+import { SlUserFollow } from "react-icons/sl";
+import { IoIosSend } from "react-icons/io";
 import { toast } from 'react-toastify';
 
-
+// ant
 import { Button, Modal, Space } from 'antd';
-import { getUserProfile } from '../../redux/thunks/userThunk';
-import { Navigate } from 'react-router-dom';
-import PostMeComponent from './PostMeComponent';
 const { confirm } = Modal;
+
+
+
 
 
 const MorePageIndex = ({ userPeople }) => {
 
-    // console.log(userPeople)
-
-    const [open, setOpen] = useState(false);
+    // dispatch
     const dispatch = useDispatch();
+
+    // state
+    const [open, setOpen] = useState(false);
+    const [openModalSelect, setOpenModalSelect] = useState(false);
+
+
+    // selector
+    const { token } = useSelector((state) => state.auth);
     const isLogin = useSelector((state) => state.auth.isLogin);
+    const { isFollowing, status } = useSelector((state) => state.social); 
+
+
+    // get Url pathname
+    const get_username = useLocation().pathname;
+    const username = get_username.substring(1);
+
+
+    //E
+    useEffect(() => {
+        if (username) {
+            dispatch(checkFollowStatus(username));
+        }
+    }, [username, dispatch]);
+
+
+
+    // handles
+    const handleLogout = () => {
+        setTimeout(() => {
+            dispatch(logout());
+            toast.warning("Đã đăng xuất!")
+        }, 1000);
+    }
+
+    const handleFollowUser = () => {
+        if (username) {
+            dispatch(followUser(username, token));
+        }
+    }
 
     if (!isLogin) {
         return null;
@@ -36,12 +86,6 @@ const MorePageIndex = ({ userPeople }) => {
 
 
 
-    const handleLogout = () => {
-        setTimeout(() => {
-            dispatch(logout());
-            toast.warning("Đã đăng xuất!")
-        }, 1000);
-    }
 
     return (
         <>
@@ -57,6 +101,24 @@ const MorePageIndex = ({ userPeople }) => {
                     cancelText="Không"
                     className='modal_confilm_logout'
                 >
+                </Modal>
+
+                <Modal
+                    title={"Đối với " + userPeople.username}
+                    open={openModalSelect}
+                    // onOk={none}
+                    onCancel={() => setOpenModalSelect(false)}
+                    okText={null}
+                    cancelText={null}
+                    footer={null}
+                    className='modal_select'
+                >
+                    <button>
+                        Chặn
+                    </button>
+                    <button>
+                        Chia sẻ
+                    </button>
                 </Modal>
 
 
@@ -80,18 +142,27 @@ const MorePageIndex = ({ userPeople }) => {
                                 </div>
                             </div>
                             <div id="">{userPeople.name}</div>
-                            <div>{userPeople.isMe ? "" :
-                                <div>
-                                    <button>
-                                        FOLLOW
-                                    </button>
-                                    <button>
-                                        NHẮN TIN
-                                    </button>
-                                    <button>
-                                        ... (chặn, chia sẻ)
-                                    </button>
-                                </div>
+                            <div>{
+                                userPeople.isMe ? "" :
+                                    <div className='line_btn_sl'>
+
+
+
+                                        <button onClick={handleFollowUser}>
+                                            <SlUserFollow />
+                                            {isFollowing ? 'HUỶ THEO DÕI' : 'THEO DÕI'}
+                                        </button>
+
+
+
+                                        <button>
+                                            <IoIosSend />
+                                            NHẮN TIN
+                                        </button>
+                                        <button onClick={() => setOpenModalSelect(true)}>
+                                            <MdMoreHoriz />
+                                        </button>
+                                    </div>
 
                             }</div>
 

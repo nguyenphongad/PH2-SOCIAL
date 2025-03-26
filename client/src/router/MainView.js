@@ -78,14 +78,11 @@ const MainView = () => {
                         isMe: profile.username === userCheck?.username
                     });
 
-                    // console.log("pp " + userPeople.isNotFoud)
 
                 } else {
                     console.log("Error fetching user profile");
                     setUserPeople(action.payload);
 
-                    // console.log(userPeople)
-                    // setIsNotFound(true);
                 }
             }
         };

@@ -17,6 +17,25 @@ const userSlice = createSlice({
         clearUser: (state) => {
             state.user = null;
         },
+
+        updatePostCount: (state, action) => {
+            if (state.user) {
+                state.user.posts = action.payload;
+            }
+        },
+        updateFollowers: (state, action) => {
+            if (state.user) {
+                state.user = { 
+                    ...state.user, 
+                    followers: action.payload   
+                };
+            }
+        },
+        updateFollowing: (state, action) => {
+            if (state.user) {
+                state.user.following = action.payload;
+            }
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -32,20 +51,9 @@ const userSlice = createSlice({
                 state.status = 'failed';
                 state.error = action.payload;
             })
-            // .addCase(updateUserProfile.pending, (state) => {
-            //     state.status = 'loading';
-            //     state.error = null;
-            // })
-            // .addCase(updateUserProfile.fulfilled, (state, action) => {
-            //     state.status = 'succeeded';
-            //     state.user = action.payload;  // Update user with the new data
-            // })
-            // .addCase(updateUserProfile.rejected, (state, action) => {
-            //     state.status = 'failed';
-            //     state.error = action.payload;
-            // });
+
     },
 });
 
-export const { setUser, clearUser } = userSlice.actions;
+export const { setUser, clearUser,updatePostCount, updateFollowers,updateFollowing } = userSlice.actions;
 export default userSlice.reducer;

@@ -4,7 +4,7 @@ const userMiddleware = (req, res, next) => {
     try {
         const token = req.header("Authorization")?.split(" ")[1];
 
-        console.log("uuuuu "+token)
+        // console.log("uuuuu "+token)
 
         if (!token) {
             return res.status(401).json({ message: "Không có token, không được phép truy cập",isLogin: false });

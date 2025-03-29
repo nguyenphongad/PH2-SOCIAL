@@ -10,6 +10,7 @@
         display: flex;
         padding: 30px;
 
+
         .box_image_avt {
             position: relative;
 
@@ -19,23 +20,25 @@
                 border-radius: 100%;
                 object-fit: cover;
                 cursor: pointer;
-                border: 5px  $main_color;
+                border: 5px $main_color;
                 border-style: solid;
             }
 
-            .logo_icon_pos{
+            .logo_icon_pos {
                 width: 40px;
                 height: 40px;
                 position: absolute;
                 left: 0px;
-                top:10px
+                top: 10px
             }
         }
 
 
         .box_info_me {
+            width: 100%;
             padding: 0px 30px;
             margin-left: 50px;
+            margin-right: 100px;
 
             #user_name {
                 font-size: 23px;
@@ -119,7 +122,7 @@
 
 
     .box_select_more {
-        width: 250px;
+        width: 450px;
         margin-left: 30px;
 
         button {
@@ -184,6 +187,8 @@
 }
 
 .modal_select_user {
+    align-items: center;
+
     .container_column_select {
         display: flex;
         flex-direction: column;

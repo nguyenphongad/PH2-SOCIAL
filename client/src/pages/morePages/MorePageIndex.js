@@ -134,8 +134,6 @@ const MorePageIndex = ({ userPeople }) => {
     return (
         <>
             <div className='container_more_page' style={userPeople.isMe ? {} : { display: "block" }}>
-
-
                 <Modal
                     title={`Bạn quyến định đăng xuất tài khoản ${userPeople.username} ?`}
                     open={open}
@@ -158,8 +156,11 @@ const MorePageIndex = ({ userPeople }) => {
                     className='modal_select_user'
                 >
                     <div className='container_column_select'>
-                        <button style={{color:"red"}}>
+                        <button style={{ color: "red" }}>
                             Chặn
+                        </button>
+                        <button style={{ color: "red" }}>
+                            Báo cáo
                         </button>
                         <button>
                             Chia sẻ
@@ -227,9 +228,6 @@ const MorePageIndex = ({ userPeople }) => {
                                             )}
                                         </button>
 
-
-
-
                                         <button>
                                             <IoIosSend />
                                             NHẮN TIN
@@ -244,8 +242,28 @@ const MorePageIndex = ({ userPeople }) => {
                         </div>
 
 
-                    </div>
+                        <div className='box_select_more'>
+                            {userPeople.isMe ?
+                                (
+                                    <>
+                                        <button>
+                                            <IoSettingsOutline />
+                                            <span>Cập nhật</span>
 
+                                        </button>
+                                        <button onClick={showModal}>
+                                            <AiOutlineLogout />
+                                            <span>Đăng xuất</span>
+                                        </button>
+                                    </>
+                                )
+
+                                : ""}
+                        </div>
+
+
+
+                    </div>
 
 
                     <PostMeComponent />
@@ -256,23 +274,6 @@ const MorePageIndex = ({ userPeople }) => {
 
 
 
-                {userPeople.isMe ?
-
-                    <div className='box_select_more'>
-                        <button>
-                            <IoSettingsOutline />
-                            <span>Cập nhật</span>
-
-                        </button>
-                        <button onClick={showModal}>
-                            <AiOutlineLogout />
-                            <span>Đăng xuất</span>
-                        </button>
-
-                    </div>
-
-
-                    : ""}
 
 
 

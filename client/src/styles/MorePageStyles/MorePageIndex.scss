@@ -10,12 +10,28 @@
         display: flex;
         padding: 30px;
 
-        .image_avatar {
-            width: 200px;
-            height: 200px;
-            border-radius: 100%;
-            object-fit: cover;
+        .box_image_avt {
+            position: relative;
+
+            .image_avatar {
+                width: 200px;
+                height: 200px;
+                border-radius: 100%;
+                object-fit: cover;
+                cursor: pointer;
+                border: 5px  $main_color;
+                border-style: solid;
+            }
+
+            .logo_icon_pos{
+                width: 40px;
+                height: 40px;
+                position: absolute;
+                left: 0px;
+                top:10px
+            }
         }
+
 
         .box_info_me {
             padding: 0px 30px;
@@ -34,20 +50,23 @@
 
                 >div {
                     margin: 10px 0px;
-                    margin-right: 20px;
+                    margin-right: 25px;
                     display: flex;
                     flex-direction: row;
-                    .output_total{
+
+                    .output_total {
                         font-weight: 700;
-                        margin: 0px 5px;
+                        margin-right: 5px;
                     }
                 }
             }
-            #name_user{
+
+            #name_user {
                 font-weight: 600;
                 margin-bottom: 10px;
             }
-            #bio_user{
+
+            #bio_user {
                 text-align: center;
             }
 
@@ -119,6 +138,7 @@
             justify-content: left;
             transition: 0.4s;
 
+
             svg {
                 margin-right: 10px;
             }
@@ -126,7 +146,7 @@
         }
 
         >button:hover {
-            background-color: #c5c5c5;
+            background-color: $main_color_hover;
         }
     }
 
@@ -160,5 +180,28 @@
         padding: 5px 0px;
         border-bottom: 1px solid;
 
+    }
+}
+
+.modal_select_user {
+    .container_column_select {
+        display: flex;
+        flex-direction: column;
+        margin-top: 50px;
+
+        >button {
+            padding: 15px 40px;
+            background: none;
+            cursor: pointer;
+            border: none;
+            border-top: 1px solid #eaeaea;
+            font-weight: 600;
+            font-size: 17px;
+            transition: 0.4s;
+
+            &:hover {
+                background-color: #f6f0f2;
+            }
+        }
     }
 }

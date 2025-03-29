@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Navigate, useLocation, useParams } from 'react-router-dom';
 
+import Logo_icon from "../../assets/logo/icon_logo.png"
+
 // slice
 import { logout } from '../../redux/slices/authSlice';
 import { updateFollowers } from '../../redux/slices/userSlice';
@@ -153,14 +155,17 @@ const MorePageIndex = ({ userPeople }) => {
                     okText={null}
                     cancelText={null}
                     footer={null}
-                    className='modal_select'
+                    className='modal_select_user'
                 >
-                    <button>
-                        Chặn
-                    </button>
-                    <button>
-                        Chia sẻ
-                    </button>
+                    <div className='container_column_select'>
+                        <button style={{color:"red"}}>
+                            Chặn
+                        </button>
+                        <button>
+                            Chia sẻ
+                        </button>
+
+                    </div>
                 </Modal>
 
 
@@ -168,6 +173,7 @@ const MorePageIndex = ({ userPeople }) => {
                     <div className='box_account_more'>
                         <div className='box_image_avt'>
                             <img src={userPeople.profilePicture} alt="avatar" className='image_avatar' />
+                            <img src={Logo_icon} alt="logo icon" className='logo_icon_pos' />
                         </div>
                         <div className='box_info_me'>
                             <div id="user_name">@{userPeople.username}</div>
@@ -179,7 +185,7 @@ const MorePageIndex = ({ userPeople }) => {
                                     <span> bài viết</span>
                                 </div>
                                 <div>
-                                    <span  className='output_total'>
+                                    <span className='output_total'>
                                         {user?.followers?.length ?? <LoadingText size={10} color={"#000"} />}
                                     </span>
                                     <span> người theo dõi</span>
@@ -197,7 +203,7 @@ const MorePageIndex = ({ userPeople }) => {
                                 userPeople.isMe ? "" :
                                     <div className='line_btn_sl'>
 
-                                        <button onClick={handleFollowUser} disabled={isProcessing} className={isFollowing ? "bgr_fled":"" }>
+                                        <button onClick={handleFollowUser} disabled={isProcessing} className={isFollowing ? "bgr_fled" : ""}>
                                             {isFollowing ? (
                                                 <>
                                                     {isProcessing ? (

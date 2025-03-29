@@ -79,7 +79,8 @@ const MenuComponent = ({ userCheck }) => {
             <div key={index.id}>
                 <NavLink to={index.to_link}>
                     {
-                        index.isIconImage ? <img src={userCheck.profilePicture} className='img_icon_menu'/>
+                        index.isIconImage ? 
+                            <img src={userCheck.profilePicture} className='img_icon_menu'/>
                             :
                             <div className='icon_menu'>{index.icon_before}</div>
                     }

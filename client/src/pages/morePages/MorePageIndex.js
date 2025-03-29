@@ -31,6 +31,7 @@ import { RiUserUnfollowLine } from "react-icons/ri";
 import { Button, Modal, Space } from 'antd';
 import { setIsFollowing } from '../../redux/slices/socialSlice';
 import { getUserProfile } from '../../redux/thunks/userThunk';
+import LoadingText from '../../components/loadingComponent.js/LoadingText';
 const { confirm } = Modal;
 
 
@@ -172,25 +173,31 @@ const MorePageIndex = ({ userPeople }) => {
                             <div id="user_name">@{userPeople.username}</div>
                             <div id="line_social">
                                 <div>
-                                    {userPeople.posts && userPeople.posts.length ? userPeople.posts.length : 0} bài viết
-
+                                    <span className='output_total'>
+                                        {userPeople.posts && userPeople.posts.length ? userPeople.posts.length : 0}
+                                    </span>
+                                    <span> bài viết</span>
                                 </div>
                                 <div>
-                                    {user?.followers?.length ?? <LoadingButton size={12} color={"#000"}/>} người theo dõi
+                                    <span  className='output_total'>
+                                        {user?.followers?.length ?? <LoadingText size={10} color={"#000"} />}
+                                    </span>
+                                    <span> người theo dõi</span>
                                 </div>
                                 <div>
-                                    Đang theo dõi  {userPeople.following && userPeople.following.length ? userPeople.following.length : 0} người dùng
+                                    <span className='output_total' >
+                                        {userPeople.following && userPeople.following.length ? userPeople.following.length : 0}
+                                    </span>
+                                    <span>đang theo dõi</span>
                                 </div>
                             </div>
-                            <div id="">{userPeople.name}</div>
-                            <div id="">{userPeople.bio}</div>
+                            <div id="name_user">{userPeople.name}</div>
+                            <div id="bio_user">{userPeople.bio}</div>
                             <div>{
                                 userPeople.isMe ? "" :
                                     <div className='line_btn_sl'>
 
-
-
-                                        <button onClick={handleFollowUser} disabled={isProcessing}>
+                                        <button onClick={handleFollowUser} disabled={isProcessing} className={isFollowing ? "bgr_fled":"" }>
                                             {isFollowing ? (
                                                 <>
                                                     {isProcessing ? (

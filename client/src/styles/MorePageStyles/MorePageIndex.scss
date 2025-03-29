@@ -11,30 +11,54 @@
         padding: 30px;
 
         .image_avatar {
-            width: 150px;
+            width: 200px;
+            height: 200px;
             border-radius: 100%;
+            object-fit: cover;
         }
 
         .box_info_me {
             padding: 0px 30px;
+            margin-left: 50px;
 
             #user_name {
-                font-size: 22px;
+                font-size: 23px;
                 font-weight: 600;
             }
 
             #line_social {
                 display: flex;
+                flex-direction: row;
                 justify-content: space-between;
+
 
                 >div {
                     margin: 10px 0px;
-                    margin-right: 15px;
+                    margin-right: 20px;
+                    display: flex;
+                    flex-direction: row;
+                    .output_total{
+                        font-weight: 700;
+                        margin: 0px 5px;
+                    }
                 }
+            }
+            #name_user{
+                font-weight: 600;
+                margin-bottom: 10px;
+            }
+            #bio_user{
+                text-align: center;
             }
 
             .line_btn_sl {
                 display: flex;
+                margin-top: 20px;
+
+                .bgr_fled {
+                    background-color: #827e80;
+                }
+
                 >button {
                     margin: 12px 0px;
                     margin-right: 20px;
@@ -49,7 +73,7 @@
 
                     svg {
                         color: #fff;
-                        margin-right: 15px;
+                        margin-right: 10px;
 
                         path {
                             color: #fff;
@@ -57,6 +81,8 @@
 
                     }
                 }
+
+
 
                 >button:last-child {
                     svg {

@@ -13,6 +13,7 @@ export const getUserProfile = createAsyncThunk(
 
             const res = await get(`${ENDPOINT.GET_USER_PROFILE}/${username}`, token);
 
+
             // console.log("thunk" + res)
             return res.data;
 

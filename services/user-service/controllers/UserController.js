@@ -1,4 +1,6 @@
 const UserModel = require("../model/UserModel");
+const mongoose = require("mongoose")
+const ObjectId = mongoose.Types.ObjectId;
 
 const getProfileByUsername = async (req, res) => {
     try {
@@ -92,5 +94,56 @@ const searchUser = async (req, res) => {
     }
 };
 
+// get danh sach following user
 
-module.exports = { getProfileByUsername, searchUser };
+const getUsersInfoFollower = async (req, res) => {
+    try {
+
+        const  userIDs  = req.body;
+
+        if (!Array.isArray(userIDs)) {
+            return res.status(400).json({
+                type: "get list follower user",
+                status: false,
+                message: "Đầu ra không phải danh sách follower"
+            })
+        }
+        const objectIds = userIDs.map(id => new ObjectId(id));
+
+        const users = await UserModel.find(
+            { userID: { $in: objectIds } }, 
+            { username: 1, profilePicture: 1, name: 1 }
+        ).lean();
+
+
+        if (!users) {
+            return res.status(404).json({
+                type: "get list follower user",
+                success: false,
+                message: "Không tìm thấy người dùng"
+            });
+        }
+
+        res.status(200).json({
+            type: "get list follower user",
+            success: true,
+            data: users
+        });
+
+
+
+    } catch (error) {
+        console.error("Lỗi khi lấy thông tin người theo dõi:", error);
+        res.status(500).json({
+            success: false,
+            message: "Lỗi server khi lấy thông tin người theo dõi"
+        });
+    }
+}
+
+
+
+
+
+
+module.exports = { getProfileByUsername, searchUser ,getUsersInfoFollower};

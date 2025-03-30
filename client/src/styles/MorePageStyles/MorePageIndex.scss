@@ -49,6 +49,7 @@
                 display: flex;
                 flex-direction: row;
                 justify-content: space-between;
+                margin: 10px 0px;
 
 
                 >div {
@@ -56,6 +57,7 @@
                     margin-right: 25px;
                     display: flex;
                     flex-direction: row;
+                    cursor: pointer;
 
                     .output_total {
                         font-weight: 700;
@@ -207,6 +209,29 @@
             &:hover {
                 background-color: #f6f0f2;
             }
+        }
+    }
+}
+
+.modal_fler_user {
+    .ant-modal-body {
+        padding-top: 20px;
+    }
+
+    .item_user_fler {
+        display: flex;
+        padding: 10px 0px;
+        border-top: 1px solid #eaeaea;
+
+        img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 100%;
+            margin-right: 20px;
+        }
+        .st_username_user{
+            font-weight: 600;
         }
     }
 }

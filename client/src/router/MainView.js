@@ -54,7 +54,7 @@ const MainView = () => {
                 if (checkToken.fulfilled.match(resultAction)) {
                     setUserCheck(resultAction.payload.user);  
 
-                    console.log("userCheck " + userCheck)
+                    // console.log("userCheck " + userCheck)
 
                 } else {
                     console.log('Error during token check');

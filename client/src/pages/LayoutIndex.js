@@ -2,12 +2,10 @@ import React from 'react'
 import MenuComponent from '../components/MenuComponent'
 import { Outlet } from 'react-router-dom'
 
-const LayoutIndex = ({userCheck}) => {
+const LayoutIndex = ({ userCheck }) => {
     return (
         <div className='container_layout_main'>
-            <div>
-                <MenuComponent userCheck={userCheck}/>
-            </div>
+            <MenuComponent userCheck={userCheck} />
             <div className='box_outlet_main'>
                 <Outlet />
             </div>

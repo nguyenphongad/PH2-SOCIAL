@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { Navigate, useLocation, useParams } from 'react-router-dom';
+import { Link, Navigate, useLocation, useParams } from 'react-router-dom';
 
 import Logo_icon from "../../assets/logo/icon_logo.png"
 
 // slice
 import { logout } from '../../redux/slices/authSlice';
 import { updateFollowers } from '../../redux/slices/userSlice';
+import { setIsFollowing } from '../../redux/slices/socialSlice';
 
 // thunk
 import { checkFollowStatus, followUser } from '../../redux/thunks/socialThunk';
+import { getShowListFollowerUser, getUserProfile } from '../../redux/thunks/userThunk';
 
 //toast
 import { toast } from 'react-toastify';
@@ -28,14 +30,12 @@ import { MdMoreHoriz } from "react-icons/md";
 import { SlUserFollow } from "react-icons/sl";
 import { IoIosSend } from "react-icons/io";
 import { RiUserUnfollowLine } from "react-icons/ri";
+import { FcEmptyBattery } from "react-icons/fc";
 
 // ant
 import { Button, Modal, Space } from 'antd';
-import { setIsFollowing } from '../../redux/slices/socialSlice';
-import { getUserProfile } from '../../redux/thunks/userThunk';
 import LoadingText from '../../components/loadingComponent.js/LoadingText';
 const { confirm } = Modal;
-
 
 
 
@@ -48,15 +48,21 @@ const MorePageIndex = ({ userPeople }) => {
     // state
     const [open, setOpen] = useState(false);
     const [openModalSelect, setOpenModalSelect] = useState(false);
+    const [isOpenModelFollower, setOpenModelFollower] = useState(false);
+
+
     const [isProcessing, setIsProcessing] = useState(false);
+    const [isLoadingFollowers, setIsLoadingFollowers] = useState(false);
 
 
 
     // selector
     const { token } = useSelector((state) => state.auth);
-    const { user } = useSelector((state) => state.user);
+
+    const { user, userFollower } = useSelector((state) => state.user);
+
     const isLogin = useSelector((state) => state.auth.isLogin);
-    const { isFollowing, status } = useSelector((state) => state.social);
+    const { isFollowing } = useSelector((state) => state.social);
 
 
     // get Url pathname
@@ -70,6 +76,9 @@ const MorePageIndex = ({ userPeople }) => {
             dispatch(checkFollowStatus(username));
         }
     }, [username, dispatch]);
+
+
+
 
 
 
@@ -96,11 +105,18 @@ const MorePageIndex = ({ userPeople }) => {
 
             const currentFollowerCount = user?.followers?.length || 0;
 
-            const f = dispatch(updateFollowers(currentFollowerCount));
 
-            console.log(f)
+            // const currentFollowingCount = user?.following?.length || 0;
+            // const currentPostCount = user?.posts?.length || 0;
+            // dispatch(updatePostCount(currentPostCount));
+            // dispatch(updateFollowing(currentFollowingCount));
+
+
+            dispatch(updateFollowers(currentFollowerCount));
 
             dispatch(setIsFollowing(!isFollowing));
+
+
 
             if (isFollowing) {
                 toast.warning('Bỏ follow thành công!');
@@ -113,7 +129,7 @@ const MorePageIndex = ({ userPeople }) => {
             toast.error('Đã xảy ra lỗi. Vui lòng thử lại!');
             console.log(error)
         } finally {
-            setIsProcessing(false); // Hoàn tất xử lý
+            setIsProcessing(false);
         }
     };
 
@@ -121,12 +137,25 @@ const MorePageIndex = ({ userPeople }) => {
         return null;
     }
 
-    const showModal = () => {
-        setOpen(true);
-    };
-    const hideModal = () => {
-        setOpen(false);
-    };
+    // handle open modal list following 
+    const handleOpenListFollowing = () => {
+        if (isLoadingFollowers) return;
+
+        setIsLoadingFollowers(true);
+
+        dispatch(getShowListFollowerUser(user?.followers))
+            .unwrap()
+            .then(() => {
+                setOpenModelFollower(true);
+            })
+            .catch((error) => {
+                console.error("Lỗi khi lấy danh sách follower:", error);
+            })
+            .finally(() => {
+                setIsLoadingFollowers(false);
+            });
+
+    }
 
 
 
@@ -138,7 +167,7 @@ const MorePageIndex = ({ userPeople }) => {
                     title={`Bạn quyến định đăng xuất tài khoản ${userPeople.username} ?`}
                     open={open}
                     onOk={handleLogout}
-                    onCancel={hideModal}
+                    onCancel={() => setOpen(false)}
                     okText={"Đăng xuất"}
                     cancelText="Không"
                     className='modal_confilm_logout'
@@ -170,6 +199,48 @@ const MorePageIndex = ({ userPeople }) => {
                 </Modal>
 
 
+                <Modal
+                    title={"NGƯỜI THEO DÕI"}
+                    open={isOpenModelFollower}
+                    onCancel={() => setOpenModelFollower(false)}
+                    okText={null}
+                    cancelText={null}
+                    footer={null}
+                    className='modal_fler_user'
+                >
+                    {userFollower === null || userFollower.data.length===0 ? (
+                        <div style={{textAlign:"center"}}>
+                            <FcEmptyBattery size={70}/>
+                            <h3>Danh sách người theo dõi trống</h3>
+                        </div>
+                    ) :
+                        userFollower.data.map((index) => (
+                            <div key={index.userID} className='item_user_fler'>
+                                <Link to={`../${index.username}`} onClick={() => setOpenModelFollower(false)}>
+                                    <img src={index.profilePicture} />
+                                </Link>
+                                <div>
+                                    <Link 
+                                    to={`../${index.username}`} 
+                                    onClick={() => setOpenModelFollower(false)}
+                                    className='st_username_user'
+                                    > @{index.username}</Link>
+                                    <div> {index.name}</div>
+                                </div>
+
+
+
+                            </div>
+                        ))
+
+
+                    }
+
+
+
+                </Modal>
+
+
                 <div style={{ width: "100%" }}>
                     <div className='box_account_more'>
                         <div className='box_image_avt'>
@@ -181,11 +252,11 @@ const MorePageIndex = ({ userPeople }) => {
                             <div id="line_social">
                                 <div>
                                     <span className='output_total'>
-                                        {userPeople.posts && userPeople.posts.length ? userPeople.posts.length : 0}
+                                        {user?.posts?.length ?? <LoadingText size={10} color={"#000"} />}
                                     </span>
                                     <span> bài viết</span>
                                 </div>
-                                <div>
+                                <div onClick={handleOpenListFollowing}>
                                     <span className='output_total'>
                                         {user?.followers?.length ?? <LoadingText size={10} color={"#000"} />}
                                     </span>
@@ -193,7 +264,7 @@ const MorePageIndex = ({ userPeople }) => {
                                 </div>
                                 <div>
                                     <span className='output_total' >
-                                        {userPeople.following && userPeople.following.length ? userPeople.following.length : 0}
+                                        {user?.following?.length ?? <LoadingText size={10} color={"#000"} />}
                                     </span>
                                     <span>đang theo dõi</span>
                                 </div>
@@ -251,7 +322,7 @@ const MorePageIndex = ({ userPeople }) => {
                                             <span>Cập nhật</span>
 
                                         </button>
-                                        <button onClick={showModal}>
+                                        <button onClick={() => setOpen(true)}>
                                             <AiOutlineLogout />
                                             <span>Đăng xuất</span>
                                         </button>

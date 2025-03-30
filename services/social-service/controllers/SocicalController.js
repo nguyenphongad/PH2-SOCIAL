@@ -90,6 +90,8 @@ const followUser = async (req, res) => {
         })
     }
 }
+
+// kiem tra trang thai following
 const checkFollowStatus = async (req, res) => {
     try {
         const { id: usernameToCheck } = req.params;
@@ -134,4 +136,12 @@ const checkFollowStatus = async (req, res) => {
 };
 
 
-module.exports = { followUser, checkFollowStatus }
+
+
+
+
+
+module.exports = {
+    followUser,
+    checkFollowStatus
+}

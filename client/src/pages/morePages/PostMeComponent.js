@@ -9,6 +9,60 @@ function PostMeComponent() {
             <div className=''>
                 cac bai post
             </div>
+            <div className=''>
+                cac bai post
+            </div>
+            <div className=''>
+                cac bai post
+            </div>
+            <div className=''>
+                cac bai post
+            </div>
+            <div className=''>
+                cac bai post
+            </div>
+            <div className=''>
+                cac bai post
+            </div>
+            <div className=''>
+                cac bai post
+            </div>
+            <div className=''>
+                cac bai post
+            </div>
+            <div className=''>
+                cac bai post
+            </div>
+            <div className=''>
+                cac bai post
+            </div>
+            <div className=''>
+                cac bai post
+            </div>
+            <div className=''>
+                cac bai post
+            </div>
+            <div className=''>
+                cac bai post
+            </div>
+            <div className=''>
+                cac bai post
+            </div>
+            <div className=''>
+                cac bai post
+            </div>
+            <div className=''>
+                cac bai post
+            </div>
+            <div className=''>
+                cac bai post
+            </div>
+            <div className=''>
+                cac bai post
+            </div>
+            <div className=''>
+                cac bai post
+            </div>
         </div>
     )
 }

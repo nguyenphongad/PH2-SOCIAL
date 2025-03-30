@@ -44,7 +44,7 @@ const loginUser = async (req, res) => {
 
 const registerUser = async (req, res) => {
     try {
-        const { username, name, password, phoneNumber, email, isAdmin, profilePicture, bio, gender } = req.body;
+        const { username, name, password, phoneNumber, email, profilePicture, bio, gender } = req.body;
         const existingUser = await UserModel.findOne({
             $or: [{ username }, { phoneNumber }, { email }]
         });

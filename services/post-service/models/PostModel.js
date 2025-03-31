@@ -7,6 +7,10 @@ const postSchema = new mongoose.Schema(
             ref: 'User',
             required: true,
         },
+        username: {
+            type: String,
+            required: true,
+        },
         content: {
             type: String,
             required: true,

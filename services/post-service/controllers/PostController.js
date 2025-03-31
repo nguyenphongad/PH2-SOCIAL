@@ -59,7 +59,7 @@ const getPostByUsernameAndPostId = async (req, res) => {
                return res.status(404).json({ message: 'Người dùng không tồn tại' });
           }
 
-          const post = await PostModel.findOne({_id: postId });
+          const post = await PostModel.findOne({ _id: postId });
           if (!post) {
                return res.status(404).json({ message: 'Bài đăng không tồn tại' });
           }
@@ -71,5 +71,41 @@ const getPostByUsernameAndPostId = async (req, res) => {
      }
 };
 
+// delete bài đăng
+const deletePost = async (req, res) => {
+     try {
+          const { postId } = req.params; // Lấy postId từ URL
+          const luserID = req.user.userID; // Lấy userId từ token
 
-module.exports = { createPost, getPostByUsernameAndPostId};
+          console.log("postId để xóa:", postId);
+          console.log("userId của người xóa:", luserID);
+
+          // Kiểm tra postId hợp lệ
+          if (!mongoose.Types.ObjectId.isValid(postId)) {
+               return res.status(400).json({ message: 'ID bài đăng không hợp lệ' });
+          }
+
+          // Tìm bài đăng để kiểm tra quyền
+          const post = await PostModel.findById(postId);
+          if (!post) {
+               return res.status(404).json({ message: 'Bài đăng không tồn tại' });
+          }
+
+          // Kiểm tra quyền xóa
+          if (post.userID.toString() !== luserID.toString()) {
+               return res.status(403).json({ message: 'Bạn không có quyền xóa bài đăng này' });
+          }
+
+          // Xóa bài đăng
+          await PostModel.findByIdAndDelete(postId);
+
+          return res.status(200).json({ message: 'Xóa bài đăng thành công' });
+
+     } catch (error) {
+          console.error('Lỗi xóa bài đăng:', error);
+          return res.status(500).json({ message: 'Lỗi server xóa bài đăng', error: error.message });
+     }
+};
+
+
+module.exports = { createPost, getPostByUsernameAndPostId, deletePost };

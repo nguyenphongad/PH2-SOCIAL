@@ -1,10 +1,12 @@
 const express = require("express");
-const { followUser } = require("../controllers/SocicalController");
+const { followUser, checkFollowStatus, getUsersInfoFollowing } = require("../controllers/SocicalController");
 const socialMiddleware = require("../middleware/SocialMiddleware");
 
 const router = express.Router();
 
-router.get("/follow/:id", socialMiddleware, followUser);
-// router.get("/unfollow/:id", socialMiddleware, );
+router.post("/follow/:id", socialMiddleware, followUser);
+router.get("/checkFollowStatus/:id", socialMiddleware, checkFollowStatus);
+
+
 
 module.exports = router;

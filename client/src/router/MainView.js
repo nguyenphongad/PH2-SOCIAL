@@ -54,7 +54,7 @@ const MainView = () => {
                 if (checkToken.fulfilled.match(resultAction)) {
                     setUserCheck(resultAction.payload.user);  
 
-                    console.log("userCheck " + userCheck)
+                    // console.log("userCheck " + userCheck)
 
                 } else {
                     console.log('Error during token check');
@@ -78,14 +78,11 @@ const MainView = () => {
                         isMe: profile.username === userCheck?.username
                     });
 
-                    // console.log("pp " + userPeople.isNotFoud)
 
                 } else {
                     console.log("Error fetching user profile");
                     setUserPeople(action.payload);
 
-                    // console.log(userPeople)
-                    // setIsNotFound(true);
                 }
             }
         };

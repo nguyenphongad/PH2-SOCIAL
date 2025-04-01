@@ -1,12 +1,14 @@
 const UserModel = require("../model/UserModel");
+const mongoose = require("mongoose")
 
 const followUser = async (req, res) => {
     try {
+
         const { id: usernameToFollow } = req.params;
         const userID = req.user.userID;
 
         // Không thể follow chính mình
-        const currentUser = await UserModel.findById(userID);
+        const currentUser = await UserModel.findOne({ userID: new mongoose.Types.ObjectId(userID) });
         if (!currentUser) {
             return res.status(404).json({
                 type: "follow",
@@ -14,7 +16,6 @@ const followUser = async (req, res) => {
                 message: "người dùng hiện tại không tồn tại !",
             });
         }
-
 
         const userToFollow = await UserModel.findOne({ username: usernameToFollow });
 
@@ -53,7 +54,7 @@ const followUser = async (req, res) => {
                 status: true,
                 message: "Bỏ follow thành công!",
                 follower: currentUser._id,
-                follow_user: userToFollowId
+                follow_user: userToFollowId,
             });
         }
 
@@ -85,10 +86,62 @@ const followUser = async (req, res) => {
         return res.status(500).json({
             type: "follow",
             status: false,
-            message: "Loi server" + error
+            message: "Loi server : " + error
         })
     }
 }
 
+// kiem tra trang thai following
+const checkFollowStatus = async (req, res) => {
+    try {
+        const { id: usernameToCheck } = req.params;
+        const userID = req.user.userID;
 
-module.exports = { followUser }
+
+        const currentUser = await UserModel.findOne({ userID: new mongoose.Types.ObjectId(userID) });
+        if (!currentUser) {
+            return res.status(404).json({
+                type: "checkFollowStatus",
+                status: false,
+                message: "Người dùng hiện tại không tồn tại !",
+            });
+        }
+
+        const userToCheck = await UserModel.findOne({ username: usernameToCheck });
+        if (!userToCheck) {
+            return res.status(404).json({
+                type: "checkFollowStatus",
+                status: false,
+                message: "Không tìm thấy người cần kiểm tra trạng thái follow!"
+            });
+        }
+
+        const isFollowing = currentUser.following.includes(userToCheck.userID.toString());
+
+        return res.status(200).json({
+            type: "checkFollowStatus",
+            message: "Đã follow người này",
+            status: true,
+            isFollowing: isFollowing,
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            type: "checkFollowStatus",
+            message: "Chưa follow người này",
+            status: false,
+            message: "Lỗi server: " + error
+        });
+    }
+};
+
+
+
+
+
+
+
+module.exports = {
+    followUser,
+    checkFollowStatus
+}

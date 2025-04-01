@@ -2,14 +2,15 @@ const jwt = require("jsonwebtoken");
 
 const socialMiddleware = (req, res, next) => {
     try {
+        
         const token = req.header("Authorization")?.split(" ")[1];
 
         if (!token) {
-            return res.status(401).json({ message: "Không có token, không được phép truy cập",isLogin: false });
+            return res.status(401).json({stype:"social", message: "Không có token, không được phép truy cập ss" });
         }
 
         const decoded = jwt.verify(token, process.env.JWTKEY);
-        req.user = decoded; // Gắn thông tin user vào request
+        req.user = decoded;
         next();
 
     } catch (error) {

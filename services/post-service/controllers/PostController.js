@@ -71,6 +71,62 @@ const getPostByUsernameAndPostId = async (req, res) => {
      }
 };
 
+//Update bài đăng
+const updatePost = async (req, res) => {
+     try {
+          const { postId } = req.params;
+          const { content, imageUrl, videoUrl } = req.body;
+          const luserID = req.user.userID;
+
+          console.log("postId để cập nhật:", postId);
+          console.log("userId của người cập nhật:", luserID);
+
+          if (!mongoose.Types.ObjectId.isValid(postId)) {
+               return res.status(400).json({ message: 'ID bài đăng không hợp lệ' });
+          }
+
+          const post = await PostModel.findById(postId);
+          if (!post) {
+               return res.status(404).json({ message: 'Bài đăng không tồn tại' });
+          }
+          if (post.userID.toString() !== luserID) {
+               return res.status(403).json({ message: 'Bạn không có quyền cập nhật bài đăng này!' })
+          }
+
+          const updateData = {};
+          if (content !== undefined) {
+               updateData.content = content;
+          }
+          if (imageUrl !== undefined) {
+               updateData.imageUrl = imageUrl;
+          }
+          if (videoUrl !== undefined) {
+               updateData.videoUrl = videoUrl;
+          }
+          if (req.body.content === undefined) {
+               updateData.$unset = { ...updateData.$unset, content: 1 };
+          }
+          if (req.body.imageUrl === undefined) {
+               updateData.$unset = { ...updateData.$unset, imageUrl: 1 };
+          }
+          if (req.body.videoUrl === undefined) {
+               updateData.$unset = { ...updateData.$unset, videoUrl: 1 };
+          }
+          updateData.updatedAt = Date.now();
+
+          const updatedPost = await PostModel.findByIdAndUpdate(
+               postId,
+               updateData,
+               { new: true }
+          );
+          return res.status(200).json({ message: 'Cập nhật bài đăng thành công', post: updatedPost });
+
+     } catch (error) {
+          console.error('Lỗi cập nhật bài đăng:', error);
+          return res.status(500).json({ message: 'Lỗi server update bài đăng', error: error.message });
+     }
+};
+
 // delete bài đăng
 const deletePost = async (req, res) => {
      try {
@@ -108,4 +164,5 @@ const deletePost = async (req, res) => {
 };
 
 
-module.exports = { createPost, getPostByUsernameAndPostId, deletePost };
+
+module.exports = { createPost, getPostByUsernameAndPostId, deletePost, updatePost };

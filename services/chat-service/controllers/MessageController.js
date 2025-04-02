@@ -63,7 +63,7 @@ const getMessages = async (req, res) => {
         const userId = req.user?.userID || req.body?.userID;
 
         if (!conversationId || !mongoose.Types.ObjectId.isValid(conversationId)) {
-            return res.status(400).json({ error: "ID đoạn chat không hợp lệ" });
+            return res.status(400).json({ error: "ID đoạn chat không hợp lệ", messages: [] });
         }
 
         // 2. Kiểm tra người dùng có trong đoạn chat này không (nếu cần)
@@ -73,7 +73,7 @@ const getMessages = async (req, res) => {
         });
 
         if (!conversation) {
-            return res.status(403).json({ error: "Bạn không có quyền truy cập đoạn chat này" });
+            return res.status(403).json({ error: "Bạn không có quyền truy cập đoạn chat này", messages: [] });
         }
 
         // 3. Lấy tin nhắn
@@ -83,7 +83,12 @@ const getMessages = async (req, res) => {
 
 
 
-        res.status(200).json(messages);
+        res.status(200).json({
+            type: "get all message",
+            message: "Lấy tất cả đoạn chat thành công",
+            conversationId: conversationId,
+            messages
+        });
     } catch (error) {
         console.error("Lỗi khi lấy tin nhắn:", error);
         res.status(500).json({ error: "Lỗi server khi lấy tin nhắn" });

@@ -66,15 +66,26 @@ const getChatPartners = async (req, res) => {
 
         // 4. Gắn lastMessage vào từng partner
         const result = partners.map(partner => {
-            const formattedConversations = conversations.map(conv => ({
-                conversationId: conv._id,
-                lastMessage: conv.lastMessage ? {
-                    content: conv.lastMessage.message, 
-                    time: conv.lastMessage.createdAt,
-                    isMeChat: conv.lastMessage.senderId.toString() === currentUserId  
-                } : null,
-                participants: conv.participants
-            }));
+            const formattedConversations = conversations.reduce((acc, conv) => {
+                if (conv.lastMessage) {
+                    acc["messages"] = {
+                        conversationID:conv._id,
+                        participants: conv.participants,
+                        lastMessage: {
+                            content: conv.lastMessage.message,
+                            time: conv.lastMessage.createdAt,
+                            isMeChat: conv.lastMessage.senderId.toString() === currentUserId
+                        },
+                    }
+
+                } else {
+                    acc["messages"] = {
+                        lastMessage: null,
+                        participants: conv.participants
+                    };
+                }
+                return acc;
+            }, {});
 
             return {
                 ...partner,
@@ -90,6 +101,8 @@ const getChatPartners = async (req, res) => {
         });
 
         res.status(200).json({ partners: result });
+
+        
     } catch (error) {
         console.error('Lỗi khi lấy danh sách người nhắn tin:', error);
         res.status(500).json({ error: 'Lỗi server' });

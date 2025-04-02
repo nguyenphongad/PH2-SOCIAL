@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Navigate, Route, Routes, useLocation, useParams } from 'react-router-dom'
 import LoginPage from '../pages/authPages/LoginPage'
 import RegisterPage from '../pages/authPages/RegisterPage'
-import NotFoundPages from '../pages/chatPages/NotFoundPages'
+import NotFoundPages from '../pages/authPages/NotFoundPages'
 import ChatPageIndex from '../pages/chatPages/ChatPageIndex'
 import LayoutIndex from '../pages/LayoutIndex'
 import RequireAuth from '../middlewares/RequireAuth'
@@ -73,6 +73,7 @@ const MainView = () => {
         { path: "/post", component: <PostPageIndex />, requiresAuth: true },
         { path: "/search", component: <SearchPageIndex />, requiresAuth: true },
         { path: "/chat", component: <ChatPageIndex />, requiresAuth: true },
+        { path: "/chat/:id", component: <ChatPageIndex />, requiresAuth: true },
         { path: "/notification", component: <NoticationPageIndex />, requiresAuth: true },
         { path: "/404", component: <NotFoundPages /> },
     ];
@@ -136,11 +137,11 @@ const MainView = () => {
                     <Route path="/" element={<LayoutIndex userCheck={userCheck} />} >
 
                         {routesConfig.map((route, index) => {
-                            // if (username ) {
-                            //     return null;
-                            // }
                             return <Route key={index} path={route.path} element={route.component} />;
                         })}
+
+                        <Route path="/chat/:id" element={<ChatPageIndex />} />
+
 
                         {username && (
                             <Route

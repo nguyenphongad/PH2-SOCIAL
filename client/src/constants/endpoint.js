@@ -10,6 +10,9 @@ const ENDPOINT = {
     CHECK_FOLLOW_STATUS: "/social/checkFollowStatus",
 
     
+    SHOW_LIST_MESSAGE : "/chat/list-message"
+
+    
 }
 
 export default ENDPOINT

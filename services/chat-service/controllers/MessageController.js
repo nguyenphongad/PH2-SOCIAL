@@ -1,5 +1,5 @@
 const MessageModel = require("../models/MessageModel");
-const  ConversationModel = require("../models/ConversationModel")
+const ConversationModel = require("../models/ConversationModel")
 
 const mongoose = require("mongoose")
 
@@ -7,7 +7,17 @@ const sendMessage = async (req, res) => {
     try {
         const { message, image, receiverId } = req.body;
 
-        const senderId = req.body.userID; 
+        const senderId = req.user.userID;
+
+
+        if ((!message || message.trim() === "") && (!image || image.trim() === "")) {
+            return res.status(400).json({
+                type: "send message",
+                status: false,
+                message: "Yêu cầu phải có nội dung tin nhắn hoặc hình ảnh"
+            });
+        }
+
 
         // Kiểm tra nếu cuộc trò chuyện đã tồn tại giữa senderId và receiverId
         let conversation = await ConversationModel.findOne({
@@ -18,14 +28,14 @@ const sendMessage = async (req, res) => {
         if (!conversation) {
             conversation = new ConversationModel({
                 participants: [senderId, receiverId],
-                messages: []  
+                messages: []
             });
-            await conversation.save();  
+            await conversation.save();
         }
 
         // Tạo tin nhắn mới
         const newMessage = new MessageModel({
-            conversationId: conversation._id,  
+            conversationId: conversation._id,
             senderId: new mongoose.Types.ObjectId(senderId),
             receiverId: new mongoose.Types.ObjectId(receiverId),
             message,
@@ -42,17 +52,41 @@ const sendMessage = async (req, res) => {
             newMessage
         });
     } catch (error) {
-        console.error("Lỗi khi gửi tin nhắn:", error);
+        console.error("Lỗi khi gửi tin nhắn: ", error);
         res.status(500).json({ error: error.message });
     }
 };
 
 const getMessages = async (req, res) => {
     try {
-        const messages = await MessageModel.find({ conversationId: req.params.conversationId });
+        const { conversationId } = req.params;
+        const userId = req.user?.userID || req.body?.userID;
+
+        if (!conversationId || !mongoose.Types.ObjectId.isValid(conversationId)) {
+            return res.status(400).json({ error: "ID đoạn chat không hợp lệ" });
+        }
+
+        // 2. Kiểm tra người dùng có trong đoạn chat này không (nếu cần)
+        const conversation = await ConversationModel.findOne({
+            _id: conversationId,
+            participants: userId
+        });
+
+        if (!conversation) {
+            return res.status(403).json({ error: "Bạn không có quyền truy cập đoạn chat này" });
+        }
+
+        // 3. Lấy tin nhắn
+        const messages = await MessageModel.find({
+            conversationId: conversationId
+        }).sort({ createdAt: 1 }); // Sắp xếp theo thời gian
+
+
+
         res.status(200).json(messages);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.error("Lỗi khi lấy tin nhắn:", error);
+        res.status(500).json({ error: "Lỗi server khi lấy tin nhắn" });
     }
 };
 

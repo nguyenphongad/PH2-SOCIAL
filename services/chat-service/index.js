@@ -48,6 +48,6 @@ io.on('connection', (socket) => {
     });
 });
 
-module.exports = io; // Dùng CommonJS export
+module.exports = io; 
 
 app.use('/chat', MessageRoute)

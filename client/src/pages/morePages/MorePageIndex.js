@@ -208,9 +208,9 @@ const MorePageIndex = ({ userPeople }) => {
                     footer={null}
                     className='modal_fler_user'
                 >
-                    {userFollower === null || userFollower.data.length===0 ? (
-                        <div style={{textAlign:"center"}}>
-                            <FcEmptyBattery size={70}/>
+                    {userFollower === null || userFollower.data.length === 0 ? (
+                        <div style={{ textAlign: "center" }}>
+                            <FcEmptyBattery size={70} />
                             <h3>Danh sách người theo dõi trống</h3>
                         </div>
                     ) :
@@ -220,10 +220,10 @@ const MorePageIndex = ({ userPeople }) => {
                                     <img src={index.profilePicture} />
                                 </Link>
                                 <div>
-                                    <Link 
-                                    to={`../${index.username}`} 
-                                    onClick={() => setOpenModelFollower(false)}
-                                    className='st_username_user'
+                                    <Link
+                                        to={`../${index.username}`}
+                                        onClick={() => setOpenModelFollower(false)}
+                                        className='st_username_user'
                                     > @{index.username}</Link>
                                     <div> {index.name}</div>
                                 </div>
@@ -300,8 +300,10 @@ const MorePageIndex = ({ userPeople }) => {
                                         </button>
 
                                         <button>
-                                            <IoIosSend />
-                                            NHẮN TIN
+                                            <Link to={`/chat/${userPeople.userID}`}>
+                                                <IoIosSend />
+                                                NHẮN TIN
+                                            </Link>
                                         </button>
                                         <button onClick={() => setOpenModalSelect(true)}>
                                             <MdMoreHoriz />

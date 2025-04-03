@@ -5,13 +5,16 @@ import { toast } from 'react-toastify';
 
 import { setChatData } from '../../redux/slices/chatSlice';
 import { getBoxMessage, getListMessage } from '../../redux/thunks/chatThunk';
+import BoxMessageIndex from './BoxMessageIndex';
 
-const ChatPageIndex = () => {
+const ChatPageIndex = ({userCheck}) => {
     const dispatch = useDispatch();
     const location = useLocation();
 
     // Redux state
     const { chatData, messagesData } = useSelector(state => state.chat);
+
+    // console.log(userCheck)
 
     // Extract userId from URL
     const userID = location.pathname.startsWith("/chat/")
@@ -64,7 +67,9 @@ const ChatPageIndex = () => {
         fetchMessages();
     }, [dispatch, userID, currentUserID, chatData]);
 
-    console.log(chatData)
+    // console.log(chatData)
+
+    const selectedPartner = chatData?.partners.find(partner => partner.userID === userID);
 
     return (
         <div className='container_chat_page'>
@@ -79,13 +84,13 @@ const ChatPageIndex = () => {
                             <NavLink
                                 key={partner.userID}
                                 to={`/chat/${partner.userID}`}
-                                style={partner.userID === userID ? { background: "red" } : {}}
+                                className={partner.userID === userID ? "active_select_chat" : {}}
                             >
                                 <div>{partner.username}</div>
                                 <div>{
                                     partner.formattedConversations.messages.lastMessage.isMeChat ?
                                         "Bạn: " + partner.formattedConversations.messages.lastMessage.content :
-                                        partner.formattedConversations.messages.lastMessage.conten
+                                        partner.formattedConversations.messages.lastMessage.content
 
                                 }</div>
                             </NavLink>
@@ -102,14 +107,15 @@ const ChatPageIndex = () => {
                     isLoadingMessages ? (
                         <div>Đang tải tin nhắn...</div>
                     ) : messagesData ? (
-                        <div>
-                            <div>{messagesData.message}</div>
-                            <div>{messagesData.messages.map((index) => (
-                                <div key={index}>
-                                    {index.conversationId}
-                                </div>
-                            ))}</div>
-                        </div>
+                        <>
+
+                            <BoxMessageIndex 
+                            messagesData={messagesData} 
+                            selectedPartner={selectedPartner}
+                            userCheck={userCheck}
+                            />
+
+                        </>
                     ) : (
                         <div>Không có tin nhắn nào</div>
                     )

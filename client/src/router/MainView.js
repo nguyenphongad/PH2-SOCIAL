@@ -72,8 +72,8 @@ const MainView = () => {
         { path: "/", component: <HomePageIndex />, requiresAuth: true },
         { path: "/post", component: <PostPageIndex />, requiresAuth: true },
         { path: "/search", component: <SearchPageIndex />, requiresAuth: true },
-        { path: "/chat", component: <ChatPageIndex />, requiresAuth: true },
-        { path: "/chat/:id", component: <ChatPageIndex />, requiresAuth: true },
+        { path: "/chat", component: <ChatPageIndex userCheck={userCheck}/>, requiresAuth: true },
+        { path: "/chat/:id", component: <ChatPageIndex userCheck={userCheck}/>, requiresAuth: true },
         { path: "/notification", component: <NoticationPageIndex />, requiresAuth: true },
         { path: "/404", component: <NotFoundPages /> },
     ];
@@ -140,7 +140,7 @@ const MainView = () => {
                             return <Route key={index} path={route.path} element={route.component} />;
                         })}
 
-                        <Route path="/chat/:id" element={<ChatPageIndex />} />
+                        <Route path="/chat/:id" element={<ChatPageIndex userCheck={userCheck} />} />
 
 
                         {username && (

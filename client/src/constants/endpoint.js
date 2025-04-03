@@ -10,7 +10,8 @@ const ENDPOINT = {
     CHECK_FOLLOW_STATUS: "/social/checkFollowStatus",
 
     
-    SHOW_LIST_MESSAGE : "/chat/list-message"
+    SHOW_LIST_MESSAGE : "/chat/list-message",
+    SHOW_LIST_BOX_MESSAGE : "/chat"
 
     
 }

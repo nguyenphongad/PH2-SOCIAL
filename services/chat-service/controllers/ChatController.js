@@ -7,106 +7,97 @@ const mongoose = require("mongoose")
 
 const getChatPartners = async (req, res) => {
     try {
-        const currentUserId = req.user.userID; // Lấy từ middleware
+        const currentUserId = req.user.userID;
+        console.log("Current User ID:", currentUserId);
 
-
-        // 1. Tìm tất cả cuộc trò chuyện và tin nhắn gần nhất
+        // 1. Lấy tất cả cuộc trò chuyện của user hiện tại
         const conversations = await Conversation.aggregate([
             {
                 $match: {
-                    participants: new mongoose.Types.ObjectId(currentUserId) // Chuyển đổi nếu cần
+                    participants: new mongoose.Types.ObjectId(currentUserId)
                 }
             },
             {
                 $lookup: {
-                    from: 'messages', // Join với collection messages
-                    let: { convId: '$_id' },
-                    pipeline: [
-                        {
-                            $match: {
-                                $expr: { $eq: ['$conversationId', '$$convId'] } // Tin nhắn thuộc cuộc hội thoại
-                            }
-                        },
-                        { $sort: { createdAt: -1 } }, // Sắp xếp tin nhắn mới nhất đầu tiên
-                        { $limit: 1 } // Chỉ lấy 1 tin nhắn gần nhất
-                    ],
-                    as: 'lastMessage'
+                    from: "messages",
+                    localField: "messages",
+                    foreignField: "_id",
+                    as: "messages"
                 }
             },
-            { $unwind: { path: '$lastMessage', preserveNullAndEmptyArrays: true } } // Giữ lại cả cuộc hội thoại không có tin nhắn
-        ]);
-        // console.log("----")
-        // console.log(conversations)
-
-        // 2. Lấy danh sách partnerIds (loại bỏ currentUserId)
-        const partnerIds = conversations.flatMap(conv =>
-            conv.participants.filter(id => id.toString() !== currentUserId)
-        );
-        // console.log("----")
-        // console.log(partnerIds)
-
-
-        // 3. Lấy thông tin chi tiết partners (kèm lastMessage)
-        const partners = await User.aggregate([
             {
-                $match: { userID: { $in: partnerIds } }
+                $addFields: {
+                    sortedMessages: {
+                        $sortArray: { input: "$messages", sortBy: { createdAt: -1 } }
+                    }
+                }
             },
             {
-                $project: {
-                    _id: 0,
-                    userID: 1,
-                    username: 1,
-                    name: 1,
-                    profilePicture: 1
+                $addFields: {
+                    lastMessage: { $arrayElemAt: ["$sortedMessages", 0] } // Lấy tin nhắn mới nhất
                 }
             }
         ]);
-        // console.log("----")
-        // console.log(partners)
 
-        // 4. Gắn lastMessage vào từng partner
-        const result = partners.map(partner => {
-            const formattedConversations = conversations.reduce((acc, conv) => {
-                if (conv.lastMessage) {
-                    acc["messages"] = {
-                        conversationID:conv._id,
-                        participants: conv.participants,
-                        lastMessage: {
-                            content: conv.lastMessage.message,
-                            time: conv.lastMessage.createdAt,
-                            isMeChat: conv.lastMessage.senderId.toString() === currentUserId
-                        },
-                    }
+        console.log("Conversations:", JSON.stringify(conversations, null, 2));
 
-                } else {
-                    acc["messages"] = {
-                        lastMessage: null,
-                        participants: conv.participants
-                    };
+        // 2. Lấy danh sách đối tác
+        const partnerIds = new Set();
+        conversations.forEach(conv => {
+            conv.participants.forEach(participant => {
+                if (participant.toString() !== currentUserId) {
+                    partnerIds.add(participant.toString());
                 }
-                return acc;
-            }, {});
+            });
+        });
+
+        console.log("Partner IDs:", [...partnerIds]);
+
+        // 3. Lấy thông tin users
+        const partners = await User.find(
+            { userID: { $in: [...partnerIds] } },
+            { userID: 1, username: 1, name: 1, profilePicture: 1 }
+        );
+
+        console.log("Partners:", JSON.stringify(partners, null, 2));
+
+        // 4. Gắn thông tin tin nhắn cuối vào từng partner
+        const result = partners.map(partner => {
+            const conversation = conversations.find(conv =>
+                conv.participants.some(p => p.toString() === partner.userID.toString())
+            );
+
+            let formattedConversations = {};
+
+            if (conversation && conversation.lastMessage) {
+                formattedConversations = {
+                    messages: {
+                        conversationID: conversation._id,
+                        participants: conversation.participants,
+                        lastMessage: {
+                            content: conversation.lastMessage.message,
+                            time: conversation.lastMessage.createdAt,
+                            isMeChat: conversation.lastMessage.senderId.toString() === currentUserId
+                        }
+                    }
+                };
+            }
 
             return {
-                ...partner,
+                ...partner.toObject(),
                 formattedConversations
             };
         });
 
-        // 5. Sắp xếp theo thời gian tin nhắn gần nhất (mới nhất đầu tiên)
-        result.sort((a, b) => {
-            if (!a.lastMessageTime) return 1;
-            if (!b.lastMessageTime) return -1;
-            return new Date(b.lastMessageTime) - new Date(a.lastMessageTime);
-        });
+        console.log("Final Result:", JSON.stringify(result, null, 2));
 
         res.status(200).json({ partners: result });
 
-        
     } catch (error) {
-        console.error('Lỗi khi lấy danh sách người nhắn tin:', error);
-        res.status(500).json({ error: 'Lỗi server' });
+        console.error("Lỗi khi lấy danh sách người nhắn tin:", error);
+        res.status(500).json({ error: "Lỗi server" });
     }
 };
+
 
 module.exports = { getChatPartners };

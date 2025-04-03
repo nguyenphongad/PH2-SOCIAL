@@ -30,3 +30,32 @@ export const getListMessage = createAsyncThunk(
     }
 )
 
+export const getBoxMessage = createAsyncThunk(
+    "chat/getBoxMessage",
+    async (conID, { rejectWithValue, getState }) => {
+        try {
+            const { token } = getState().auth;
+
+            // console.log("token : " + token)
+
+            const res = await get(`${ENDPOINT.SHOW_LIST_BOX_MESSAGE}/${conID}`, token);
+
+
+            // console.log(res)
+
+            return res.data
+
+        } catch (error) {
+
+            console.log(error)
+
+            if (error.response) {
+                return rejectWithValue(error.response.data);
+            } else {
+                return rejectWithValue({ message: "Lỗi không xác định thunk (chat - server bị lỗi/chưa khởi động)" });
+            }
+        }
+    }
+)
+
+

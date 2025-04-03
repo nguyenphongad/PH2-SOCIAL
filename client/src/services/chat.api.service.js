@@ -6,7 +6,6 @@ export const get = async (uri,token, params) => {
         if (token) {
             headers.Authorization = `Bearer ${token}`;
         }
-        // console.log('Headers:', headers.Authorization );
 
         const res = await instance.get(uri, { headers, params });
         return res;

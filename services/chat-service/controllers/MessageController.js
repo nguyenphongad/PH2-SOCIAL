@@ -59,34 +59,38 @@ const sendMessage = async (req, res) => {
 
 const getMessages = async (req, res) => {
     try {
-        const { conversationId } = req.params;
-        const userId = req.user?.userID || req.body?.userID;
+        const { userID } = req.params; // userId là ID của đối phương trong URL
 
-        if (!conversationId || !mongoose.Types.ObjectId.isValid(conversationId)) {
-            return res.status(400).json({ error: "ID đoạn chat không hợp lệ", messages: [] });
+        // console.log(userID)
+        
+        const currentUserId = req.user?.userID || req.body?.userID;
+
+        // console.log(req.user?.userID)
+        // console.log(req.body?.userID)
+
+        // Kiểm tra tính hợp lệ của userID
+        if (!userID || !mongoose.Types.ObjectId.isValid(userID)) {
+            return res.status(400).json({ error: "ID đối phương không hợp lệ", messages: [] });
         }
 
-        // 2. Kiểm tra người dùng có trong đoạn chat này không (nếu cần)
+        // Tìm cuộc trò chuyện giữa người dùng hiện tại và đối phương
         const conversation = await ConversationModel.findOne({
-            _id: conversationId,
-            participants: userId
+            participants: { $all: [currentUserId, userID] }  // Tìm cuộc trò chuyện giữa 2 người
         });
 
         if (!conversation) {
-            return res.status(403).json({ error: "Bạn không có quyền truy cập đoạn chat này", messages: [] });
+            return res.status(404).json({ error: "Không tìm thấy cuộc trò chuyện với đối phương này", messages: [] });
         }
 
-        // 3. Lấy tin nhắn
+        // Lấy tất cả tin nhắn trong cuộc trò chuyện
         const messages = await MessageModel.find({
-            conversationId: conversationId
+            conversationId: conversation._id
         }).sort({ createdAt: 1 }); // Sắp xếp theo thời gian
 
-
-
-        res.status(200).json({
+        return res.status(200).json({
             type: "get all message",
-            message: "Lấy tất cả đoạn chat thành công",
-            conversationId: conversationId,
+            message: "Lấy tất cả tin nhắn thành công",
+            _id: conversation._id,
             messages
         });
     } catch (error) {

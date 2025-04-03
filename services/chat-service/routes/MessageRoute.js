@@ -8,6 +8,6 @@ const router = express.Router();
 
 router.post('/', chatMiddleware, sendMessage);
 router.post('/list-message', chatMiddleware, getChatPartners);
-router.get('/:conversationId', chatMiddleware, getMessages);
+router.get('/:userID', chatMiddleware, getMessages);
 
 module.exports = router;

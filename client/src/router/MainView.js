@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Navigate, Route, Routes, useLocation, useParams } from 'react-router-dom'
 import LoginPage from '../pages/authPages/LoginPage'
 import RegisterPage from '../pages/authPages/RegisterPage'
-import NotFoundPages from '../pages/chatPages/NotFoundPages'
+import NotFoundPages from '../pages/authPages/NotFoundPages'
 import ChatPageIndex from '../pages/chatPages/ChatPageIndex'
 import LayoutIndex from '../pages/LayoutIndex'
 import RequireAuth from '../middlewares/RequireAuth'
@@ -36,29 +36,30 @@ export const ProtectedAuth = ({ component }) => {
 
 
 const MainView = () => {
-    const { token } = useSelector((state) => state.auth); // Lấy token và user từ Redux store
+    const { token } = useSelector((state) => state.auth);
 
-    const username =  useLocation().pathname
+    const location = useLocation();  // Lấy đường dẫn hiện tại
+    const username = location.pathname.split("/")[1];
 
 
     const dispatch = useDispatch();
 
     const [userCheck, setUserCheck] = useState("");
     const [userPeople, setUserPeople] = useState({});
-    const [isNotFound,setIsNotFound] = useState(false)
+    const [isUserLoaded, setIsUserLoaded] = useState(false);
 
     useEffect(() => {
         const fetchCurrentUser = async () => {
             if (token) {
                 const resultAction = await dispatch(checkToken(token));
                 if (checkToken.fulfilled.match(resultAction)) {
-                    setUserCheck(resultAction.payload.user);  
+                    setUserCheck(resultAction.payload.user);
 
                     // console.log("userCheck " + userCheck)
 
                 } else {
                     console.log('Error during token check');
-                    
+
                 }
             }
         };
@@ -66,10 +67,24 @@ const MainView = () => {
         fetchCurrentUser();
     }, [token, dispatch]);
 
+
+    const routesConfig = [
+        { path: "/", component: <HomePageIndex />, requiresAuth: true },
+        { path: "/post", component: <PostPageIndex />, requiresAuth: true },
+        { path: "/search", component: <SearchPageIndex />, requiresAuth: true },
+        { path: "/chat", component: <ChatPageIndex />, requiresAuth: true },
+        { path: "/chat/:id", component: <ChatPageIndex />, requiresAuth: true },
+        { path: "/notification", component: <NoticationPageIndex />, requiresAuth: true },
+        { path: "/404", component: <NotFoundPages /> },
+    ];
+
+    const getPath = routesConfig.map((route) => route.path);
+
+
     // Fetch thông tin người dùng được truy cập (nếu có username trong URL)
     useEffect(() => {
         const fetchUserProfile = async () => {
-            if (token && username) {
+            if (token && username && !getPath.includes(`/${username}`)) {
                 const action = await dispatch(getUserProfile(username, token));
                 if (getUserProfile.fulfilled.match(action)) {
                     const profile = action.payload;
@@ -77,23 +92,23 @@ const MainView = () => {
                         ...profile,
                         isMe: profile.username === userCheck?.username
                     });
-
-
                 } else {
                     console.log("Error fetching user profile");
                     setUserPeople(action.payload);
-
                 }
+                setIsUserLoaded(true);
             }
         };
 
         fetchUserProfile();
-    }, [token, username, userCheck, dispatch]);
+
+    }, [token, username, userCheck, dispatch, location.pathname]);
 
 
     // if (status === "loading") {
     //     return <div>Đang kiểm tra token...</div>;
     // }
+
 
     return (
         <>
@@ -110,27 +125,33 @@ const MainView = () => {
                 theme="light"
                 transition={Bounce}
             />
+
+
             <Routes>
                 {/* Nếu đã đăng nhập, không cho phép vào Login/Register */}
                 <Route path="/login" element={<ProtectedAuth component={<LoginPage />} />} />
                 <Route path="/register" element={<ProtectedAuth component={<RegisterPage />} />} />
 
-
                 {/* Các route yêu cầu đăng nhập */}
                 <Route element={<RequireAuth />}>
                     <Route path="/" element={<LayoutIndex userCheck={userCheck} />} >
 
-                        <Route path="/" element={<HomePageIndex />} />
-                        <Route path="/post" element={<PostPageIndex />} />
-                        <Route path="/search" element={<SearchPageIndex />} />
-                        <Route path="/chat" element={<ChatPageIndex />} />
-                        <Route path="/notification" element={<NoticationPageIndex />} />
-                        <Route path="/404" element={<NotFoundPages />} />
+                        {routesConfig.map((route, index) => {
+                            return <Route key={index} path={route.path} element={route.component} />;
+                        })}
 
-                        {/* <Route path={`/${userCheck?.username}`} element={<MorePageIndex userCheck={userCheck} />} /> */}
-                        {username && <Route path={`/${username}`} element={ userPeople.isNotFoud  ? <NotFoundPages/> :  <MorePageIndex userPeople={userPeople} />} />}
+                        <Route path="/chat/:id" element={<ChatPageIndex />} />
+
+
+                        {username && (
+                            <Route
+                                path={`/${username}`}
+                                element={userPeople.isNotFoud ? <NotFoundPages /> : <MorePageIndex userPeople={userPeople} />}
+                            />
+                        )}
 
                         <Route path="*" element={<NotFoundPages />} />
+
                     </Route>
                 </Route>
 
@@ -138,6 +159,7 @@ const MainView = () => {
                 <Route path="*" element={<NotFoundPages />} />
 
             </Routes>
+
         </>
     )
 }

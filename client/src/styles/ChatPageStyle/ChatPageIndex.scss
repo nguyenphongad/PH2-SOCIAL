@@ -1,0 +1,27 @@
+.container_chat_page {
+    display: flex;
+
+    >div {
+        padding: 30px;
+        background-color: #eaeaea;
+        border-radius: 15px;
+    }
+
+    .box_menu_chat {
+        width: 500px;
+        margin-right: 10px;
+
+        .box_list_chats {
+            >a {
+                padding: 10px;
+                display: block;
+            }
+
+          
+        }
+    }
+
+    .box_content_chat {
+        width: 100%;
+    }
+}

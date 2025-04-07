@@ -51,15 +51,21 @@ const getChatPartners = async (req, res) => {
             });
         });
 
-        console.log("Partner IDs:", [...partnerIds]);
+        // console.log("Partner IDs:", [...partnerIds]);
 
         // 3. Lấy thông tin users
         const partners = await User.find(
             { userID: { $in: [...partnerIds] } },
-            { userID: 1, username: 1, name: 1, profilePicture: 1 }
+            {
+                userID: 1,
+                username: 1,
+                name: 1,
+                profilePicture: 1,
+                name :1
+            }
         );
 
-        console.log("Partners:", JSON.stringify(partners, null, 2));
+        // console.log("Partners:", JSON.stringify(partners, null, 2));
 
         // 4. Gắn thông tin tin nhắn cuối vào từng partner
         const result = partners.map(partner => {

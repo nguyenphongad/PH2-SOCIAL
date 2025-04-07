@@ -7,7 +7,9 @@ import { setChatData } from '../../redux/slices/chatSlice';
 import { getBoxMessage, getListMessage } from '../../redux/thunks/chatThunk';
 import BoxMessageIndex from './BoxMessageIndex';
 
-const ChatPageIndex = ({userCheck}) => {
+import { PiCursorClickDuotone } from "react-icons/pi";
+
+const ChatPageIndex = ({ userCheck }) => {
     const dispatch = useDispatch();
     const location = useLocation();
 
@@ -75,7 +77,7 @@ const ChatPageIndex = ({userCheck}) => {
         <div className='container_chat_page'>
             {/* Danh sách cuộc trò chuyện */}
             <div className='box_menu_chat'>
-                <h3>Danh sách chat</h3>
+                <h3>Tin nhắn</h3>
                 <div className='box_list_chats'>
                     {isLoadingChat ? (
                         <div>Đang tải danh sách chat...</div>
@@ -86,13 +88,18 @@ const ChatPageIndex = ({userCheck}) => {
                                 to={`/chat/${partner.userID}`}
                                 className={partner.userID === userID ? "active_select_chat" : {}}
                             >
-                                <div>{partner.username}</div>
-                                <div>{
-                                    partner.formattedConversations.messages.lastMessage.isMeChat ?
-                                        "Bạn: " + partner.formattedConversations.messages.lastMessage.content :
-                                        partner.formattedConversations.messages.lastMessage.content
+                                <div>
+                                    <img src={partner?.profilePicture} className='set_width_avt_partner' />
+                                </div>
+                                <div>
+                                    <div className="user_name_st">{partner?.name}</div>
+                                    <div className='last_mess_st'>{
+                                        partner.formattedConversations.messages?.lastMessage?.isMeChat ?
+                                            "Bạn: " + partner.formattedConversations.messages?.lastMessage.content :
+                                            partner.formattedConversations.messages?.lastMessage?.content
 
-                                }</div>
+                                    }</div>
+                                </div>
                             </NavLink>
                         ))
                     ) : (
@@ -109,10 +116,10 @@ const ChatPageIndex = ({userCheck}) => {
                     ) : messagesData ? (
                         <>
 
-                            <BoxMessageIndex 
-                            messagesData={messagesData} 
-                            selectedPartner={selectedPartner}
-                            userCheck={userCheck}
+                            <BoxMessageIndex
+                                messagesData={messagesData}
+                                selectedPartner={selectedPartner}
+                                userCheck={userCheck}
                             />
 
                         </>
@@ -120,7 +127,14 @@ const ChatPageIndex = ({userCheck}) => {
                         <div>Không có tin nhắn nào</div>
                     )
                 ) : (
-                    <div>Hãy chọn một cuộc trò chuyện!</div>
+                    <div className="container_body_select_chats_partner">
+                        <div>
+                            <PiCursorClickDuotone />
+                        </div>
+                        <div className='text_sl_c_partner'>
+                            Hãy chọn một cuộc trò chuyện!
+                        </div>
+                    </div>
                 )}
             </div>
         </div>

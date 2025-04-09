@@ -1,11 +1,11 @@
 
 const PostModel = require('../models/PostModel');
+const UserModel = require('../models/UserModel');
 const mongoose = require("mongoose");
 const { validationResult } = require('express-validator');
-const UserModel = require('../models/UserModel');
 
 
-//tạo bài đăng
+// Tạo bài đăng
 const createPost = async (req, res) => {
 
      try {
@@ -41,22 +41,16 @@ const createPost = async (req, res) => {
      }
 };
 
-// Lấy bài đăng theo ID
+// Lấy bài đăng theo PostId
 const getPostByUsernameAndPostId = async (req, res) => {
      try {
 
-          const { username, postId } = req.params;
+          const { postId } = req.params;
 
-          console.log("username đăng bài: ", username)
           console.log("id bài đăng: ", postId)
 
           if (!mongoose.Types.ObjectId.isValid(postId)) {
                return res.status(400).json({ message: 'ID bài đăng không hợp lệ' });
-          }
-
-          const user = await UserModel.findOne({ username: username });
-          if (!user) {
-               return res.status(404).json({ message: 'Người dùng không tồn tại' });
           }
 
           const post = await PostModel.findOne({ _id: postId });
@@ -68,6 +62,28 @@ const getPostByUsernameAndPostId = async (req, res) => {
      } catch (error) {
           console.error('Lỗi lấy bài đăng:', error);
           return res.status(500).json({ message: 'Lỗi server lấy bài đăng' });
+     }
+};
+
+// Lấy bài đăng theo username (lấy tất cả bài đăng của username)
+const getPostsByUser = async (req, res) => {
+     try {
+          const { username } = req.params; // Lấy username từ URL
+          console.log("username để lấy bài đăng:", username);
+
+          // Tìm user theo username
+        const user = await UserModel.findOne({ username: username });
+        if (!user) {
+            return res.status(404).json({ message: 'Người dùng không tồn tại' });
+        }
+
+          // Tìm các bài đăng của người dùng
+          const posts = await PostModel.find({ userID: user.userID  }).sort({ createdAt: -1 }); // Sắp xếp theo thời gian tạo (mới nhất trước)
+
+          return res.status(200).json({ posts });
+     } catch (error) {
+          console.error('Lỗi lấy bài đăng của người dùng:', error);
+          return res.status(500).json({ message: 'Lỗi server lấy bài đăng của người dùng', error: error.message });
      }
 };
 
@@ -164,5 +180,4 @@ const deletePost = async (req, res) => {
 };
 
 
-
-module.exports = { createPost, getPostByUsernameAndPostId, deletePost, updatePost };
+module.exports = { createPost, getPostByUsernameAndPostId, deletePost, updatePost, getPostsByUser };

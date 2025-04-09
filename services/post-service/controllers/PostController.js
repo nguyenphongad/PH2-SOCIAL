@@ -5,7 +5,7 @@ const { validationResult } = require('express-validator');
 const UserModel = require('../models/UserModel');
 
 
-
+//tạo bài đăng
 const createPost = async (req, res) => {
 
      try {

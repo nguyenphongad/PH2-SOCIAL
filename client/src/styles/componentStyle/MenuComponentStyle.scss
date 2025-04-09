@@ -6,6 +6,7 @@
     flex-direction: column;
     position: sticky;
     top: 0px;
+    transition: 0.3s;
 
     .box_logo_menu {
         display: flex;
@@ -30,6 +31,7 @@
             display: flex;
             align-items: center;
             border-radius: 15px;
+            animation: an_menu_link 0.4s forwards;
 
             .name_menu {
                 font-weight: 600;
@@ -44,7 +46,16 @@
                 }
             }
 
+        }
 
+        @keyframes an_menu_link {
+            from {
+                transform: translateY(20px);
+            }
+
+            to {
+                transform: translateY(0px);
+            }
         }
 
         >a.active {
@@ -65,6 +76,29 @@
                 }
             }
         }
+    }
+}
+
+.set_width_menu_chat {
+    width: 100px;
+
+    .name_menu {
+        display: none;
+    }
+
+    .img_text_logo_menu {
+        width: 50px !important;
+    }
+
+    a {
+        justify-content: center;
+    }
+
+    .img_icon_menu {
+        width: 40px;
+        height: 40px;
+        border: 2px solid $main_color;
+        padding: 2px;
     }
 }
 

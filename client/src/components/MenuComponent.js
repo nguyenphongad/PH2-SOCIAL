@@ -4,12 +4,13 @@ import { RiHome3Fill } from 'react-icons/ri';
 import { IoSearch } from "react-icons/io5";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import { CgMoreO } from "react-icons/cg";
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import { IoMdNotificationsOutline } from "react-icons/io";
 
 import { FaRegPenToSquare } from "react-icons/fa6";
 
-const logo_text = require("../assets/logo/text_logo.png")
+const logo_text = require("../assets/logo/text_logo.png");
+const logo_icon = require("../assets/logo/icon_logo.png")
 
 
 
@@ -73,16 +74,22 @@ const MenuComponent = ({ userCheck }) => {
         },
     ];
 
+    const location = useLocation();
+    const getRouteName = location.pathname.split("/")[1]
+    console.log(getRouteName)
+
+    const setMenuBar = getRouteName === "chat" ? true : false;
+
 
     const render_menu = ARRAY_LIST_MENU.map((index) => {
         return (
             <div key={index.id}>
                 <NavLink to={index.to_link}>
                     {
-                        index.isIconImage ? 
-                            <img src={userCheck.profilePicture} className='img_icon_menu'/>
+                        index.isIconImage ?
+                            <img src={userCheck.profilePicture} className='img_icon_menu' />
                             :
-                            <div className='icon_menu'>{index.icon_before}</div>
+                            (<div className='icon_menu'>{index.icon_before}</div> )
                     }
                     <div className='name_menu'>{index.name_menu}</div>
                 </NavLink>
@@ -92,11 +99,11 @@ const MenuComponent = ({ userCheck }) => {
 
 
     return (
-        <div className='container_menu'>
+        <div className={`container_menu ${!setMenuBar ? "" : "set_width_menu_chat"}`}>
             <div className='box_logo_menu'>
-                <Link to="/">
-                    <img src={logo_text} alt="logo text" className='img_text_logo_menu' />
-                </Link>
+                <a href="/">
+                    <img src={!setMenuBar ? logo_text : logo_icon} alt="logo text" className='img_text_logo_menu' />
+                </a>
             </div>
             {render_menu}
         </div>

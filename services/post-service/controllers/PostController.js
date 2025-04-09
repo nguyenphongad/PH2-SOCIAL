@@ -72,13 +72,13 @@ const getPostsByUser = async (req, res) => {
           console.log("username để lấy bài đăng:", username);
 
           // Tìm user theo username
-        const user = await UserModel.findOne({ username: username });
-        if (!user) {
-            return res.status(404).json({ message: 'Người dùng không tồn tại' });
-        }
+          const user = await UserModel.findOne({ username: username });
+          if (!user) {
+               return res.status(404).json({ message: 'Người dùng không tồn tại' });
+          }
 
           // Tìm các bài đăng của người dùng
-          const posts = await PostModel.find({ userID: user.userID  }).sort({ createdAt: -1 }); // Sắp xếp theo thời gian tạo (mới nhất trước)
+          const posts = await PostModel.find({ userID: user.userID }).sort({ createdAt: -1 }); // Sắp xếp theo thời gian tạo (mới nhất trước)
 
           return res.status(200).json({ posts });
      } catch (error) {
@@ -179,5 +179,34 @@ const deletePost = async (req, res) => {
      }
 };
 
+const getFeedPosts = async (req, res) => {
+     try {
+          const currentUserId = req.user.userID;
 
-module.exports = { createPost, getPostByUsernameAndPostId, deletePost, updatePost, getPostsByUser };
+          console.log("userId của người dùng hiện tại:", currentUserId);
+
+          // Tìm người dùng hiện tại
+          const currentUser = await UserModel.findOne({ userID: new mongoose.Types.ObjectId(currentUserId) });
+
+          if (!currentUser) {
+               return res.status(404).json({ message: 'Người dùng không tồn tại' });
+          }
+
+          // Lấy danh sách những người dùng mà người dùng hiện tại đang theo dõi (following)
+          const followingIds = currentUser.following.map(id => id.toString());
+          followingIds.push(currentUserId); // Thêm userId của người dùng hiện tại vào danh sách để xem bài của chính mình
+
+          // Lấy các bài đăng từ những người dùng trong danh sách following
+          const feedPosts = await PostModel.find({ userID: { $in: followingIds } })
+               .sort({ createdAt: -1 });
+
+          return res.status(200).json({ feedPosts });
+
+     } catch (error) {
+          console.error('Lỗi lấy feed bài đăng:', error);
+          return res.status(500).json({ message: 'Lỗi server lấy feed bài đăng', error: error.message });
+     }
+};
+
+
+module.exports = { createPost, getPostByUsernameAndPostId, deletePost, updatePost, getPostsByUser, getFeedPosts };

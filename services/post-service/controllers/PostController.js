@@ -179,6 +179,7 @@ const deletePost = async (req, res) => {
      }
 };
 
+// Lấy tất cả bài đăng từ các user đang theo dõi
 const getFeedPosts = async (req, res) => {
      try {
           const currentUserId = req.user.userID;
@@ -208,5 +209,29 @@ const getFeedPosts = async (req, res) => {
      }
 };
 
+// Tìm kiếm bài đăng
+const searchPosts = async (req, res) => {
+     try {
+          const { keyword } = req.query; // Lấy từ khóa từ query parameter
+          console.log("Từ khóa tìm kiếm:", keyword);
 
-module.exports = { createPost, getPostByUsernameAndPostId, deletePost, updatePost, getPostsByUser, getFeedPosts };
+          if (!keyword) {
+               return res.status(400).json({ message: 'Vui lòng cung cấp từ khóa tìm kiếm' });
+          }
+
+          // Tạo regex để tìm kiếm không phân biệt hoa thường và có thể tìm kiếm một phần của từ
+          const regex = new RegExp(keyword, 'i');
+
+          // Tìm kiếm các bài đăng có nội dung chứa từ khóa
+          const searchPosts = await PostModel.find({ content: { $regex: regex } })
+               .sort({ createdAt: -1 }); // Sắp xếp theo thời gian tạo (mới nhất trước)
+
+          return res.status(200).json({ searchPosts });
+
+     } catch (error) {
+          console.error('Lỗi tìm kiếm bài đăng:', error);
+          return res.status(500).json({ message: 'Lỗi server tìm kiếm bài đăng', error: error.message });
+     }
+};
+
+module.exports = { createPost, getPostByUsernameAndPostId, deletePost, updatePost, getPostsByUser, getFeedPosts, searchPosts };

@@ -42,8 +42,8 @@ router.put(
             if (!errors.isEmpty()) {
                 return res.status(400).json({ errors: errors.array() });
             }
-            if (req.body.content === undefined && req.body.imageUrl === undefined && req.body.videoUrl === undefined) {
-                return res.status(400).json({ message: 'Bạn phải cung cấp ít nhất một trong các trường: content, imageUrl, videoUrl' });
+            if (req.body.imageUrl === undefined && req.body.videoUrl === undefined) {
+                return res.status(400).json({ message: 'Bạn phải cung cấp ít nhất một trong các trường: imageUrl, videoUrl' });
             }
             next();
         }

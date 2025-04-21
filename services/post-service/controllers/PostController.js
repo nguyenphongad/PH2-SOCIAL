@@ -1,6 +1,8 @@
 
 const PostModel = require('../models/PostModel');
 const UserModel = require('../models/UserModel');
+const LikeModel = require('../models/LikeModel');
+const CommentsModel = require('../models/CommentsModel');
 const mongoose = require("mongoose");
 const { validationResult } = require('express-validator');
 
@@ -234,4 +236,67 @@ const searchPosts = async (req, res) => {
      }
 };
 
-module.exports = { createPost, getPostByUsernameAndPostId, deletePost, updatePost, getPostsByUser, getFeedPosts, searchPosts };
+// like bài đăng
+const toggleLikePost = async (req, res) => {
+     try {
+         const { postId } = req.params;
+         const userId = req.user.userID;
+ 
+         if (!mongoose.Types.ObjectId.isValid(postId)) {
+             return res.status(400).json({ message: 'ID bài đăng không hợp lệ' });
+         }
+ 
+         // Kiểm tra xem người dùng đã thích bài đăng này chưa
+         const existingLike = await LikeModel.findOne({ postId: postId, userId: userId });
+ 
+         if (existingLike) {
+             // Nếu đã thích, thì bỏ thích
+             await LikeModel.findOneAndDelete({ postId: postId, userId: userId });
+             await PostModel.findByIdAndUpdate(postId, { $pull: { likes: existingLike._id } });
+             return res.status(200).json({ message: 'Đã bỏ thích bài đăng' });
+         } else {
+             // Nếu chưa thích, thì thích
+             const newLike = new LikeModel({ postId: postId, userId: userId });
+             await newLike.save();
+             await PostModel.findByIdAndUpdate(postId, { $push: { likes: newLike._id } });
+             return res.status(201).json({ message: 'Đã thích bài đăng' });
+         }
+ 
+     } catch (error) {
+         console.error('Lỗi xử lý like bài đăng:', error);
+         return res.status(500).json({ message: 'Lỗi server xử lý like bài đăng', error: error.message });
+     }
+ };
+
+// Thêm bình luận
+const addComment = async (req, res) => {
+     try {
+         const { postId } = req.params;
+         const { content } = req.body;
+         const userId = req.user.userID;
+         const username = req.user.username; // Lấy username từ req.user
+ 
+         if (!mongoose.Types.ObjectId.isValid(postId)) {
+             return res.status(400).json({ message: 'ID bài đăng không hợp lệ' });
+         }
+ 
+         if (!content || content.trim() === '') {
+             return res.status(400).json({ message: 'Nội dung bình luận không được để trống' });
+         }
+ 
+         const newComment = new CommentsModel({ postId: postId, userId: userId, username: username, content: content.trim() });
+         await newComment.save();
+ 
+         // (Tùy chọn) Cập nhật mảng comments trong PostModel
+         await PostModel.findByIdAndUpdate(postId, { $push: { comments: newComment._id } });
+ 
+         return res.status(201).json({ message: 'Đã bình luận', comment: newComment });
+ 
+     } catch (error) {
+         console.error('Lỗi thêm bình luận:', error);
+         return res.status(500).json({ message: 'Lỗi server thêm bình luận', error: error.message });
+     }
+ };
+ 
+
+module.exports = { createPost, getPostByUsernameAndPostId, deletePost, updatePost, getPostsByUser, getFeedPosts, searchPosts, toggleLikePost, addComment };

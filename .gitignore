@@ -1,2 +1,19 @@
-# Ignore all .env files in any subdirectory
+# 👉 Ignore .env files in all directories
 **/.env
+
+# 👉 Node modules (dependencies)
+**/node_modules/
+/node_modules
+
+# 👉 Logs
+**/*.log
+
+# 👉 OS-specific files
+.DS_Store
+Thumbs.db
+
+# 👉 Ignore VSCode settings (optional)
+.vscode/
+
+# 👉 Ignore environment example files from tracking (if needed, remove this line)
+# **/.env.example

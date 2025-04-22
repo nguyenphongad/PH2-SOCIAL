@@ -1,0 +1,102 @@
+services:
+  auth-service:
+    container_name: auth-service
+    build: 
+      context: ./services/auth-service
+      dockerfile: Dockerfile
+    image: ph2-social/auth-service
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - NODE_ENV=development
+    volumes:
+      - ./services/auth-service:/app
+      - /app/node_modules
+    restart: always
+    networks:
+      - social-network
+
+  chat-service:
+    container_name: chat-service
+    build:
+      context: ./services/chat-service
+      dockerfile: Dockerfile
+    image: ph2-social/chat-service
+    ports:
+      - "5555:5555"
+    environment:
+      - PORT=5555
+      - NODE_ENV=development
+    volumes:
+      - ./services/chat-service:/app
+      - /app/node_modules
+    restart: always
+    depends_on:
+      - auth-service
+    networks:
+      - social-network
+
+  post-service:
+    container_name: post-service
+    build:
+      context: ./services/post-service
+      dockerfile: Dockerfile
+    image: ph2-social/post-service
+    ports:
+      - "5003:5003"
+    environment:
+      - PORT=5003
+      - NODE_ENV=development
+    volumes:
+      - ./services/post-service:/app
+      - /app/node_modules
+    restart: always
+    depends_on:
+      - auth-service
+    networks:
+      - social-network
+
+  social-service:
+    container_name: social-service
+    build:
+      context: ./services/social-service
+      dockerfile: Dockerfile
+    image: ph2-social/social-service
+    ports:
+      - "5004:5004"
+    environment:
+      - PORT=5004
+      - NODE_ENV=development
+    volumes:
+      - ./services/social-service:/app
+      - /app/node_modules
+    restart: always
+    depends_on:
+      - auth-service
+    networks:
+      - social-network
+
+  user-service:
+    container_name: user-service
+    build:
+      context: ./services/user-service
+      dockerfile: Dockerfile
+    image: ph2-social/user-service
+    ports:
+      - "5005:5005"
+    environment:
+      - PORT=5005
+      - NODE_ENV=development
+    volumes:
+      - ./services/user-service:/app
+      - /app/node_modules
+    restart: always
+    depends_on:
+      - auth-service
+    networks:
+      - social-network
+
+networks:
+  social-network:
+    driver: bridge

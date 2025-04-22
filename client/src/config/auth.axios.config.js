@@ -1,7 +1,8 @@
 import axios from "axios";
+import { BASE_URLS } from "./index";
 
 const authServiceInstance = axios.create({
-    baseURL: "http://localhost:5000", // Đặt baseURL cho auth-service
+    baseURL: BASE_URLS.AUTH_SERVICE,
 });
 
 authServiceInstance.interceptors.response.use(

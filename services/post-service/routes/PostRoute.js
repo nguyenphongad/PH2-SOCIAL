@@ -1,7 +1,7 @@
 const express = require('express');
 const { body, validationResult } = require('express-validator');
 const postMiddleware = require('../middleware/PostMiddleware');
-const { createPost, getPostByUsernameAndPostId, deletePost, updatePost, getPostsByUser, getFeedPosts, searchPosts, toggleLikePost, addComment } = require('../controllers/PostController');
+const { createPost, getPostByUsernameAndPostId, deletePost, updatePost, getPostsByUser, getFeedPosts, searchPosts, toggleLikePost, addComment, getComments } = require('../controllers/PostController');
 const router = express.Router();
 
 
@@ -56,5 +56,6 @@ router.get("/feed", postMiddleware, getFeedPosts);
 router.get("/search", postMiddleware, searchPosts);
 router.post("/:postId/likes", postMiddleware, toggleLikePost);
 router.post("/:postId/comments", postMiddleware, addComment);
+router.get("/:postId/comments", getComments);
 
 module.exports = router

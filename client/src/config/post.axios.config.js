@@ -1,11 +1,11 @@
 import axios from "axios";
 import { BASE_URLS } from "./index";
 
-const userServiceInstance = axios.create({
-    baseURL: BASE_URLS.USER_SERVICE,
+const postServiceInstance = axios.create({
+    baseURL: BASE_URLS.POST_SERVICE,
 });
 
-userServiceInstance.interceptors.response.use(
+postServiceInstance.interceptors.response.use(
     response => response,
     error => {
         if (error.response) {
@@ -23,4 +23,4 @@ userServiceInstance.interceptors.response.use(
     }
 );
 
-export default userServiceInstance;
+export default postServiceInstance;

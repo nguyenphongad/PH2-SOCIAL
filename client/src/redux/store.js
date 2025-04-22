@@ -3,13 +3,15 @@ import authSlice from './slices/authSlice';
 import userSlice from './slices/userSlice';
 import socialSlice from "./slices/socialSlice"
 import chatSlice from "./reducers/chatReducer";
+import postSlice from "./slices/postSlice";
 
 export const store = configureStore({
     reducer:{
         auth: authSlice,
         user: userSlice,
         social: socialSlice,
-        chat: chatSlice
+        chat: chatSlice,
+        post: postSlice
     },
     
 })

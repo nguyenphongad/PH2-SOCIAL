@@ -27,6 +27,7 @@ const ChatPageIndex = ({ userCheck }) => {
     const [isLoadingChat, setIsLoadingChat] = useState(true);
     const [isLoadingMessages, setIsLoadingMessages] = useState(false);
     const [currentUserID, setCurrentUserID] = useState(null);
+    const [showInfoPanel, setShowInfoPanel] = useState(false);
 
     // Fetch danh sách cuộc trò chuyện
     useEffect(() => {
@@ -120,6 +121,7 @@ const ChatPageIndex = ({ userCheck }) => {
                                 messagesData={messagesData}
                                 selectedPartner={selectedPartner}
                                 userCheck={userCheck}
+                                onToggleInfo={() => setShowInfoPanel(!showInfoPanel)}
                             />
 
                         </>
@@ -137,6 +139,17 @@ const ChatPageIndex = ({ userCheck }) => {
                     </div>
                 )}
             </div>
+
+
+            <div className={`box_info_partner_source ${showInfoPanel ? "set_w_ac" : "set_width_unac"}`}>
+                <div className='header_detail_source'>Chi tiết</div>
+
+                <div>
+
+                </div>
+            </div>
+
+
         </div>
     );
 };

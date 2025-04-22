@@ -2,7 +2,6 @@ const express = require('express');
 const { body, validationResult } = require('express-validator');
 const postMiddleware = require('../middleware/PostMiddleware');
 const { createPost, getPostByUsernameAndPostId, deletePost, updatePost, getPostsByUser, getFeedPosts, searchPosts, toggleLikePost, addComment } = require('../controllers/PostController');
-const { route } = require('../../auth-service/routes/AuthRoute');
 const router = express.Router();
 
 

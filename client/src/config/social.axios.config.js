@@ -1,7 +1,8 @@
 import axios from "axios";
+import { BASE_URLS } from "./index";
 
 const socialServiceInstance = axios.create({
-    baseURL : "http://localhost:5002"
+    baseURL: BASE_URLS.SOCIAL_SERVICE,
 });
 
 socialServiceInstance.interceptors.response.use(

@@ -1,0 +1,15 @@
+export const SERVICE_PORTS = {
+    AUTH_SERVICE: 5000,
+    USER_SERVICE: 5005,
+    SOCIAL_SERVICE: 5004,
+    CHAT_SERVICE: 5555,
+    POST_SERVICE: 5003,
+};
+
+export const BASE_URLS = {
+    AUTH_SERVICE: `http://localhost:${SERVICE_PORTS.AUTH_SERVICE}`,
+    USER_SERVICE: `http://localhost:${SERVICE_PORTS.USER_SERVICE}`,
+    SOCIAL_SERVICE: `http://localhost:${SERVICE_PORTS.SOCIAL_SERVICE}`,
+    CHAT_SERVICE: `http://localhost:${SERVICE_PORTS.CHAT_SERVICE}`,
+    POST_SERVICE: `http://localhost:${SERVICE_PORTS.POST_SERVICE}`,
+};

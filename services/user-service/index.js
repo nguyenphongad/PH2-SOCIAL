@@ -6,7 +6,7 @@ const cors  = require('cors');
 
 // routes
 // const AuthRoute = require('./routes/AuthRouter');
-const UserRouter = require('./Routes/UserRoute.js');
+const UserRouter = require('./routes/UserRoute.js');
 // const PostRoute  = require('./Routes/PostRoute.js');
 // const UploadRoute = require('./Routes/UploadRoute.js');
 // 

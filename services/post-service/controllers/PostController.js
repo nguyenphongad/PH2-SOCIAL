@@ -298,5 +298,25 @@ const addComment = async (req, res) => {
      }
  };
  
+//  Get  danh sách bình luận
+const getComments = async (req, res) => {
+     try {
+         const { postId } = req.params;
+ 
+         if (!mongoose.Types.ObjectId.isValid(postId)) {
+             return res.status(400).json({ message: 'ID bài đăng không hợp lệ' });
+         }
+ 
+         const comments = await CommentsModel.find({ postId: postId })
+             .sort({ createdAt: 1 }); // Sắp xếp theo thời gian tạo (cũ nhất trước)
+             // .populate('userId', 'username profilePicture'); // (Tùy chọn) Lấy thông tin người dùng
+ 
+         return res.status(200).json({ comments });
+ 
+     } catch (error) {
+         console.error('Lỗi lấy bình luận:', error);
+         return res.status(500).json({ message: 'Lỗi server lấy bình luận', error: error.message });
+     }
+ };
 
-module.exports = { createPost, getPostByUsernameAndPostId, deletePost, updatePost, getPostsByUser, getFeedPosts, searchPosts, toggleLikePost, addComment };
+module.exports = { createPost, getPostByUsernameAndPostId, deletePost, updatePost, getPostsByUser, getFeedPosts, searchPosts, toggleLikePost, addComment, getComments };

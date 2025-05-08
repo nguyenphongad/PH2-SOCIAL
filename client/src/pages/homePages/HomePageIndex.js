@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import "../../styles/PostPageStyle/PostPageIndex.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { loadFeed } from "../../redux/thunks/postThunk";
 import PostItem from "../../components/Posts/PostItem";
@@ -15,16 +14,18 @@ const HomePageIndex = () => {
   }, [dispatch]);
 
   if (status === "loading") return <LoadingText text="Đang tải bài viết…" />;
-  if (status === "failed")  return <div className="error">{error}</div>;
+  if (status === "failed") return <div className="error">{error}</div>;
 
   return (
     <div className="container_post">
-      <div className="box_post">
-        {posts.map(post => (
-          <PostItem key={post._id} post={post} />
-        ))}
+      <div className="main-content-wrapper"> {/* Thêm wrapper */}
+        <div className="box_post">
+          {posts.map(post => (
+            <PostItem key={post._id} post={post} />
+          ))}
+        </div>
+        <div className="box_ads">ads</div> {/* Sidebar */}
       </div>
-      <div className="box_ads">ads</div>
     </div>
   );
 };

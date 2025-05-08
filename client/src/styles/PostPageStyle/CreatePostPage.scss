@@ -1,0 +1,278 @@
+// File: client/src/styles/PostPageStyle/CreatePostPage.scss
+// SCSS này sử dụng class names toàn cục (global)
+
+// --- Biến màu sắc và font (tùy chỉnh nếu cần) ---
+$primary-color: #007bff; // Màu xanh dương chính
+$primary-color-hover: #0056b3; // Màu xanh dương khi hover
+$text-color: #333; // Màu chữ chính
+$label-color: #555; // Màu chữ cho label
+$border-color: #ddd; // Màu viền
+$input-focus-border-color: $primary-color; // Màu viền khi input focus
+$background-color-page: #f8f9fa; // Màu nền trang (hơi xám nhẹ)
+$background-color-form: #ffffff; // Màu nền form
+$error-color: #dc3545; // Màu lỗi
+$success-color: #28a745; // Màu thành công
+$disabled-opacity: 0.65; // Độ mờ khi disable
+$font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; // Font chữ
+
+// --- Mixins (Hàm dùng lại) ---
+@mixin box-shadow($shadow...) {
+  -webkit-box-shadow: $shadow;
+  -moz-box-shadow: $shadow;
+  box-shadow: $shadow;
+}
+
+// --- Styles ---
+
+// Container bao ngoài cùng của trang
+.create-post-page-container {
+  min-height: 100vh; // Chiều cao tối thiểu bằng màn hình
+  background-color: $background-color-page;
+  padding: 2rem 1rem; // Khoảng đệm trên/dưới và trái/phải
+  display: flex;
+  flex-direction: column;
+  align-items: center; // Căn giữa nội dung theo chiều ngang
+  font-family: $font-family-sans-serif;
+}
+
+// Khung bao quanh form chính
+.create-post-form-wrapper {
+  background-color: $background-color-form;
+  padding: 2rem 2.5rem; // Khoảng đệm bên trong
+  border-radius: 8px; // Bo góc
+  @include box-shadow(0 4px 12px rgba(0, 0, 0, 0.08)); // Đổ bóng nhẹ
+  width: 100%;
+  max-width: 700px; // Chiều rộng tối đa của form
+}
+
+// Tiêu đề trang "Tạo bài đăng mới"
+.create-post-page-title {
+  font-size: 2rem; // Kích thước chữ
+  font-weight: 700; // Độ đậm
+  text-align: center; // Căn giữa
+  color: $text-color;
+  margin-bottom: 2rem; // Khoảng cách dưới
+}
+
+// Khung thông báo lỗi và thành công
+.create-post-message-box {
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 4px;
+  border-left-width: 5px;
+  border-left-style: solid;
+
+  // Kiểu lỗi
+  &.error {
+    background-color: lighten($error-color, 40%);
+    border-left-color: $error-color;
+    color: darken($error-color, 15%);
+    p { margin: 0; }
+    strong { display: block; margin-bottom: 0.25rem; font-weight: 600;}
+  }
+
+  // Kiểu thành công
+  &.success {
+    background-color: lighten($success-color, 48%);
+    border-left-color: $success-color;
+    color: darken($success-color, 15%);
+    p { margin: 0; }
+    strong { display: block; margin-bottom: 0.25rem; font-weight: 600;}
+  }
+}
+
+// Form chính
+.create-post-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; // Khoảng cách giữa các nhóm input
+}
+
+// Nhóm chứa label và input
+.create-post-form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+// Nhãn (label) cho các input
+.create-post-form-label {
+  display: block;
+  font-size: 0.875rem; // 14px
+  font-weight: 600;
+  color: $label-color;
+  margin-bottom: 0.5rem;
+}
+
+// Style chung cho textarea và input text
+.create-post-form-textarea,
+.create-post-form-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: $text-color;
+  background-color: #fff;
+  border: 1px solid $border-color;
+  border-radius: 6px; // Bo góc nhẹ
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+  &:focus {
+    border-color: $input-focus-border-color;
+    outline: 0;
+    @include box-shadow(0 0 0 0.2rem rgba($primary-color, 0.2)); // Đổ bóng nhẹ khi focus
+  }
+
+  &::placeholder {
+    color: #aaa;
+    opacity: 1;
+  }
+
+  &:disabled {
+    background-color: #e9ecef;
+    opacity: $disabled-opacity;
+    cursor: not-allowed;
+  }
+}
+
+// Style riêng cho textarea
+.create-post-form-textarea {
+  min-height: 120px; // Chiều cao tối thiểu
+  resize: vertical; // Cho phép thay đổi chiều cao theo chiều dọc
+}
+
+// Style cho input chọn file
+.create-post-form-file-input {
+  display: block;
+  width: 100%;
+  font-size: 0.9rem;
+  color: $label-color;
+
+  // Style nút "Choose File"
+  &::file-selector-button {
+    margin-right: 1rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px; // Bo góc giống input
+    border: 1px solid $border-color;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: $label-color;
+    background-color: #f8f9fa; // Màu nền nút
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+
+    &:hover {
+      background-color: #e2e6ea;
+      border-color: #adb5bd;
+    }
+  }
+
+  // Style khi bị vô hiệu hóa
+   &:disabled {
+    opacity: $disabled-opacity;
+    cursor: not-allowed;
+    &::file-selector-button {
+        opacity: $disabled-opacity;
+        pointer-events: none;
+        cursor: not-allowed;
+    }
+  }
+}
+
+// Tin nhắn báo lỗi validation nhỏ dưới input
+.create-post-validation-message {
+    font-size: 0.8rem; // 12.8px
+    color: $error-color;
+    margin-top: 0.3rem;
+}
+
+// Khung chứa ảnh xem trước
+.create-post-image-preview-container {
+  margin-top: 1rem;
+  border: 1px dashed $border-color;
+  border-radius: 6px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fdfdfd; // Nền hơi khác biệt
+}
+
+// Chữ "Xem trước ảnh:"
+.create-post-image-preview-text {
+  font-size: 0.85rem;
+  color: $label-color;
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+}
+
+// Ảnh xem trước
+.create-post-image-preview {
+  max-width: 100%;
+  max-height: 300px; // Giới hạn chiều cao
+  height: auto;
+  border-radius: 4px;
+  object-fit: contain; // Giữ tỷ lệ ảnh
+}
+
+// Khu vực chứa nút submit
+.create-post-form-actions {
+  display: flex;
+  justify-content: flex-end; // Đẩy nút về bên phải
+  padding-top: 1rem; // Khoảng cách phía trên
+  margin-top: 1rem; // Thêm khoảng cách với group cuối
+  border-top: 1px solid #eee; // Đường kẻ phân cách nhẹ
+}
+
+// Nút "Đăng bài"
+.create-post-submit-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.8rem; // Tăng padding ngang
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background-color: $primary-color;
+  border: 1px solid $primary-color;
+  border-radius: 6px; // Bo góc giống input
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, transform 0.1s ease;
+  min-width: 130px; // Tăng chiều rộng tối thiểu
+
+  &:hover {
+    background-color: $primary-color-hover;
+    border-color: $primary-color-hover;
+  }
+
+  &:active {
+      transform: translateY(1px); // Hiệu ứng nhấn nút
+  }
+
+  &:focus {
+    outline: 0;
+    @include box-shadow(0 0 0 0.2rem rgba($primary-color, 0.35));
+  }
+
+  // Style khi bị vô hiệu hóa
+  &:disabled {
+    background-color: lighten($primary-color, 20%);
+    border-color: lighten($primary-color, 20%);
+    opacity: $disabled-opacity;
+    cursor: not-allowed;
+    transform: none; // Bỏ hiệu ứng nhấn khi disable
+  }
+}
+
+// Icon loading SVG
+.create-post-loading-spinner {
+  animation: create-post-spin 1s linear infinite;
+  margin-right: 0.75rem;
+  width: 20px;
+  height: 20px;
+}
+
+// Animation quay tròn cho icon loading
+@keyframes create-post-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

@@ -184,32 +184,96 @@ const deletePost = async (req, res) => {
 // Lấy tất cả bài đăng từ các user đang theo dõi
 const getFeedPosts = async (req, res) => {
      try {
-          const currentUserId = req.user.userID;
-
-          console.log("userId của người dùng hiện tại:", currentUserId);
-
-          // Tìm người dùng hiện tại
-          const currentUser = await UserModel.findOne({ userID: new mongoose.Types.ObjectId(currentUserId) });
-
-          if (!currentUser) {
-               return res.status(404).json({ message: 'Người dùng không tồn tại' });
-          }
-
-          // Lấy danh sách những người dùng mà người dùng hiện tại đang theo dõi (following)
-          const followingIds = currentUser.following.map(id => id.toString());
-          followingIds.push(currentUserId); // Thêm userId của người dùng hiện tại vào danh sách để xem bài của chính mình
-
-          // Lấy các bài đăng từ những người dùng trong danh sách following
-          const feedPosts = await PostModel.find({ userID: { $in: followingIds } })
-               .sort({ createdAt: -1 });
-
-          return res.status(200).json({ feedPosts });
-
+         const currentUserId = req.user.userID; // Lấy ID người dùng hiện tại từ token
+ 
+         // Lấy tham số phân trang từ query string (NẾU ĐÃ ÁP DỤNG Ở LẦN TRƯỚC)
+         // Bạn có thể thêm logic này nếu muốn phân trang cho feed
+         const page = parseInt(req.query.page, 10) || 1;
+         const limit = parseInt(req.query.limit, 10) || 10;
+         const skip = (page - 1) * limit;
+ 
+         // Tìm người dùng hiện tại (vẫn cần để lấy danh sách following từ UserModel cục bộ)
+         // Query này dựa trên UserModel của post-service, cần đảm bảo dữ liệu 'following' ở đây là mới nhất
+         // Lưu ý: UserModel của bạn tìm theo trường 'userID' (custom)
+         const currentUser = await UserModel.findOne({ userID: new mongoose.Types.ObjectId(currentUserId) });
+ 
+         if (!currentUser) {
+             // Lưu ý: Nếu dùng populate, có thể không cần query currentUser ở đây nữa nếu
+             // danh sách following được lấy từ nguồn khác (vd: gọi sang social-service)
+             // Nhưng theo code hiện tại, chúng ta vẫn cần nó.
+             return res.status(404).json({ message: 'Người dùng không tồn tại' });
+         }
+ 
+         // Lấy danh sách ID những người mà người dùng hiện tại đang theo dõi
+         // Giả định currentUser.following chứa các ObjectId hoặc chuỗi ObjectId hợp lệ
+         let followingObjectIds = [];
+         if (currentUser.following && Array.isArray(currentUser.following)) {
+             followingObjectIds = currentUser.following
+                 .map(id => mongoose.Types.ObjectId.isValid(id) ? new mongoose.Types.ObjectId(id) : null)
+                 .filter(id => id !== null);
+         }
+         // Thêm ID của người dùng hiện tại vào danh sách để xem bài của chính mình
+         if (mongoose.Types.ObjectId.isValid(currentUserId)) {
+              // Chú ý: currentUserId từ token có thể là giá trị của trường 'userID' custom,
+              // trong khi PostModel.userID lưu _id. Cần đảm bảo chúng ta query PostModel bằng _id.
+              // Nếu currentUserId là giá trị của trường 'userID' custom, chúng ta cần lấy _id tương ứng
+              // từ currentUser đã tìm được.
+              followingObjectIds.push(currentUser._id); // Thêm _id của currentUser
+         } else {
+              // Xử lý nếu currentUserId không hợp lệ (dù middleware đã kiểm tra token)
+              console.warn("currentUserId không hợp lệ:", currentUserId);
+         }
+ 
+ 
+         // Lọc ra các ID duy nhất (phòng trường hợp user follow chính mình)
+         followingObjectIds = [...new Set(followingObjectIds.map(id => id.toString()))].map(id => new mongoose.Types.ObjectId(id));
+ 
+         if (followingObjectIds.length === 0) {
+              return res.status(200).json({ feedPosts: [], currentPage: page, totalPages: 0, totalPosts: 0 });
+         }
+ 
+ 
+         // Lấy tổng số bài đăng phù hợp (cho phân trang)
+         // Query PostModel bằng trường userID (lưu _id của user)
+         const totalPosts = await PostModel.countDocuments({ userID: { $in: followingObjectIds } });
+         const totalPages = Math.ceil(totalPosts / limit);
+ 
+         // Lấy các bài đăng từ những người dùng trong danh sách followingObjectIds
+         const feedPosts = await PostModel.find({ userID: { $in: followingObjectIds } })
+             .sort({ createdAt: -1 }) // Sắp xếp mới nhất lên đầu
+             .skip(skip)               // Bỏ qua các bài đăng của trang trước
+             .limit(limit)             // Giới hạn số lượng bài đăng
+             // --- DÒNG QUAN TRỌNG ĐỂ LẤY THÔNG TIN USER ---
+             // Populate trường 'userID' (trong PostModel) bằng cách tham chiếu đến model 'Users'
+             // và chỉ lấy các trường 'username' và 'profilePicture'.
+             .populate({
+                 path: 'userID', // Trường trong PostModel để populate
+                 model: 'Users', // Tên model tham chiếu (Đã sửa từ 'User' thành 'Users')
+                 select: 'username profilePicture' // Các trường muốn lấy
+             });
+             // ---------------------------------------------
+ 
+         return res.status(200).json({
+             feedPosts, // Giờ đây mỗi post trong mảng này sẽ có trường userID là object { _id, username, profilePicture }
+             currentPage: page,
+             totalPages,
+             totalPosts
+         });
+ 
      } catch (error) {
-          console.error('Lỗi lấy feed bài đăng:', error);
-          return res.status(500).json({ message: 'Lỗi server lấy feed bài đăng', error: error.message });
+         console.error('Lỗi lấy feed bài đăng:', error);
+         // Thêm chi tiết lỗi nếu có thể
+         if (error.name === 'CastError') {
+              return res.status(400).json({ message: 'ID người dùng không hợp lệ trong danh sách following.', error: error.message });
+         }
+         // Kiểm tra lỗi MissingSchemaError
+         if (error.name === 'MissingSchemaError') {
+              console.error("Lỗi Populate: Model chưa được đăng ký hoặc tên model sai.", error.message);
+              return res.status(500).json({ message: 'Lỗi server: Cấu hình model tham chiếu bị lỗi.', error: error.message });
+         }
+         return res.status(500).json({ message: 'Lỗi server lấy feed bài đăng', error: error.message });
      }
-};
+ };
 
 // Tìm kiếm bài đăng
 const searchPosts = async (req, res) => {

@@ -14,7 +14,7 @@ import SearchPageIndex from '../pages/searchPages/SearchPageIndex'
 import MorePageIndex from '../pages/morePages/MorePageIndex'
 import HomePageIndex from '../pages/homePages/HomePageIndex'
 import NoticationPageIndex from '../pages/notificationPages/NoticationPageIndex'
-import PostPageIndex from '../pages/postPages/PostPageIndex'
+import CreatePostPage from '../pages/postPages/CreatePostPage'
 import { checkToken } from '../redux/thunks/authThunk'
 import { getUserProfile } from '../redux/thunks/userThunk'
 
@@ -70,7 +70,7 @@ const MainView = () => {
 
     const routesConfig = [
         { path: "/", component: <HomePageIndex />, requiresAuth: true },
-        { path: "/post", component: <PostPageIndex />, requiresAuth: true },
+        { path: "/post", component: <CreatePostPage />, requiresAuth: true },
         { path: "/search", component: <SearchPageIndex />, requiresAuth: true },
         { path: "/chat", component: <ChatPageIndex userCheck={userCheck}/>, requiresAuth: true },
         { path: "/chat/:id", component: <ChatPageIndex userCheck={userCheck}/>, requiresAuth: true },

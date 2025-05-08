@@ -1,0 +1,251 @@
+// File: client/src/components/Posts/PostItem.scss
+// Styles cho component hiển thị một bài đăng
+
+// --- Biến (Có thể đồng bộ với các biến global của bạn) ---
+$border-color-light: #dbdbdb; // Màu viền Instagram-like
+$border-color-softer: #efefef;
+$text-color-primary: #262626;
+$text-color-secondary: #8e8e8e;
+$link-color: #00376b;
+$background-color-card: #ffffff;
+$font-family-default: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+$primary-color: #007bff;
+
+// --- Mixins ---
+@mixin user-link-style {
+  font-weight: 600;
+  color: $text-color-primary;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// --- Styles cho Card Bài Đăng ---
+.post-item-card {
+  background-color: $background-color-card;
+  border: 1px solid $border-color-light;
+  border-radius: 8px; // Bo góc nhẹ hơn Instagram gốc
+  margin-bottom: 20px; // Khoảng cách giữa các bài đăng
+  font-family: $font-family-default;
+  color: $text-color-primary;
+  width: 100%; // Chiếm toàn bộ chiều rộng của container cha (box_post)
+  max-width: 614px; // Chiều rộng tối đa giống Instagram
+}
+
+// --- Header ---
+.post-item-header {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px; // Padding nhỏ hơn một chút
+  border-bottom: 1px solid $border-color-softer;
+
+  .user-info {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    flex-grow: 1; // Đẩy timestamp và options về cuối
+  }
+
+  .user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 12px;
+    object-fit: cover;
+  }
+
+  .username {
+    @include user-link-style;
+    font-size: 14px;
+  }
+
+  .timestamp {
+    font-size: 12px;
+    color: $text-color-secondary;
+    margin-left: 8px; // Khoảng cách với username
+    white-space: nowrap; // Không xuống dòng
+  }
+
+  .options-button { // Style cho nút options nếu bạn thêm vào
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    color: $text-color-primary;
+    margin-left: auto; // Đẩy về cuối cùng
+  }
+}
+
+// --- Media (Ảnh/Video) ---
+.post-item-media {
+  width: 100%;
+  // Không cần set background color nếu ảnh/video luôn có
+  // background-color: #efefef; // Màu nền chờ load
+}
+
+.post-image {
+  display: block;
+  width: 100%;
+  height: auto; // Chiều cao tự động theo tỷ lệ ảnh
+  object-fit: cover; // Đảm bảo ảnh che phủ khung nếu cần
+}
+
+.post-video-wrapper {
+  position: relative;
+  padding-bottom: 100%; // Tỷ lệ 1:1, có thể điều chỉnh
+  height: 0;
+  overflow: hidden;
+  background-color: #000; // Nền đen cho video
+
+  .post-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none; // Bỏ viền mặc định của video
+  }
+}
+
+.post-video-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px; // Chiều cao tối thiểu
+  background-color: #f0f0f0;
+  font-size: 14px;
+  color: $text-color-secondary;
+  a {
+    color: $link-color;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+
+// --- Actions (Like, Comment, Share) ---
+.post-item-actions {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px 6px; // Padding cho khu vực action
+
+  .action-button {
+    background: none;
+    border: none;
+    padding: 8px; // Tăng vùng nhấn
+    cursor: pointer;
+    display: inline-flex; // Để icon và text (nếu có) thẳng hàng
+    align-items: center;
+    color: $text-color-primary; // Màu icon mặc định
+
+    // Style cho SVG Icon bên trong nút
+    .action-icon {
+      width: 24px;
+      height: 24px;
+      stroke-width: 1.5; // Độ dày nét vẽ icon
+    }
+
+    // Hover effect
+    &:hover {
+      opacity: 0.7;
+    }
+
+    // Style riêng cho nút like khi được active (cần thêm state)
+    &.like-button.active {
+       svg {
+         fill: red; // Ví dụ tô màu đỏ khi đã like
+         stroke: red;
+       }
+    }
+
+    // Nút cuối cùng (ví dụ: bookmark) đẩy về bên phải
+    &.bookmark-button {
+       margin-left: auto;
+    }
+
+    // Bỏ span text nếu chỉ dùng icon
+    span {
+      // display: none;
+      margin-left: 6px; // Khoảng cách nếu có text
+      font-size: 14px;
+    }
+  }
+}
+
+// --- Likes Count ---
+.post-item-likes {
+  padding: 0 16px 8px; // Padding dưới khu vực action
+  font-size: 14px;
+  font-weight: 600;
+  color: $text-color-primary;
+}
+
+// --- Content/Caption ---
+.post-item-content {
+  padding: 0 16px 8px;
+  font-size: 14px;
+  line-height: 1.4; // Tăng khoảng cách dòng
+  word-wrap: break-word;
+
+  .username-caption {
+    @include user-link-style;
+    margin-right: 6px; // Khoảng cách giữa username và caption
+  }
+
+  .caption {
+    // Style cho caption nếu cần
+  }
+}
+
+// --- View Comments Link ---
+.post-item-view-comments {
+  padding: 0 16px 12px;
+  font-size: 14px;
+
+  a {
+    color: $text-color-secondary; // Màu xám cho link xem comment
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+// --- Add Comment Input (Nếu có) ---
+.post-item-add-comment {
+  border-top: 1px solid $border-color-softer;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+
+  .comment-input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    background-color: transparent;
+    &::placeholder {
+      color: $text-color-secondary;
+    }
+  }
+
+  .comment-submit {
+    background: none;
+    border: none;
+    color: $primary-color;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    opacity: 0.7; // Mặc định hơi mờ
+    &:hover {
+      opacity: 1;
+    }
+    &:disabled { // Style khi input rỗng
+      opacity: 0.3;
+      cursor: default;
+    }
+  }
+}

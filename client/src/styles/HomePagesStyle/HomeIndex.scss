@@ -1,21 +1,73 @@
-.container_post {
-    width: 100%;
-    display: flex;
+// File: client/src/styles/HomePagesStyle/HomeIndex.scss
+// Styles cho layout trang chủ
 
-    .box_post {
-        width: 100%;
+// --- Biến (Có thể dùng biến global nếu bạn có) ---
+$background-color-page: #fafafa; // Màu nền giống Instagram
+$container-max-width: 975px; // Chiều rộng tối đa của nội dung chính
+$feed-width: 614px; // Chiều rộng cột feed
+$sidebar-width: 293px; // Chiều rộng cột sidebar (ads/gợi ý)
+$gap-width: 45px; // Khoảng cách giữa các cột
 
-        .post_item {
-            width: 100%;
-            height: 250px;
-            background-color: #eaeaea;
-            border-radius: 15px;
-            margin: 20px 0px;
-            @include styleDisFlexCenter();
-        }
-    }
-    .box_ads{
-        width: 500px;
-        margin-left: 30px;
-    }
+// --- Mixins (Nếu cần) ---
+// Ví dụ:
+// @mixin flex-center {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// }
+
+// --- Styles ---
+
+// Container chính bao bọc toàn bộ nội dung trang chủ
+.container_post { // Giữ nguyên class name từ HomePageIndex.js
+  width: 100%;
+  min-height: calc(100vh - 60px); // Chiều cao tối thiểu (trừ chiều cao header nếu có)
+  display: flex;
+  justify-content: center; // Căn giữa nội dung theo chiều ngang
+  background-color: $background-color-page;
+  padding: 30px 20px; // Padding trên/dưới và trái/phải
+  box-sizing: border-box;
+}
+
+// Wrapper cho nội dung chính (feed + sidebar) để giới hạn chiều rộng
+.main-content-wrapper { // Bạn có thể cần thêm div này trong HomePageIndex.js
+  display: flex;
+  justify-content: center; // Căn giữa 2 cột
+  width: 100%;
+  max-width: $container-max-width;
+  gap: $gap-width; // Khoảng cách giữa feed và sidebar
+}
+
+
+// Cột chứa danh sách các bài đăng (PostItem)
+.box_post { // Giữ nguyên class name từ HomePageIndex.js
+  width: 100%; // Chiếm toàn bộ nếu không có sidebar
+  max-width: $feed-width; // Giới hạn chiều rộng cột feed
+  display: flex;
+  flex-direction: column;
+  align-items: center; // Các PostItem sẽ tự căn giữa nếu chiều rộng của chúng nhỏ hơn
+}
+
+// Cột chứa quảng cáo hoặc gợi ý (sidebar)
+.box_ads { // Giữ nguyên class name từ HomePageIndex.js
+  width: $sidebar-width;
+  // Thêm style cho sidebar ở đây nếu cần
+  // Ví dụ:
+  // background-color: #fff;
+  // border: 1px solid #dbdbdb;
+  // border-radius: 8px;
+  // padding: 16px;
+  // height: fit-content; // Để chiều cao vừa với nội dung
+
+  // Tạm thời ẩn đi trên màn hình nhỏ (ví dụ)
+  @media (max-width: 992px) { // Điều chỉnh breakpoint nếu cần
+    display: none;
+  }
+}
+
+// Class cho thông báo lỗi (nếu có)
+.error {
+  color: red;
+  text-align: center;
+  margin-top: 20px;
 }

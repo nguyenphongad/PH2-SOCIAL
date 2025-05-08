@@ -184,77 +184,78 @@ const deletePost = async (req, res) => {
 // Lấy tất cả bài đăng từ các user đang theo dõi
 const getFeedPosts = async (req, res) => {
      try {
-         const currentUserId = req.user.userID; // Lấy ID người dùng hiện tại từ token
+         const currentUserId = req.user.userID; // Lấy _id của user từ token
  
-         // Lấy tham số phân trang từ query string (NẾU ĐÃ ÁP DỤNG Ở LẦN TRƯỚC)
-         // Bạn có thể thêm logic này nếu muốn phân trang cho feed
          const page = parseInt(req.query.page, 10) || 1;
          const limit = parseInt(req.query.limit, 10) || 10;
          const skip = (page - 1) * limit;
  
-         // Tìm người dùng hiện tại (vẫn cần để lấy danh sách following từ UserModel cục bộ)
-         // Query này dựa trên UserModel của post-service, cần đảm bảo dữ liệu 'following' ở đây là mới nhất
-         // Lưu ý: UserModel của bạn tìm theo trường 'userID' (custom)
+         // Tìm người dùng hiện tại để lấy danh sách following
          const currentUser = await UserModel.findOne({ userID: new mongoose.Types.ObjectId(currentUserId) });
  
          if (!currentUser) {
-             // Lưu ý: Nếu dùng populate, có thể không cần query currentUser ở đây nữa nếu
-             // danh sách following được lấy từ nguồn khác (vd: gọi sang social-service)
-             // Nhưng theo code hiện tại, chúng ta vẫn cần nó.
              return res.status(404).json({ message: 'Người dùng không tồn tại' });
          }
  
-         // Lấy danh sách ID những người mà người dùng hiện tại đang theo dõi
-         // Giả định currentUser.following chứa các ObjectId hoặc chuỗi ObjectId hợp lệ
+         // Lấy danh sách ID (_id) của những người đang follow và chính mình
          let followingObjectIds = [];
          if (currentUser.following && Array.isArray(currentUser.following)) {
              followingObjectIds = currentUser.following
                  .map(id => mongoose.Types.ObjectId.isValid(id) ? new mongoose.Types.ObjectId(id) : null)
                  .filter(id => id !== null);
          }
-         // Thêm ID của người dùng hiện tại vào danh sách để xem bài của chính mình
-         if (mongoose.Types.ObjectId.isValid(currentUserId)) {
-              // Chú ý: currentUserId từ token có thể là giá trị của trường 'userID' custom,
-              // trong khi PostModel.userID lưu _id. Cần đảm bảo chúng ta query PostModel bằng _id.
-              // Nếu currentUserId là giá trị của trường 'userID' custom, chúng ta cần lấy _id tương ứng
-              // từ currentUser đã tìm được.
-              followingObjectIds.push(currentUser._id); // Thêm _id của currentUser
-         } else {
-              // Xử lý nếu currentUserId không hợp lệ (dù middleware đã kiểm tra token)
-              console.warn("currentUserId không hợp lệ:", currentUserId);
+         if (mongoose.Types.ObjectId.isValid(currentUser._id)) { // Sử dụng _id từ currentUser đã tìm được
+              followingObjectIds.push(currentUser._id);
          }
- 
- 
-         // Lọc ra các ID duy nhất (phòng trường hợp user follow chính mình)
          followingObjectIds = [...new Set(followingObjectIds.map(id => id.toString()))].map(id => new mongoose.Types.ObjectId(id));
+ 
  
          if (followingObjectIds.length === 0) {
               return res.status(200).json({ feedPosts: [], currentPage: page, totalPages: 0, totalPosts: 0 });
          }
  
- 
-         // Lấy tổng số bài đăng phù hợp (cho phân trang)
-         // Query PostModel bằng trường userID (lưu _id của user)
+         // Lấy tổng số bài đăng phù hợp
          const totalPosts = await PostModel.countDocuments({ userID: { $in: followingObjectIds } });
          const totalPages = Math.ceil(totalPosts / limit);
  
-         // Lấy các bài đăng từ những người dùng trong danh sách followingObjectIds
-         const feedPosts = await PostModel.find({ userID: { $in: followingObjectIds } })
-             .sort({ createdAt: -1 }) // Sắp xếp mới nhất lên đầu
-             .skip(skip)               // Bỏ qua các bài đăng của trang trước
-             .limit(limit)             // Giới hạn số lượng bài đăng
-             // --- DÒNG QUAN TRỌNG ĐỂ LẤY THÔNG TIN USER ---
-             // Populate trường 'userID' (trong PostModel) bằng cách tham chiếu đến model 'Users'
-             // và chỉ lấy các trường 'username' và 'profilePicture'.
+         // 1. Lấy danh sách bài đăng gốc (đã populate userID)
+         const originalFeedPosts = await PostModel.find({ userID: { $in: followingObjectIds } })
+             .sort({ createdAt: -1 })
+             .skip(skip)
+             .limit(limit)
              .populate({
-                 path: 'userID', // Trường trong PostModel để populate
-                 model: 'Users', // Tên model tham chiếu (Đã sửa từ 'User' thành 'Users')
-                 select: 'username profilePicture' // Các trường muốn lấy
-             });
-             // ---------------------------------------------
+                 path: 'userID', // Trường trong PostModel
+                 model: 'Users', // Tên model User
+                 select: 'username profilePicture' // Các trường cần lấy
+             })
+             .lean(); // Sử dụng lean() để trả về plain JavaScript objects, giúp thêm trường mới dễ hơn
+ 
+         // Nếu không có bài đăng nào thì trả về luôn
+         if (!originalFeedPosts || originalFeedPosts.length === 0) {
+              return res.status(200).json({ feedPosts: [], currentPage: page, totalPages: 0, totalPosts: 0 });
+         }
+ 
+         // 2. Lấy danh sách các postId từ feed
+         const postIds = originalFeedPosts.map(post => post._id);
+ 
+         // 3. Tìm các lượt thích của người dùng hiện tại cho các bài đăng này
+         const userLikes = await LikeModel.find({
+             userId: currentUserId, // Tìm theo _id của user
+             postId: { $in: postIds } // Chỉ tìm trong các post của feed
+         }).select('postId'); // Chỉ cần lấy postId
+ 
+         // 4. Tạo một Set chứa các postId mà người dùng đã thích để tra cứu nhanh
+         const likedPostIds = new Set(userLikes.map(like => like.postId.toString()));
+ 
+         // 5. Thêm trường isLikedByCurrentUser vào mỗi bài đăng
+         const feedPostsWithLikeStatus = originalFeedPosts.map(post => ({
+             ...post, // Giữ lại tất cả các trường của bài đăng gốc
+             isLikedByCurrentUser: likedPostIds.has(post._id.toString()) // Kiểm tra xem postId có trong Set không
+         }));
+ 
  
          return res.status(200).json({
-             feedPosts, // Giờ đây mỗi post trong mảng này sẽ có trường userID là object { _id, username, profilePicture }
+             feedPosts: feedPostsWithLikeStatus, // Trả về mảng bài đăng đã có thêm trạng thái like
              currentPage: page,
              totalPages,
              totalPosts
@@ -262,11 +263,9 @@ const getFeedPosts = async (req, res) => {
  
      } catch (error) {
          console.error('Lỗi lấy feed bài đăng:', error);
-         // Thêm chi tiết lỗi nếu có thể
          if (error.name === 'CastError') {
-              return res.status(400).json({ message: 'ID người dùng không hợp lệ trong danh sách following.', error: error.message });
+              return res.status(400).json({ message: 'ID người dùng hoặc bài đăng không hợp lệ.', error: error.message });
          }
-         // Kiểm tra lỗi MissingSchemaError
          if (error.name === 'MissingSchemaError') {
               console.error("Lỗi Populate: Model chưa được đăng ký hoặc tên model sai.", error.message);
               return res.status(500).json({ message: 'Lỗi server: Cấu hình model tham chiếu bị lỗi.', error: error.message });
@@ -304,27 +303,60 @@ const searchPosts = async (req, res) => {
 const toggleLikePost = async (req, res) => {
      try {
          const { postId } = req.params;
-         const userId = req.user.userID;
+         const userId = req.user.userID; // Lấy _id của user từ token
  
-         if (!mongoose.Types.ObjectId.isValid(postId)) {
-             return res.status(400).json({ message: 'ID bài đăng không hợp lệ' });
+         if (!mongoose.Types.ObjectId.isValid(postId) || !mongoose.Types.ObjectId.isValid(userId)) {
+             return res.status(400).json({ message: 'ID bài đăng hoặc người dùng không hợp lệ' });
          }
  
-         // Kiểm tra xem người dùng đã thích bài đăng này chưa
+         const post = await PostModel.findById(postId);
+         if (!post) {
+             return res.status(404).json({ message: 'Bài đăng không tồn tại' });
+         }
+ 
          const existingLike = await LikeModel.findOne({ postId: postId, userId: userId });
  
+         let updatedPost;
+         let message;
+         let isLikedByCurrentUser; // Đổi tên biến liked thành isLikedByCurrentUser
+ 
          if (existingLike) {
-             // Nếu đã thích, thì bỏ thích
-             await LikeModel.findOneAndDelete({ postId: postId, userId: userId });
-             await PostModel.findByIdAndUpdate(postId, { $pull: { likes: existingLike._id } });
-             return res.status(200).json({ message: 'Đã bỏ thích bài đăng' });
+             // --- UNLIKE ---
+             await LikeModel.findByIdAndDelete(existingLike._id);
+             updatedPost = await PostModel.findByIdAndUpdate(
+                 postId,
+                 { $pull: { likes: existingLike._id } },
+                 { new: true }
+             ).populate({ path: 'userID', model: 'Users', select: 'username profilePicture' }); // Giữ lại populate
+ 
+             message = 'Đã bỏ thích bài đăng';
+             isLikedByCurrentUser = false; // Trạng thái mới là false
+ 
          } else {
-             // Nếu chưa thích, thì thích
+             // --- LIKE ---
              const newLike = new LikeModel({ postId: postId, userId: userId });
              await newLike.save();
-             await PostModel.findByIdAndUpdate(postId, { $push: { likes: newLike._id } });
-             return res.status(201).json({ message: 'Đã thích bài đăng' });
+             updatedPost = await PostModel.findByIdAndUpdate(
+                 postId,
+                 { $push: { likes: newLike._id } },
+                 { new: true }
+             ).populate({ path: 'userID', model: 'Users', select: 'username profilePicture' }); // Giữ lại populate
+ 
+             message = 'Đã thích bài đăng';
+             isLikedByCurrentUser = true; // Trạng thái mới là true
          }
+ 
+         if (!updatedPost) {
+              return res.status(500).json({ message: 'Lỗi cập nhật trạng thái like của bài đăng' });
+         }
+ 
+         // Trả về thông tin bài đăng đã cập nhật và trạng thái like mới
+         return res.status(200).json({
+             message: message,
+             // Thêm trường isLikedByCurrentUser vào response
+             isLikedByCurrentUser: isLikedByCurrentUser,
+             post: updatedPost
+         });
  
      } catch (error) {
          console.error('Lỗi xử lý like bài đăng:', error);

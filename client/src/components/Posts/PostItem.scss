@@ -8,8 +8,15 @@ $text-color-primary: #262626;
 $text-color-secondary: #8e8e8e;
 $link-color: #00376b;
 $background-color-card: #ffffff;
-$font-family-default: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+$background-color-page: #f8f9fa;
+$error-color: #dc3545;
+$success-color: #28a745;
+$disabled-opacity: 0.65;
+$info-color: #6c757d;
 $primary-color: #007bff;
+$font-family-default: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+$font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
 
 // --- Mixins ---
 @mixin user-link-style {
@@ -18,6 +25,60 @@ $primary-color: #007bff;
   text-decoration: none;
   &:hover {
     text-decoration: underline;
+  }
+}
+.create-post-page-container {
+  min-height: 100vh;
+  background-color: $background-color-page;
+  padding: 2rem 1rem; // Khoảng đệm chung cho trang
+  display: flex;
+  justify-content: center; // Căn giữa .create-post-main-layout
+  align-items: flex-start; // Căn lề trên nếu nội dung không đủ cao
+  font-family: $font-family-sans-serif;
+  box-sizing: border-box;
+}
+
+// Wrapper cho layout 2 cột
+.create-post-main-layout {
+  display: flex;
+  flex-direction: row; // Mặc định xếp ngang
+  gap: 2.5rem; // Khoảng cách giữa 2 cột
+  width: 100%;
+  max-width: 1200px; // Chiều rộng tối đa cho cả 2 cột
+
+  // Responsive: Xếp chồng trên màn hình nhỏ hơn 1024px
+  @media (max-width: 1023.98px) {
+    flex-direction: column;
+    align-items: center; // Căn giữa các cột khi xếp chồng
+    gap: 2rem; // Giảm khoảng cách khi xếp chồng
+
+    .create-post-form-column,
+    .create-post-preview-column {
+        width: 100%;
+        max-width: 700px; // Giới hạn chiều rộng khi xếp chồng (bằng form ban đầu)
+    }
+    .create-post-preview-column {
+        margin-top: 2rem; // Thêm khoảng cách trên cho preview khi xếp chồng
+    }
+  }
+}
+
+// Cột chứa form đăng bài (bên trái)
+.create-post-form-column {
+  flex: 1 1 58%; // Cho phép co giãn, chiếm phần lớn hơn một chút (ví dụ 58%)
+  min-width: 300px; // Chiều rộng tối thiểu
+}
+
+// Cột chứa phần xem trước (bên phải)
+.create-post-preview-column {
+  flex: 1 1 42%; // Cho phép co giãn, chiếm phần còn lại (ví dụ 42%)
+  min-width: 300px;
+  position: sticky; // Làm cho preview cố định khi cuộn (trên màn hình lớn)
+  top: 2rem; // Khoảng cách với top khi sticky (điều chỉnh nếu có header cố định)
+  align-self: flex-start; // Đảm bảo nó không bị kéo dài nếu cột form dài hơn
+
+   @media (max-width: 1023.98px) {
+    position: static; // Bỏ sticky trên màn hình nhỏ
   }
 }
 

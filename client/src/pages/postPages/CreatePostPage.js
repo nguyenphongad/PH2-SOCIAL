@@ -1,8 +1,8 @@
-// File: client/src/pages/postPages/CreatePostPage.js
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
-// Import trực tiếp file SCSS (không phải module)
+// Import PostItem để sử dụng cho preview (nếu bạn đã tích hợp)
+// import PostItem from '../../components/Posts/PostItem'; 
 import '../../styles/PostPageStyle/CreatePostPage.scss'; // Đường dẫn SCSS bạn đã cung cấp
 
 // Sử dụng biến môi trường
@@ -69,6 +69,7 @@ function CreatePostPage() {
     const fileInputRef = useRef(null);
     const navigate = useNavigate();
     const [currentUserPreview, setCurrentUserPreview] = useState({
+        _id: 'preview-user-id', // ID giả cho preview
         username: 'Tên người dùng',
         profilePicture: 'https://tinhdaunhuy.com/wp-content/uploads/2015/08/default-avatar.jpg'
     });
@@ -79,6 +80,7 @@ function CreatePostPage() {
             try {
                 const decodedToken = jwtDecode(token);
                 setCurrentUserPreview({
+                    _id: decodedToken.userID, 
                     username: decodedToken.username || 'Người dùng',
                     profilePicture: decodedToken.profilePicture || 'https://tinhdaunhuy.com/wp-content/uploads/2015/08/default-avatar.jpg'
                 });
@@ -137,16 +139,21 @@ function CreatePostPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!selectedFile && !videoUrl.trim()) {
-            setError('Bạn cần cung cấp ít nhất hình ảnh hoặc URL video.');
+        // Backend yêu cầu ít nhất phải có ảnh HOẶC video.
+        // Frontend chỉ cần đảm bảo gửi những gì người dùng đã nhập/chọn.
+        // Nếu cả content, ảnh, và video đều trống, thì không cho submit.
+        if (!content.trim() && !selectedFile && !videoUrl.trim()) {
+            setError('Bạn cần nhập nội dung, hoặc chọn ảnh, hoặc cung cấp URL video.');
             setSuccessMessage('');
             return;
         }
+        // Kiểm tra URL video nếu có nhập
         if (videoUrl.trim() && !isValidHttpUrl(videoUrl)) {
             setError('URL video không hợp lệ.');
             setSuccessMessage('');
             return;
         }
+
         setIsLoading(true);
         setError(null);
         setSuccessMessage('');
@@ -164,13 +171,19 @@ function CreatePostPage() {
             const postData = {
                 ...(content.trim() && { content: content.trim() }),
                 ...(finalImageUrl && { imageUrl: finalImageUrl }),
-                ...(videoUrl.trim() && { videoUrl: videoUrl.trim() })
+                ...(videoUrl.trim() && isValidHttpUrl(videoUrl) && { videoUrl: videoUrl.trim() })
             };
-            if (!postData.imageUrl && !postData.videoUrl) {
-                 setError('Lỗi: Không có hình ảnh hoặc video được cung cấp để đăng.');
-                 setIsLoading(false);
-                 return;
+            
+            // Validation ở backend sẽ kiểm tra xem có ít nhất imageUrl hoặc videoUrl không.
+            // Nếu người dùng chỉ nhập content, và backend yêu cầu media, thì backend sẽ báo lỗi.
+            if (!postData.imageUrl && !postData.videoUrl && content.trim()) {
+                 // Nếu bạn muốn BẮT BUỘC phải có media nếu có content (validation này nên ở backend)
+                 // setError('Bài đăng có nội dung phải kèm theo hình ảnh hoặc video.');
+                 // setIsLoading(false);
+                 // return;
             }
+
+
             const result = await createPostAPICall(postData, token);
             setSuccessMessage('Đăng bài thành công!');
             console.log('Bài đăng đã được tạo:', result);
@@ -187,7 +200,7 @@ function CreatePostPage() {
         }
     };
 
-    const showPostPreview = content.trim() || imagePreviewUrl || videoUrl.trim();
+    const showPostPreview = content.trim() || imagePreviewUrl || (videoUrl.trim() && isValidHttpUrl(videoUrl));
 
     return (
         <div className="create-post-page-container"> {/* Container chính của trang */}
@@ -218,7 +231,7 @@ function CreatePostPage() {
                                     Chọn hình ảnh (tối đa 5MB)
                                 </label>
                                 <div className="file-input-wrapper"> {/* Wrapper cho input và tên file */}
-                                    <input type="file" id="imageUpload" ref={fileInputRef} onChange={handleFileChange} accept="image/jpeg,image/png,image/gif,image/webp" className="create-post-form-file-input" disabled={isLoading || !!videoUrl.trim()} />
+                                    <input type="file" id="imageUpload" ref={fileInputRef} onChange={handleFileChange} accept="image/jpeg,image/png,image/gif,image/webp" className="create-post-form-file-input" disabled={isLoading} />
                                     {selectedFile && ( // Hiển thị tên file đã chọn
                                         <span className="selected-file-name">{selectedFile.name}</span>
                                     )}
@@ -228,12 +241,9 @@ function CreatePostPage() {
                                 <label htmlFor="videoUrl" className="create-post-form-label">
                                     Hoặc URL Video
                                 </label>
-                                <input type="text" id="videoUrl" value={videoUrl} onChange={(e) => setVideoUrl(e.target.value)} className="create-post-form-input" placeholder="https://example.com/video.mp4" disabled={isLoading || !!selectedFile} />
+                                <input type="text" id="videoUrl" value={videoUrl} onChange={(e) => setVideoUrl(e.target.value)} className="create-post-form-input" placeholder="https://example.com/video.mp4" disabled={isLoading}/>
                                 {videoUrl && !isValidHttpUrl(videoUrl) && (
                                     <p className="create-post-validation-message">Vui lòng nhập URL video hợp lệ.</p>
-                                )}
-                                {!!selectedFile && videoUrl.trim() && (
-                                    <p className="create-post-validation-message info">Chỉ ảnh hoặc video sẽ được hiển thị.</p>
                                 )}
                             </div>
                             <div className="create-post-form-actions">

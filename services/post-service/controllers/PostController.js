@@ -9,38 +9,43 @@ const { validationResult } = require('express-validator');
 
 // Tạo bài đăng
 const createPost = async (req, res) => {
+    try {
+        // Lấy cả content, imageUrl, và videoUrl từ req.body
+        const { content, imageUrl, videoUrl } = req.body;
 
-     try {
+        const luserID = req.user.userID; // Lấy ID từ token (giả sử đây là _id của user)
+        const username = req.user.username; // Lấy username từ token
+        
+        // --- Logic kiểm tra user của bạn ---
+        // Nếu luserID là giá trị của trường 'userID' custom trong UserModel, và bạn muốn kiểm tra sự tồn tại:
+        // const existingUser = await UserModel.findOne({ userID: new mongoose.Types.ObjectId(luserID) });
+        // if (!existingUser) {
+        //    return res.status(404).json({ message: 'Người đăng bài không tồn tại', status: false });
+        // }
+        // Nếu luserID là _id thực sự của user (phổ biến hơn), không cần query lại UserModel nếu token đã xác thực.
+        // --- Kết thúc logic kiểm tra user ---
 
-          const { content, imageUrl } = req.body;
+        // Tạo bài viết mới với đầy đủ các trường
+        const newPost = new PostModel({
+            userID: luserID, // Nên là _id của user
+            username: username,
+            content: content || "", // Đảm bảo content có giá trị default nếu là optional
+            imageUrl: imageUrl || "", // Đảm bảo có giá trị default nếu không có
+            videoUrl: videoUrl || ""  // Thêm videoUrl
+        });
 
-          // Lấy userId từ token đã đăng nhập
-          const luserID = req.user.userID;
-          const username = req.user.username;
-          console.log("id người đăng bài: ", luserID)
-          const existingUser = await UserModel.findOne({ luserID });
+        await newPost.save();
+        // Trả về status: true để client dễ kiểm tra
+        return res.status(201).json({ message: "Đăng bài thành công", post: newPost, status: true });
 
-          if (existingUser) {
-               return res.status(201).json({ message: 'người đăng bài không tồn tại', status: false });
-          }
-
-          // Tạo bài viết mới
-          const newPost = new PostModel({
-               userID: luserID,
-               username: username,
-               content,
-               imageUrl
-
-          });
-
-          // Lưu bài viết vào database
-          await newPost.save();
-
-          return res.status(201).json({ message: "Đăng bài thành công", post: newPost });
-     } catch (error) {
-          console.error("Lỗi đăng bài:", error);
-          return res.status(500).json({ message: "Lỗi server đăng bài" });
-     }
+    } catch (error) {
+        console.error("Lỗi đăng bài:", error);
+        if (error.name === 'ValidationError') {
+            // Lỗi từ Mongoose validation (ví dụ nếu có trường required khác bị thiếu trong model)
+            return res.status(400).json({ message: "Dữ liệu không hợp lệ: " + error.message, errors: error.errors, status: false });
+        }
+        return res.status(500).json({ message: "Lỗi server khi đăng bài", error: error.message, status: false });
+    }
 };
 
 // Lấy bài đăng theo PostId

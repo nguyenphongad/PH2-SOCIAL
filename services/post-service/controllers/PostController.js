@@ -11,27 +11,22 @@ const { validationResult } = require('express-validator');
 const createPost = async (req, res) => {
     try {
         // Lấy cả content, imageUrl, và videoUrl từ req.body
-        const { content, imageUrl, videoUrl } = req.body;
+        const { content, imageUrls, videoUrl } = req.body;
 
         const luserID = req.user.userID; // Lấy ID từ token (giả sử đây là _id của user)
         const username = req.user.username; // Lấy username từ token
         
-        // --- Logic kiểm tra user của bạn ---
-        // Nếu luserID là giá trị của trường 'userID' custom trong UserModel, và bạn muốn kiểm tra sự tồn tại:
-        // const existingUser = await UserModel.findOne({ userID: new mongoose.Types.ObjectId(luserID) });
-        // if (!existingUser) {
-        //    return res.status(404).json({ message: 'Người đăng bài không tồn tại', status: false });
-        // }
-        // Nếu luserID là _id thực sự của user (phổ biến hơn), không cần query lại UserModel nếu token đã xác thực.
-        // --- Kết thúc logic kiểm tra user ---
+        if (!content && (!imageUrls || imageUrls.length === 0) && !videoUrl) {
+            return res.status(400).json({ message: 'Bài đăng phải có nội dung, hình ảnh hoặc video.', status: false });
+        }
 
-        // Tạo bài viết mới với đầy đủ các trường
+
         const newPost = new PostModel({
             userID: luserID, // Nên là _id của user
             username: username,
-            content: content || "", // Đảm bảo content có giá trị default nếu là optional
-            imageUrl: imageUrl || "", // Đảm bảo có giá trị default nếu không có
-            videoUrl: videoUrl || ""  // Thêm videoUrl
+            content: content || "", 
+            imageUrls: imageUrls && Array.isArray(imageUrls) ? imageUrls : [],
+            videoUrl: videoUrl || ""
         });
 
         await newPost.save();
@@ -202,7 +197,7 @@ const getFeedPosts = async (req, res) => {
              return res.status(404).json({ message: 'Người dùng không tồn tại' });
          }
  
-         // Lấy danh sách ID (_id) của những người đang follow và chính mình
+         
          let followingObjectIds = [];
          if (currentUser.following && Array.isArray(currentUser.following)) {
              followingObjectIds = currentUser.following

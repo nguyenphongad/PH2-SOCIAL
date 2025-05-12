@@ -13,11 +13,10 @@ const postSchema = new mongoose.Schema(
         },
         content: {
             type: String,
-            required: true,
         },
-        imageUrl: {
-            type: String,
-            default: ""
+        imageUrls: {
+            type: [String],
+            default: [],
         },
         videoUrl: {
             type: String,
@@ -30,7 +29,7 @@ const postSchema = new mongoose.Schema(
         },
         comments: {
             type: [mongoose.Schema.Types.ObjectId],
-            ref: "Comments",
+            ref: "Comment",
             default: [],
         },
 

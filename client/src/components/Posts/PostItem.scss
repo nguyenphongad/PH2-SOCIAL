@@ -1,7 +1,6 @@
-// File: client/src/components/Posts/PostItem.scss
-// Styles cho component hiển thị một bài đăng
+// ... (các biến, mixins, và style cũ cho .post-item-card, .post-item-header, .actions, .likes, .content, .view-comments giữ nguyên từ file bạn đã cung cấp) ...
 
-// --- Biến (Có thể đồng bộ với các biến global của bạn) ---
+// --- BIẾN MÀU SẮC VÀ FONT (Lấy từ file bạn cung cấp) ---
 $border-color-light: #dbdbdb; // Màu viền Instagram-like
 $border-color-softer: #efefef;
 $text-color-primary: #262626;
@@ -18,7 +17,7 @@ $font-family-default: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Hel
 $font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 
 
-// --- Mixins ---
+// --- MIXINS (Lấy từ file bạn cung cấp) ---
 @mixin user-link-style {
   font-weight: 600;
   color: $text-color-primary;
@@ -82,30 +81,30 @@ $font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
   }
 }
 
-// --- Styles cho Card Bài Đăng ---
+// --- STYLES CHO CARD BÀI ĐĂNG ---
 .post-item-card {
   background-color: $background-color-card;
   border: 1px solid $border-color-light;
-  border-radius: 8px; // Bo góc nhẹ hơn Instagram gốc
-  margin-bottom: 20px; // Khoảng cách giữa các bài đăng
+  border-radius: 8px;
+  margin-bottom: 20px;
   font-family: $font-family-default;
   color: $text-color-primary;
-  width: 100%; // Chiếm toàn bộ chiều rộng của container cha (box_post)
-  max-width: 614px; // Chiều rộng tối đa giống Instagram
+  width: 100%;
+  max-width: 614px; // Giữ nguyên max-width
 }
 
-// --- Header ---
+// --- HEADER (Giữ lại từ file bạn cung cấp) ---
 .post-item-header {
   display: flex;
   align-items: center;
-  padding: 12px 16px; // Padding nhỏ hơn một chút
+  padding: 12px 16px;
   border-bottom: 1px solid $border-color-softer;
 
   .user-info {
     display: flex;
     align-items: center;
     text-decoration: none;
-    flex-grow: 1; // Đẩy timestamp và options về cuối
+    flex-grow: 1;
   }
 
   .user-avatar {
@@ -124,175 +123,259 @@ $font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
   .timestamp {
     font-size: 12px;
     color: $text-color-secondary;
-    margin-left: 8px; // Khoảng cách với username
-    white-space: nowrap; // Không xuống dòng
+    margin-left: 8px;
+    white-space: nowrap;
   }
 
-  .options-button { // Style cho nút options nếu bạn thêm vào
+  .options-button {
     background: none;
     border: none;
     padding: 8px;
     cursor: pointer;
     color: $text-color-primary;
-    margin-left: auto; // Đẩy về cuối cùng
+    margin-left: auto;
   }
 }
 
-// --- Media (Ảnh/Video) ---
+
+// --- CẬP NHẬT VÀ BỔ SUNG STYLES CHO MEDIA ---
 .post-item-media {
   width: 100%;
-  // Không cần set background color nếu ảnh/video luôn có
-  // background-color: #efefef; // Màu nền chờ load
-}
+  display: grid; // Sử dụng grid cho layout linh hoạt
+  background-color: #f0f0f0; // Màu nền chờ load, có thể thay đổi
+  overflow: hidden; 
+  // Giữ tỷ lệ khung hình vuông cho media container là phổ biến
+  aspect-ratio: 1 / 1; 
+  // Nếu muốn tỷ lệ khác (ví dụ 4:5 như Instagram), thay đổi padding-bottom nếu dùng trick padding
+  // Hoặc set aspect-ratio trực tiếp nếu trình duyệt hỗ trợ tốt
 
-.post-image {
-  display: block;
-  width: 100%;
-  height: auto; // Chiều cao tự động theo tỷ lệ ảnh
-  object-fit: cover; // Đảm bảo ảnh che phủ khung nếu cần
-}
+  .image-container {
+    position: relative; // Cho overlay "+X"
+    cursor: pointer;
+    background-color: #e9e9e9; // Màu nền cho từng ảnh
+    overflow: hidden; // Đảm bảo ảnh không tràn ra ngoài
 
-.post-video-wrapper {
-  position: relative;
-  padding-bottom: 100%; // Tỷ lệ 1:1, có thể điều chỉnh
-  height: 0;
-  overflow: hidden;
-  background-color: #000; // Nền đen cho video
+    // Đường kẻ mảnh giữa các ảnh sẽ được tạo bởi 'gap' của grid
+    // border: 1px solid $background-color-card; 
 
-  .post-video {
+    img.post-image {
+      display: block;
+      width: 100%;
+      height: 100%; 
+      object-fit: cover; // Cắt ảnh để vừa, giữ tỷ lệ
+      transition: transform 0.2s ease-in-out;
+      &:hover {
+        // transform: scale(1.02); // Hiệu ứng zoom nhẹ khi hover (tùy chọn)
+      }
+    }
+  }
+
+  // Layout mặc định (1 ảnh)
+  &.single-image {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto; 
+    aspect-ratio: auto; // Bỏ aspect ratio cố định cho 1 ảnh để nó tự nhiên hơn
+    .image-container {
+        // max-height: 650px; // Giới hạn chiều cao tối đa cho 1 ảnh nếu cần
+        img.post-image {
+            object-fit: contain; // Hiển thị toàn bộ ảnh, không cắt xén
+            max-height: 70vh; // Giới hạn chiều cao để không quá dài
+        }
+    }
+  }
+  
+  // Layout cho video đơn
+  &.single-video {
+    aspect-ratio: 16 / 9; // Hoặc tỷ lệ video phổ biến khác
+    .post-video-wrapper {
+        width: 100%;
+        height: 100%;
+        .post-video {
+            width: 100%;
+            height: 100%;
+        }
+    }
+  }
+
+
+  // Layout cho 2 ảnh (chia đôi ngang)
+  &.two-images {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px; // Khoảng cách nhỏ giữa các ảnh
+  }
+
+  // Layout cho 3 ảnh (ảnh đầu to, 2 ảnh sau nhỏ hơn bên phải)
+  &.three-images {
+    grid-template-columns: 2fr 1fr; // Cột đầu rộng gấp đôi
+    grid-template-rows: repeat(2, 1fr); // 2 hàng bằng nhau
+    gap: 2px;
+    .image-container:nth-child(1) {
+      grid-column: 1 / 2;
+      grid-row: 1 / 3; // Ảnh đầu chiếm 2 hàng
+    }
+    .image-container:nth-child(2) {
+      grid-column: 2 / 3;
+      grid-row: 1 / 2;
+    }
+    .image-container:nth-child(3) {
+      grid-column: 2 / 3;
+      grid-row: 2 / 3;
+    }
+  }
+
+  // Layout cho 4 ảnh (grid 2x2)
+  &.four-images {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 2px;
+  }
+  
+  // Layout cho 5+ ảnh (hiển thị 4 ảnh đầu dạng grid 2x2, ảnh cuối có overlay +X)
+  &.five-plus-images {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr); // Chỉ hiển thị 2 hàng (4 ảnh)
+    gap: 2px;
+    // .image-container:nth-child(n+5) đã được xử lý trong JSX để không render
+  }
+
+  .more-images-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    border: none; // Bỏ viền mặc định của video
+    background-color: rgba(0, 0, 0, 0.45); // Lớp phủ tối hơn một chút
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem; // Tăng kích thước chữ
+    font-weight: bold;
+    // backdrop-filter: blur(1px); // Hiệu ứng mờ nhẹ (tùy trình duyệt)
+    pointer-events: none; // Để click vẫn xuyên qua overlay và mở lightbox
   }
-}
 
-.post-video-placeholder {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 300px; // Chiều cao tối thiểu
-  background-color: #f0f0f0;
-  font-size: 14px;
-  color: $text-color-secondary;
-  a {
-    color: $link-color;
-    text-decoration: none;
-    &:hover {
-      text-decoration: underline;
+  // Video styles (giữ lại từ file bạn cung cấp)
+  .post-video-wrapper {
+    position: relative;
+    // padding-bottom: 100%; // Đã xử lý bằng aspect-ratio của .single-video
+    height: 100%; // Sửa để video chiếm hết chiều cao của .single-video
+    width: 100%;
+    overflow: hidden;
+    background-color: #000;
+
+    .post-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  }
+  .post-video-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    background-color: #f0f0f0;
+    font-size: 14px;
+    color: $text-color-secondary;
+    a {
+      color: $link-color;
+      text-decoration: none;
+      &:hover { text-decoration: underline; }
     }
   }
 }
 
 
-// --- Actions (Like, Comment, Share) ---
+// --- ACTIONS, LIKES, CONTENT, COMMENTS (Giữ lại từ file bạn cung cấp) ---
 .post-item-actions {
   display: flex;
   align-items: center;
-  padding: 8px 16px 6px; // Padding cho khu vực action
+  padding: 8px 16px 6px;
 
   .action-button {
     background: none;
     border: none;
-    padding: 8px; // Tăng vùng nhấn
+    padding: 8px;
     cursor: pointer;
-    display: inline-flex; // Để icon và text (nếu có) thẳng hàng
+    display: inline-flex;
     align-items: center;
-    color: $text-color-primary; // Màu icon mặc định
+    color: $text-color-primary;
 
-    // Style cho SVG Icon bên trong nút
     .action-icon {
       width: 24px;
       height: 24px;
-      stroke-width: 1.5; // Độ dày nét vẽ icon
+      stroke-width: 1.5;
     }
 
-    // Hover effect
     &:hover {
       opacity: 0.7;
     }
 
-    // Style riêng cho nút like khi được active (cần thêm state)
     &.like-button.active {
-       svg {
-         fill: red; // Ví dụ tô màu đỏ khi đã like
-         stroke: red;
-       }
+       // SVG fill/stroke được xử lý trong JSX, không cần style màu ở đây nữa
+       // Có thể thêm hiệu ứng khác nếu muốn
+       // transform: scale(1.1); 
     }
 
-    // Nút cuối cùng (ví dụ: bookmark) đẩy về bên phải
     &.bookmark-button {
        margin-left: auto;
     }
 
-    // Bỏ span text nếu chỉ dùng icon
-    span {
-      // display: none;
-      margin-left: 6px; // Khoảng cách nếu có text
+    span { // Nếu bạn quyết định hiển thị text bên cạnh icon
+      margin-left: 6px;
       font-size: 14px;
     }
   }
 }
 
-// --- Likes Count ---
 .post-item-likes {
-  padding: 0 16px 8px; // Padding dưới khu vực action
+  padding: 0 16px 8px;
   font-size: 14px;
   font-weight: 600;
   color: $text-color-primary;
 }
 
-// --- Content/Caption ---
 .post-item-content {
   padding: 0 16px 8px;
   font-size: 14px;
-  line-height: 1.4; // Tăng khoảng cách dòng
+  line-height: 1.4;
   word-wrap: break-word;
 
   .username-caption {
     @include user-link-style;
-    margin-right: 6px; // Khoảng cách giữa username và caption
+    margin-right: 6px;
   }
 
-  .caption {
-    // Style cho caption nếu cần
-  }
+  .caption { /* Style cho caption nếu cần */ }
 }
 
-// --- View Comments Link ---
 .post-item-view-comments {
   padding: 0 16px 12px;
   font-size: 14px;
-
   a {
-    color: $text-color-secondary; // Màu xám cho link xem comment
+    color: $text-color-secondary;
     text-decoration: none;
-    &:hover {
-      text-decoration: underline;
-    }
+    &:hover { text-decoration: underline; }
   }
 }
 
-// --- Add Comment Input (Nếu có) ---
 .post-item-add-comment {
   border-top: 1px solid $border-color-softer;
   padding: 12px 16px;
   display: flex;
   align-items: center;
-
   .comment-input {
     flex-grow: 1;
     border: none;
     outline: none;
     font-size: 14px;
     background-color: transparent;
-    &::placeholder {
-      color: $text-color-secondary;
-    }
+    &::placeholder { color: $text-color-secondary; }
   }
-
   .comment-submit {
     background: none;
     border: none;
@@ -300,13 +383,124 @@ $font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
     font-weight: 600;
     font-size: 14px;
     cursor: pointer;
-    opacity: 0.7; // Mặc định hơi mờ
-    &:hover {
-      opacity: 1;
-    }
-    &:disabled { // Style khi input rỗng
-      opacity: 0.3;
-      cursor: default;
-    }
+    opacity: 0.7;
+    &:hover { opacity: 1; }
+    &:disabled { opacity: 0.3; cursor: default; }
   }
+}
+
+
+// --- BỔ SUNG: Styles cho Lightbox ---
+.lightbox-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9); // Lớp phủ tối hơn
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; // Đảm bảo nó ở trên cùng
+  padding: 10px; // Khoảng đệm nhỏ xung quanh
+  box-sizing: border-box;
+  animation: lightboxFadeIn 0.3s ease-out;
+}
+
+@keyframes lightboxFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.lightbox-content {
+  position: relative;
+  max-width: calc(100% - 40px); // Chiều rộng tối đa, trừ padding
+  max-height: calc(100% - 40px); // Chiều cao tối đa, trừ padding
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+
+  .lightbox-image {
+    display: block;
+    max-width: 50%;
+    max-height: 50%;
+    object-fit: contain; 
+    border-radius: 3px; 
+    // box-shadow: 0 0 25px rgba(0,0,0,0.5); // Bỏ shadow nếu không muốn
+    // Animation cho ảnh khi chuyển
+    animation: lightboxImageZoomIn 0.3s ease-out;
+  }
+}
+
+@keyframes lightboxImageZoomIn {
+    from { transform: scale(0.95); opacity: 0.7; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+
+.lightbox-close-button {
+  position: fixed; 
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 2.5rem; 
+  color: #fff;
+  cursor: pointer;
+  line-height: 1;
+  padding: 5px;
+  z-index: 1010; 
+  opacity: 0.8;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  &:hover {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+.lightbox-nav-button {
+  position: fixed; 
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.1); // Nền mờ hơn
+  border: none;
+  color: white;
+  font-size: 2rem; 
+  cursor: pointer;
+  padding: 15px 10px; // Tăng padding
+  z-index: 1010;
+  border-radius: 50%; // Bo tròn nút
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.6;
+  transition: opacity 0.2s ease, background-color 0.2s ease;
+
+  &:hover {
+    opacity: 1;
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
+  &.prev {
+    left: 15px;
+  }
+  &.next {
+    right: 15px;
+  }
+}
+
+.lightbox-counter {
+    position: fixed;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    background-color: rgba(0,0,0,0.6);
+    padding: 6px 12px;
+    border-radius: 15px; // Bo tròn hơn
+    font-size: 13px;
+    z-index: 1010;
+    font-weight: 500;
 }

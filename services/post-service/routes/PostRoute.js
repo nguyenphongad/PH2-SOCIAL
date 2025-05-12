@@ -10,14 +10,21 @@ router.post(
     postMiddleware,
     [
         body('content').optional().isString().trim().isLength({ max: 1000 }),
-        body('imageUrl').optional().isURL(),
-        body('videoUrl').optional().isURL(),
+        body('imageUrls').optional().isArray().custom((value, { req }) => {
+            if (value && value.length > 10) {
+                throw new Error('Chỉ được phép tải lên tối đa 10 hình ảnh.');
+            }
+            return true;
+        }),
+        body('imageUrls.*').if(body('imageUrls').exists({ checkFalsy: false }).isArray({ min: 1 })).isURL().withMessage('Mỗi URL hình ảnh phải là một URL hợp lệ.'),
+        body('videoUrl').optional({ checkFalsy: true }).isURL(),
+        
         (req, res, next) => {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
-                return res.status(400).json({ errors: errors.array() });
+                return res.status(400).json({ errors: errors.array(), status: false });
             }
-            if (req.body.imageUrl === undefined && req.body.videoUrl === undefined) {
+            if (req.body.imageUrls === undefined && req.body.videoUrl === undefined) {
                 return res.status(400).json({ message: 'Bạn phải cung cấp ít nhất một trong các trường: imageUrl, videoUrl' });
             }
             next();

@@ -178,6 +178,54 @@ $font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
   }
 }
 
+.file-input-wrapper {
+    display: flex;
+    flex-direction: column; // Input và grid preview xếp chồng
+    gap: 0.75rem; // Khoảng cách giữa input và grid preview
+}
+
+// Grid hiển thị các ảnh thumbnail đã chọn
+.selected-files-preview-grid {
+  margin-top: 0.5rem; // Khoảng cách nhỏ với input file
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); // Tạo grid tự động co giãn
+  gap: 0.75rem; // Khoảng cách giữa các ảnh
+  border: 1px solid $border-color; // Sử dụng biến $border-color
+  padding: 0.75rem;
+  border-radius: 6px; // Đồng bộ bo góc
+  background-color: #fdfdfd;
+  max-height: 250px; // Giới hạn chiều cao của grid preview
+  overflow-y: auto; // Cho phép cuộn nếu nhiều ảnh
+
+  .selected-file-thumbnail-item {
+    width: 100%;
+    padding-top: 100%; // Tạo tỷ lệ 1:1 cho item (ảnh vuông)
+    position: relative;
+    background-color: #f0f0f0; // Màu nền chờ ảnh
+    border-radius: 4px; // Bo góc nhẹ cho thumbnail
+    overflow: hidden;
+    border: 1px solid #eee; // Viền nhẹ cho từng thumbnail
+
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover; // Ảnh sẽ được cắt để vừa khung
+    }
+  }
+}
+// Bỏ hiển thị tên file riêng lẻ nếu đã có thumbnail grid
+.selected-file-name {
+   display: none;
+}
+.selected-files-count { // Style cho dòng "Đã chọn X ảnh" (nếu bạn muốn thêm)
+    font-size: 0.85rem;
+    color: $label-color; // Sử dụng biến $label-color
+    margin-bottom: 0.5rem;
+}
+
 // Tin nhắn báo lỗi validation nhỏ dưới input
 .create-post-validation-message {
     font-size: 0.8rem; // 12.8px

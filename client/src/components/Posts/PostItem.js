@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleLikePostThunk } from '../../redux/thunks/postThunk';
-import './PostItem.scss'; // Đường dẫn SCSS bạn đã xác nhận
+import './PostItem.scss'; // Đảm bảo import SCSS
 
 // --- Hàm Helper định dạng thời gian đơn giản ---
 const formatTimeAgo = (timestamp) => {
@@ -29,161 +29,179 @@ const PostItem = ({ post }) => {
     const currentUser = useSelector(state => state.auth.user);
     const currentUserId = currentUser?._id;
 
-    // --- Local State cho Optimistic UI ---
-    const [isLikedLocally, setIsLikedLocally] = useState(post.isLikedByCurrentUser || false);
-    const [localLikeCount, setLocalLikeCount] = useState(post.likes?.length || 0);
+    const [isLikedForDisplay, setIsLikedForDisplay] = useState(post.isLikedByCurrentUser || false);
+    const [likeCountForDisplay, setLikeCountForDisplay] = useState(post.likes?.length || 0);
     const [isProcessingLike, setIsProcessingLike] = useState(false);
 
-    // --- Đồng bộ local state khi prop 'post' từ Redux thay đổi ---
+    // --- State cho Lightbox ---
+    const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+    const [currentLightboxImageIndex, setCurrentLightboxImageIndex] = useState(0);
+
     useEffect(() => {
-        // Chỉ cập nhật local state từ props nếu không đang trong quá trình xử lý like.
-        // Khi isProcessingLike là true, local state (optimistic update) là nguồn chính cho UI.
-        // Sau khi isProcessingLike trở lại false (API call hoàn tất),
-        // local state sẽ được đồng bộ với dữ liệu mới nhất từ props.
-        if (!isProcessingLike) {
-            setIsLikedLocally(post.isLikedByCurrentUser || false);
-            setLocalLikeCount(post.likes?.length || 0);
-        }
-    }, [post.isLikedByCurrentUser, post.likes, isProcessingLike]); // Thêm isProcessingLike vào dependency array
+        setIsLikedForDisplay(post.isLikedByCurrentUser || false);
+        setLikeCountForDisplay(post.likes?.length || 0);
+    }, [post.isLikedByCurrentUser, post.likes, post._id]);
 
     const userInfo = post.userID && typeof post.userID === 'object'
         ? post.userID
         : { _id: null, username: post.username || 'Ẩn danh', profilePicture: 'https://tinhdaunhuy.com/wp-content/uploads/2015/08/default-avatar.jpg' };
 
-    // --- Handler cho nút Like với Optimistic Update ---
     const handleLike = async () => {
         if (!currentUserId || isProcessingLike) {
             if (!currentUserId) alert("Bạn cần đăng nhập để thích bài viết!");
             return;
         }
-
-        const previousIsLiked = isLikedLocally;
-        const previousLikeCount = localLikeCount;
-
-        // Bước 1: Optimistic Update UI
-        setIsLikedLocally(!previousIsLiked);
-        setLocalLikeCount(previousIsLiked ? previousLikeCount - 1 : previousLikeCount + 1);
-        setIsProcessingLike(true); // Đánh dấu bắt đầu xử lý
-
+        const originalIsLiked = post.isLikedByCurrentUser || false;
+        const originalLikeCount = post.likes?.length || 0;
+        const newOptimisticIsLiked = !originalIsLiked;
+        const newOptimisticLikeCount = originalIsLiked ? originalLikeCount - 1 : originalLikeCount + 1;
+        setIsLikedForDisplay(newOptimisticIsLiked);
+        setLikeCountForDisplay(newOptimisticLikeCount);
+        setIsProcessingLike(true);
         try {
-            // Bước 2: Gọi API (Dispatch Thunk)
             await dispatch(toggleLikePostThunk(post._id)).unwrap();
-            // Nếu thành công, Redux store sẽ được cập nhật.
-            // `useEffect` sẽ được kích hoạt bởi sự thay đổi của `post` prop (từ Redux)
-            // và `isProcessingLike` (khi nó được set lại thành false ở finally).
-            // Lúc đó, local state sẽ được đồng bộ với dữ liệu "chuẩn" từ Redux.
         } catch (error) {
-            // Bước 3: Rollback UI nếu API thất bại
             console.error("Lỗi khi toggle like:", error);
-            setIsLikedLocally(previousIsLiked); // Hoàn tác trạng thái like
-            setLocalLikeCount(previousLikeCount); // Hoàn tác số like
-            alert("Đã xảy ra lỗi khi thực hiện thao tác. Vui lòng thử lại.");
+            setIsLikedForDisplay(originalIsLiked);
+            setLikeCountForDisplay(originalLikeCount);
+            alert(error.message || "Đã xảy ra lỗi khi thực hiện thao tác. Vui lòng thử lại.");
         } finally {
-            // Bước 4: Luôn reset trạng thái processing sau khi API call hoàn tất
-            // Điều này sẽ cho phép useEffect đồng bộ lại nếu cần.
             setIsProcessingLike(false);
         }
     };
 
-    const handleComment = () => {
-        console.log('Comment on post:', post._id);
+    const handleComment = () => { console.log('Comment on post:', post._id); /* TODO */ };
+    const handleShare = () => { console.log('Share post:', post._id); /* TODO */ };
+
+    // --- Xử lý Lightbox ---
+    const openLightbox = (index) => {
+        if (images && images.length > 0) {
+            setCurrentLightboxImageIndex(index);
+            setIsLightboxOpen(true);
+            document.body.style.overflow = 'hidden';
+        }
     };
 
-    const handleShare = () => {
-        console.log('Share post:', post._id);
+    const closeLightbox = () => {
+        setIsLightboxOpen(false);
+        document.body.style.overflow = 'auto';
     };
+
+    const goToPreviousImage = (e) => {
+        e.stopPropagation();
+        setCurrentLightboxImageIndex((prevIndex) =>
+            prevIndex === 0 ? images.length - 1 : prevIndex - 1
+        );
+    };
+
+    const goToNextImage = (e) => {
+        e.stopPropagation();
+        setCurrentLightboxImageIndex((prevIndex) =>
+            prevIndex === images.length - 1 ? 0 : prevIndex + 1
+        );
+    };
+
+    // --- Xử lý hiển thị media ---
+    const images = Array.isArray(post.imageUrls) ? post.imageUrls : [];
+    // SỬA LỖI: Kiểm tra kiểu dữ liệu của post.videoUrl trước khi gọi .trim()
+    const video = (typeof post.videoUrl === 'string' && post.videoUrl.trim() !== '') ? post.videoUrl : null;
+    const hasImages = images.length > 0;
+    const hasVideo = !!video; // Chuyển thành boolean
+    const hasMedia = hasImages || hasVideo;
+    const numImages = images.length;
+
+    let mediaLayoutClass = '';
+    if (hasImages) {
+        if (numImages === 1) mediaLayoutClass = 'single-image';
+        else if (numImages === 2) mediaLayoutClass = 'two-images';
+        else if (numImages === 3) mediaLayoutClass = 'three-images';
+        else if (numImages === 4) mediaLayoutClass = 'four-images';
+        else if (numImages >= 5) mediaLayoutClass = 'five-plus-images';
+    } else if (hasVideo) {
+        mediaLayoutClass = 'single-video';
+    }
 
     return (
-        <div className="post-item-card">
-            {/* Header */}
-            <div className="post-item-header">
-                <Link to={userInfo._id ? `/profile/${userInfo.username}` : '#'} className="user-info">
-                    <img
-                        src={userInfo.profilePicture}
-                        alt={`${userInfo.username}'s avatar`}
-                        className="user-avatar"
-                        onError={(e) => { e.target.onerror = null; e.target.src='https://tinhdaunhuy.com/wp-content/uploads/2015/08/default-avatar.jpg'}}
-                    />
-                    <span className="username">{userInfo.username}</span>
-                </Link>
-                <span className="timestamp">
-                    {post.createdAt && `• ${formatTimeAgo(post.createdAt)}`}
-                </span>
+        <>
+            <div className="post-item-card">
+                {/* Header */}
+                <div className="post-item-header">
+                    <Link to={userInfo._id ? `/profile/${userInfo.username}` : '#'} className="user-info">
+                        <img src={userInfo.profilePicture} alt={`${userInfo.username}'s avatar`} className="user-avatar" onError={(e) => { e.target.onerror = null; e.target.src='https://tinhdaunhuy.com/wp-content/uploads/2015/08/default-avatar.jpg'}}/>
+                        <span className="username">{userInfo.username}</span>
+                    </Link>
+                    <span className="timestamp">{post.createdAt && `• ${formatTimeAgo(post.createdAt)}`}</span>
+                </div>
+
+                {/* Media: Hiển thị nhiều ảnh hoặc video */}
+                {hasMedia && (
+                    <div className={`post-item-media ${mediaLayoutClass}`}>
+                        {hasImages ? (
+                            images.map((imgUrl, index) => {
+                                if (numImages >= 5 && index >= 4) {
+                                    return null; 
+                                }
+                                return (
+                                    <div key={imgUrl || index} className="image-container" onClick={() => openLightbox(index)}>
+                                        <img src={imgUrl} alt={`Bài đăng ${index + 1}`} className="post-image" loading="lazy" />
+                                        {numImages >= 5 && index === 3 && (
+                                            <div className="more-images-overlay">
+                                                +{numImages - 4}
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })
+                        ) : hasVideo ? ( 
+                            <div className="post-video-wrapper">
+                                {/* SỬA LỖI: Kiểm tra video (là post.videoUrl đã được kiểm tra) trước khi gọi .match() */}
+                                {video && video.match(/\.(mp4|webm|ogg)$/i) ? (
+                                    <video controls className="post-video">
+                                        <source src={video} type={`video/${video.split('.').pop()}`} />
+                                        Trình duyệt của bạn không hỗ trợ thẻ video.
+                                    </video>
+                                ) : video ? ( // Nếu video tồn tại nhưng không phải link trực tiếp
+                                    <div className="post-video-placeholder">
+                                        <a href={video} target="_blank" rel="noopener noreferrer">Xem video tại đây</a>
+                                    </div>
+                                ) : null}
+                            </div>
+                        ) : null}
+                    </div>
+                )}
+
+                {/* Actions, Likes, Content, Comments (giữ nguyên) */}
+                <div className="post-item-actions">
+                    <button onClick={handleLike} className={`action-button like-button ${isLikedForDisplay ? 'active' : ''}`} aria-label={isLikedForDisplay ? "Bỏ thích" : "Thích"} disabled={isProcessingLike}>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill={isLikedForDisplay ? 'red' : 'none'} viewBox="0 0 24 24" strokeWidth={1.5} stroke={isLikedForDisplay ? 'red' : 'currentColor'} className="action-icon"><path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" /></svg>
+                    </button>
+                    <button onClick={handleComment} className="action-button comment-button" aria-label="Bình luận"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="action-icon"> <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 0 0 1 1.037-.443 48.282 48.282 0 0 0 5.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" /> </svg></button>
+                    <button onClick={handleShare} className="action-button share-button" aria-label="Chia sẻ"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="action-icon"> <path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" /> </svg></button>
+                </div>
+                {likeCountForDisplay > 0 && ( <div className="post-item-likes"><strong>{likeCountForDisplay} lượt thích</strong></div> )}
+                {post.content && ( <div className="post-item-content"><Link to={userInfo._id ? `/profile/${userInfo.username}` : '#'} className="username-caption">{userInfo.username}</Link><span className="caption">{post.content}</span></div> )}
+                {post.comments && post.comments.length > 0 && ( <div className="post-item-view-comments"><Link to={`/post/${post._id}`}>Xem tất cả {post.comments.length} bình luận</Link></div> )}
             </div>
 
-            {/* Media */}
-            {(post.imageUrl || post.videoUrl) && (
-                <div className="post-item-media">
-                    {post.imageUrl ? (
-                        <img src={post.imageUrl} alt="Nội dung bài đăng" className="post-image" loading="lazy" />
-                    ) : (
-                        <div className="post-video-wrapper">
-                            {post.videoUrl && post.videoUrl.match(/\.(mp4|webm|ogg)$/i) ? (
-                                <video controls className="post-video">
-                                    <source src={post.videoUrl} type={`video/${post.videoUrl.split('.').pop()}`} />
-                                    Trình duyệt của bạn không hỗ trợ thẻ video.
-                                </video>
-                            ) : (
-                                <div className="post-video-placeholder">
-                                    <a href={post.videoUrl} target="_blank" rel="noopener noreferrer">Xem video tại đây</a>
-                                </div>
-                            )}
-                        </div>
+            {/* Lightbox Modal */}
+            {isLightboxOpen && hasImages && (
+                <div className="lightbox-overlay" onClick={closeLightbox}>
+                    <button className="lightbox-close-button" onClick={closeLightbox} aria-label="Đóng">&times;</button>
+                    {images.length > 1 && (
+                        <button className="lightbox-nav-button prev" onClick={goToPreviousImage} aria-label="Ảnh trước">&#10094;</button>
                     )}
+                    <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
+                        <img src={images[currentLightboxImageIndex]} alt={`Ảnh ${currentLightboxImageIndex + 1} của bài đăng`} className="lightbox-image" />
+                    </div>
+                    {images.length > 1 && (
+                        <button className="lightbox-nav-button next" onClick={goToNextImage} aria-label="Ảnh kế tiếp">&#10095;</button>
+                    )}
+                     {images.length > 1 && (
+                        <div className="lightbox-counter">{currentLightboxImageIndex + 1} / {images.length}</div>
+                     )}
                 </div>
             )}
-
-            {/* Actions */}
-            <div className="post-item-actions">
-                <button
-                    onClick={handleLike}
-                    className={`action-button like-button ${isLikedLocally ? 'active' : ''}`}
-                    aria-label={isLikedLocally ? "Bỏ thích bài đăng" : "Thích bài đăng"}
-                    disabled={isProcessingLike}
-                >
-                     <svg xmlns="http://www.w3.org/2000/svg"
-                          fill={isLikedLocally ? 'red' : 'none'}
-                          viewBox="0 0 24 24"
-                          strokeWidth={1.5}
-                          stroke={isLikedLocally ? 'red' : 'currentColor'}
-                          className="action-icon">
-                         <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-                     </svg>
-                </button>
-                <button onClick={handleComment} className="action-button comment-button" aria-label="Bình luận bài đăng">
-                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="action-icon"> <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 0 0 1 1.037-.443 48.282 48.282 0 0 0 5.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" /> </svg>
-                </button>
-                <button onClick={handleShare} className="action-button share-button" aria-label="Chia sẻ bài đăng">
-                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="action-icon"> <path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" /> </svg>
-                </button>
-            </div>
-
-            {/* Likes: Sử dụng localLikeCount để cập nhật UI ngay lập tức */}
-            {localLikeCount > 0 && (
-                <div className="post-item-likes">
-                    <strong>{localLikeCount} lượt thích</strong>
-                </div>
-            )}
-
-            {/* Content */}
-            {post.content && (
-                <div className="post-item-content">
-                    <Link to={userInfo._id ? `/profile/${userInfo.username}` : '#'} className="username-caption">
-                        {userInfo.username}
-                    </Link>
-                    <span className="caption">{post.content}</span>
-                </div>
-            )}
-
-            {/* View Comments */}
-            {post.comments && post.comments.length > 0 && (
-                 <div className="post-item-view-comments">
-                    <Link to={`/post/${post._id}`}>
-                        Xem tất cả {post.comments.length} bình luận
-                    </Link>
-                 </div>
-            )}
-        </div>
+        </>
     );
 };
 

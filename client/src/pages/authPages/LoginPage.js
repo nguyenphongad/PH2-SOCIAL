@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { Link, Links, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../../redux/thunks/authThunk';
-
 import { toast } from 'react-toastify';
 import LoadingButton from '../../components/loadingComponent.js/LoadingButton';
 import AuthContainer from './AuthContainer';
+import { FaUser, FaLock, FaSignInAlt, FaUserPlus, FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const LoginPage = () => {
 
@@ -13,7 +13,7 @@ const LoginPage = () => {
         username: "",
         password: "",
     });
-
+    const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -33,8 +33,6 @@ const LoginPage = () => {
         try {
             const result = await dispatch(loginUser(credentials));
 
-            // console.log("Kết quả từ API:", result);
-
             if (loginUser.fulfilled.match(result)) {
                 const msg = result.payload?.message;
                 toast.success(msg);
@@ -46,59 +44,78 @@ const LoginPage = () => {
         } catch (error) {
             const errorMessage = error?.response?.data?.message || "Đăng nhập không thành công!";
             toast.error(errorMessage);
-
-            // console.error("Lỗi đăng nhập:", error);
         } finally {
             setIsLoading(false);
         }
-
     }
 
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
 
     return (
         <>
             <AuthContainer>
                 <>
-                    <div>
-                        <input
-                            type="text"
-                            placeholder="Username"
-                            value={credentials.username}
-                            onChange={(e) => {
-                                setCredentials({ ...credentials, username: e.target.value })
-                            }}
-                        />
-                    </div>
-                    <div>
-                        <input
-                            type="password"
-                            placeholder='Password'
-                            value={credentials.password}
-                            onChange={(e) => {
-                                setCredentials({ ...credentials, password: e.target.value })
-                            }}
-                        />
-                    </div>
-                    <div>
-                        <div>
-                            <button onClick={handleLogin} disabled={isLoading}>
-                                {isLoading ? <LoadingButton size={30} /> : "ĐĂNG NHẬP"}
-                            </button>
+                    <h2 className="form-title">Chào mừng trở lại!</h2>
+                    <p className="form-subtitle">Đăng nhập vào tài khoản của bạn</p>
+                    
+                    <form onSubmit={handleLogin}>
+                        <div className="input-group">
+                            <FaUser className="input-icon" />
+                            <input
+                                type="text"
+                                placeholder="Tên đăng nhập"
+                                value={credentials.username}
+                                onChange={(e) => setCredentials({ ...credentials, username: e.target.value })}
+                            />
                         </div>
-
-                    </div>
-                    <div>
-                        <Link to="/forgot-password">Quên mật khẩu?</Link>
-                    </div>
-                    <div style={{ textAlign: "center" }}>
-                        ________________ hoặc ________________
-                    </div>
-                    <div>
-                        <button className='btn_reg' onClick={() => navigate('/register')}>
-                            ĐĂNG KÝ
+                        
+                        <div className="input-group">
+                            <FaLock className="input-icon" />
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                placeholder="Mật khẩu"
+                                value={credentials.password}
+                                onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
+                            />
+                            <div 
+                                className="password-toggle-icon" 
+                                onClick={togglePasswordVisibility}
+                                title={showPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
+                            >
+                                {showPassword ? <FaEyeSlash /> : <FaEye />}
+                            </div>
+                        </div>
+                        
+                        <div className="forgot-link">
+                            <Link to="/forgot-password">Quên mật khẩu?</Link>
+                        </div>
+                        
+                        <button 
+                            type="submit" 
+                            className="btn-login" 
+                            disabled={isLoading}
+                        >
+                            {isLoading ? (
+                                <LoadingButton size={30} />
+                            ) : (
+                                <>
+                                    <FaSignInAlt className="btn-icon" style={{color: '#ffffff'}} />
+                                    <span>ĐĂNG NHẬP</span>
+                                </>
+                            )}
                         </button>
-
+                    </form>
+                    
+                    <div className="divider">
+                        <span>hoặc</span>
                     </div>
+                    
+                    <button className="btn-register" onClick={() => navigate('/register')}>
+                        <FaUserPlus className="btn-icon" />
+                        <span>ĐĂNG KÝ TÀI KHOẢN</span>
+                    </button>
                 </>
             </AuthContainer>
         </>

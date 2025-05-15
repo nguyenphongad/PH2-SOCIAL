@@ -6,7 +6,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     box-sizing: border-box;
-    color: $color-black;
+    // color: $color-black;
     -webkit-tap-highlight-color: #00000000;
     -webkit-tap-highlight-color: transparent;
 }
@@ -65,4 +65,5 @@ ul {
 
 @import "./HomePagesStyle/HomeIndex.scss";
 @import "./MorePageStyles/MorePageIndex.scss";
-@import "./ChatPageStyle/ChatPageIndex.scss"
+@import "./ChatPageStyle/ChatPageIndex.scss";
+@import "./PostPageStyle/PostPageStyle.scss";

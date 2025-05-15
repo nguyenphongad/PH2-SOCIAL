@@ -1,9 +1,9 @@
-import React from 'react'
+import React from 'react';
+import { Navigate } from 'react-router-dom';
 
 const PostPageIndex = () => {
-    return (
-        <div>PostPageIndex</div>
-    )
-}
+    // Redirect to home page since we now use a modal for post creation
+    return <Navigate to="/" />;
+};
 
-export default PostPageIndex
+export default PostPageIndex;

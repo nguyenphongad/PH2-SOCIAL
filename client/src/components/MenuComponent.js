@@ -1,25 +1,18 @@
-import React from 'react'
-
+import React, { useState } from 'react'
 import { RiHome3Fill } from 'react-icons/ri';
 import { IoSearch } from "react-icons/io5";
 import { IoChatbubblesOutline } from "react-icons/io5";
-import { CgMoreO } from "react-icons/cg";
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { CgMoreO} from "react-icons/cg";
+import { NavLink, useLocation } from 'react-router-dom';
 import { IoMdNotificationsOutline } from "react-icons/io";
-
 import { FaRegPenToSquare } from "react-icons/fa6";
+import PostModal from '../pages/postPages/PostModal';
 
 const logo_text = require("../assets/logo/text_logo.png");
-const logo_icon = require("../assets/logo/icon_logo.png")
-
-
-
+const logo_icon = require("../assets/logo/icon_logo.png");
 
 const MenuComponent = ({ userCheck }) => {
-
-
-    // console.log("menu " + JSON.stringify(userCheck, null, 2));
-
+    const [isPostModalVisible, setIsPostModalVisible] = useState(false);
 
     const ARRAY_LIST_MENU = [
         {
@@ -29,14 +22,16 @@ const MenuComponent = ({ userCheck }) => {
             icon_before: <RiHome3Fill />,
             to_link: '/',
             submenu: false,
+            isModal: false,
         },
         {
             id: 1,
             role: "",
             name_menu: 'Đăng bài',
             icon_before: <FaRegPenToSquare />,
-            to_link: '/post',
+            to_link: null,
             submenu: false,
+            isModal: true,
         },
         {
             id: 2,
@@ -45,6 +40,7 @@ const MenuComponent = ({ userCheck }) => {
             icon_before: <IoSearch />,
             to_link: '/search',
             submenu: false,
+            isModal: false,
         },
         {
             id: 3,
@@ -53,6 +49,7 @@ const MenuComponent = ({ userCheck }) => {
             icon_before: <IoChatbubblesOutline />,
             to_link: '/chat',
             submenu: false,
+            isModal: false,
         },
         {
             id: 4,
@@ -61,53 +58,87 @@ const MenuComponent = ({ userCheck }) => {
             icon_before: <IoMdNotificationsOutline />,
             to_link: '/notification',
             submenu: false,
+            isModal: false,
         },
         {
             id: 5,
             role: "",
             name_menu: 'Trang cá nhân',
-            // name_menu: `${userCheck.name}`,
             icon_before: <CgMoreO />,
             to_link: `/${userCheck.username}`,
             submenu: true,
-            isIconImage: true
+            isIconImage: true,
+            isModal: false,
         },
     ];
 
     const location = useLocation();
-    const getRouteName = location.pathname.split("/")[1]
-    console.log(getRouteName)
+    const getRouteName = location.pathname.split("/")[1];
+    const setMenuBar = getRouteName === "chat";
 
-    const setMenuBar = getRouteName === "chat" ? true : false;
+    const handleMenuClick = (item) => {
+        if (item.isModal) {
+            setIsPostModalVisible(true);
+            return;
+        }
+    };
 
-
-    const render_menu = ARRAY_LIST_MENU.map((index) => {
-        return (
-            <div key={index.id}>
-                <NavLink to={index.to_link}>
-                    {
-                        index.isIconImage ?
-                            <img src={userCheck.profilePicture} className='img_icon_menu' />
-                            :
-                            (<div className='icon_menu'>{index.icon_before}</div> )
-                    }
-                    <div className='name_menu'>{index.name_menu}</div>
+    const render_menu = () => {
+        return ARRAY_LIST_MENU.map((item) => (
+            item.isModal ? (
+                <div 
+                    key={item.id} 
+                    className="menu-item"
+                    onClick={() => handleMenuClick(item)}
+                >
+                    <div className='icon_menu'>{item.icon_before}</div>
+                    <div className='name_menu'>{item.name_menu}</div>
+                </div>
+            ) : (
+                <NavLink 
+                    to={item.to_link} 
+                    key={item.id}
+                    className={({ isActive }) => isActive ? 'active' : ''}
+                >
+                    {item.isIconImage ? (
+                        <img 
+                            src={userCheck.profilePicture} 
+                            alt={userCheck.name}
+                            className='img_icon_menu' 
+                        />
+                    ) : (
+                        <div className='icon_menu'>{item.icon_before}</div>
+                    )}
+                    <div className='name_menu'>{item.name_menu}</div>
                 </NavLink>
-            </div>
-        )
-    })
-
+            )
+        ));
+    };
 
     return (
-        <div className={`container_menu ${!setMenuBar ? "" : "set_width_menu_chat"}`}>
-            <div className='box_logo_menu'>
-                <a href="/">
-                    <img src={!setMenuBar ? logo_text : logo_icon} alt="logo text" className='img_text_logo_menu' />
-                </a>
+        <>
+            <div className={`container_menu ${setMenuBar ? "set_width_menu_chat" : ""}`}>
+                <div className='box_logo_menu'>
+                    <a href="/">
+                        <img 
+                            src={setMenuBar ? logo_icon : logo_text} 
+                            alt="logo" 
+                            className='img_text_logo_menu' 
+                        />
+                    </a>
+                </div>
+                <div>
+                    {render_menu()}
+                </div>
             </div>
-            {render_menu}
-        </div>
-    )
-}
+            
+            <PostModal 
+                visible={isPostModalVisible}
+                onClose={() => setIsPostModalVisible(false)} 
+                user={userCheck}
+            />
+        </>
+    );
+};
 
-export default MenuComponent
+export default MenuComponent;

@@ -13,7 +13,7 @@ const ENDPOINT = {
 
     // POST endpoints
     CREATE_POST: "/post/create",                        // POST - Tạo bài đăng mới
-    GET_POST_DETAIL: "/post",                          // GET - Lấy chi tiết bài đăng theo ID
+    GET_POST_DETAIL: "/post/id",                          // GET - Lấy chi tiết bài đăng theo ID
     GET_USER_POSTS: "/post/user",                      // GET - Lấy tất cả bài đăng của người dùng
     UPDATE_POST: "/post",                              // PUT - Cập nhật bài đăng
     DELETE_POST: "/post",                              // DELETE - Xóa bài đăng

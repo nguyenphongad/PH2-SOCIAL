@@ -4,7 +4,7 @@ const postSchema = new mongoose.Schema(
     {
         userID: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
+            ref: 'Users',
             required: true,
         },
         username: {
@@ -13,11 +13,10 @@ const postSchema = new mongoose.Schema(
         },
         content: {
             type: String,
-            required: true,
         },
-        imageUrl: {
-            type: String,
-            required: true,
+        imageUrls: {
+            type: [String],
+            default: [],
         },
         videoUrl: {
             type: String,
@@ -25,12 +24,12 @@ const postSchema = new mongoose.Schema(
         },
         likes: {
             type: [mongoose.Schema.Types.ObjectId],
-            ref: "Tyms",
+            ref: "Like",
             default: [],
         },
         comments: {
             type: [mongoose.Schema.Types.ObjectId],
-            ref: "Comments",
+            ref: "Comment",
             default: [],
         },
 

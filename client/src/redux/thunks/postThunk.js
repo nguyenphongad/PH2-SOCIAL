@@ -9,8 +9,10 @@ export const createPost = createAsyncThunk(
     const token = getState().auth.token;
     try {
       const response = await post(ENDPOINT.CREATE_POST, postData, token);
+      console.log("thunk ", response)
       return response.data;
     } catch (err) {
+      console.log(err)
       return rejectWithValue(err.response?.data || err.message);
     }
   }
@@ -48,12 +50,36 @@ export const getUserPosts = createAsyncThunk(
 export const getPostDetail = createAsyncThunk(
   "posts/getPostDetail",
   async (postId, { getState, rejectWithValue }) => {
+    // Kiểm tra trước nếu đã có post với ID tương tự trong state
+    const currentState = getState();
+    const currentPost = currentState.post.currentPost;
+    
+    // Nếu đã có dữ liệu bài viết và ID trùng khớp, không cần fetch lại
+    if (currentPost && currentPost._id === postId) {
+      return currentPost;
+    }
+    
     const token = getState().auth.token;
     try {
       const response = await get(`${ENDPOINT.GET_POST_DETAIL}/${postId}`, token);
+      if (!response.data || !response.data.post) {
+        return rejectWithValue({ message: "Không tìm thấy bài viết" });
+      }
       return response.data.post;
     } catch (err) {
-      return rejectWithValue(err.response?.data || err.message);
+      console.error("Error fetching post detail:", err);
+      return rejectWithValue(err.response?.data || { message: "Lỗi khi tải bài viết" });
+    }
+  },
+  {
+    condition: (postId, { getState }) => {
+      // Kiểm tra trạng thái hiện tại
+      const { post } = getState();
+      // Nếu đang loading, không gọi thêm request
+      if (post.status === 'loading') {
+        return false;
+      }
+      return true;
     }
   }
 );

@@ -85,21 +85,3 @@ export const fetchPosts = async (token, params = {}) => {
     }
 };
 
-// Hàm đặc biệt cho việc upload file
-export const uploadFile = async (file, token) => {
-    try {
-        const headers = {};
-        if (token) {
-            headers.Authorization = `Bearer ${token}`;
-            headers['Content-Type'] = 'multipart/form-data';
-        }
-        
-        const formData = new FormData();
-        formData.append('file', file);
-        
-        const res = await instance.post("/upload", formData, { headers });
-        return res.data.imageUrl; // Giả sử server trả về URL của ảnh sau khi upload
-    } catch (error) {
-        throw error;
-    }
-};

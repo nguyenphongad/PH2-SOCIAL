@@ -1,17 +1,18 @@
-import {configureStore} from "@reduxjs/toolkit"
-import authSlice from './slices/authSlice';
-import userSlice from './slices/userSlice';
-import socialSlice from "./slices/socialSlice"
-import chatSlice from "./reducers/chatReducer";
-import postSlice from "./slices/postSlice";
+import { configureStore } from "@reduxjs/toolkit";
+import authReducer from "./slices/authSlice";
+import userReducer from "./slices/userSlice";
+import socialReducer from "./slices/socialSlice";
+import postReducer from "./slices/postSlice";
+import chatReducer from "./slices/chatSlice";
 
 export const store = configureStore({
-    reducer:{
-        auth: authSlice,
-        user: userSlice,
-        social: socialSlice,
-        chat: chatSlice,
-        post: postSlice
-    },
-    
-})
+    reducer: {
+        auth: authReducer,
+        user: userReducer,
+        social: socialReducer,
+        post: postReducer,
+        chat: chatReducer
+    }
+});
+
+export default store;

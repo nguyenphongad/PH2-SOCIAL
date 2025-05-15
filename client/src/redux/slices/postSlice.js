@@ -56,6 +56,12 @@ const postsSlice = createSlice({
       state.deleteStatus = "idle";
       state.likeStatus = "idle";
       state.commentStatus = "idle";
+    },
+
+    // Thêm reducer để xóa currentPost khi cần
+    clearCurrentPost: (state) => {
+      state.currentPost = null;
+      state.status = "idle";
     }
   },
 
@@ -103,15 +109,22 @@ const postsSlice = createSlice({
 
       // GET POST DETAIL - Lấy chi tiết một bài đăng
       .addCase(getPostDetail.pending, (state) => {
-        state.status = "loading";
+        // Chỉ set trạng thái loading nếu không có currentPost
+        if (!state.currentPost) {
+          state.status = "loading";
+        }
       })
       .addCase(getPostDetail.fulfilled, (state, { payload }) => {
         state.status = "succeeded";
-        state.currentPost = payload;
+        // Chỉ cập nhật currentPost nếu payload hợp lệ
+        if (payload && payload._id) {
+          state.currentPost = payload;
+        }
       })
       .addCase(getPostDetail.rejected, (state, { payload }) => {
         state.status = "failed";
         state.error = payload;
+        state.currentPost = null;
       })
 
       // UPDATE POST - Cập nhật bài đăng
@@ -253,7 +266,7 @@ const postsSlice = createSlice({
 });
 
 // Export actions
-export const { resetPostState, resetSearchResults, resetActionStatus } = postsSlice.actions;
+export const { resetPostState, resetSearchResults, resetActionStatus, clearCurrentPost } = postsSlice.actions;
 
 // Export selectors
 export const selectAllPosts = state => state.posts.items;

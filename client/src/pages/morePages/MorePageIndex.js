@@ -300,7 +300,7 @@ const MorePageIndex = ({ userPeople }) => {
                             
                             {/* Content - Luôn hiển thị PostMeComponent */}
                             <div className="tab-content">
-                                <PostMeComponent />
+                                <PostMeComponent username={userPeople.username} />
                             </div>
                         </>
                     )}

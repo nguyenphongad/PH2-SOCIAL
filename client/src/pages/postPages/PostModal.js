@@ -2,6 +2,38 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Modal, Upload, message } from 'antd';
 import { PlusOutlined, LoadingOutlined, CloseOutlined } from '@ant-design/icons';
 import { FaMapMarkerAlt, FaUserTag, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { useDispatch, useSelector } from 'react-redux';
+import { createPost } from '../../redux/thunks/postThunk';
+
+// Lấy biến môi trường từ .env
+const CLOUDINARY_CLOUD_NAME = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;
+const CLOUDINARY_UPLOAD_PRESET = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET;
+
+
+// Hàm upload ảnh lên Cloudinary
+async function uploadSingleImageToCloudinary(file) {
+    if (!CLOUDINARY_CLOUD_NAME || !CLOUDINARY_UPLOAD_PRESET) {
+        console.error("Cloudinary .env not configured.");
+        throw new Error("Lỗi cấu hình Cloudinary.");
+    }
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+    try {
+        const response = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, {
+            method: 'POST', body: formData
+        });
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error.message || `Upload ảnh "${file.name}" thất bại.`);
+        }
+        const data = await response.json();
+        return data.secure_url;
+    } catch (error) { 
+        console.error(`Lỗi upload ảnh "${file.name}" lên Cloudinary:`, error); 
+        throw error; 
+    }
+}
 
 const PostModal = ({ visible, onClose, user }) => {
     const [fileList, setFileList] = useState([]);
@@ -11,6 +43,11 @@ const PostModal = ({ visible, onClose, user }) => {
     const [previewImage, setPreviewImage] = useState('');
     const [currentSlide, setCurrentSlide] = useState(0);
     const [processedImages, setProcessedImages] = useState({});
+    const dispatch = useDispatch();
+    
+    // Sử dụng tên slice đúng và có fallback là đối tượng rỗng
+    const postState = useSelector(state => state.post || {}); 
+    const createStatus = postState.createStatus || 'idle';
     
     // Reset state khi đóng modal
     useEffect(() => {
@@ -109,21 +146,36 @@ const PostModal = ({ visible, onClose, user }) => {
         setUploading(true);
         
         try {
-            // TODO: API call để đăng bài
-            // const formData = new FormData();
-            // fileList.forEach(file => {
-            //     formData.append('files', file.originFileObj);
-            // });
-            // formData.append('content', postText);
+            let imageUrls = [];
             
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            // Upload ảnh lên Cloudinary nếu có
+            if (fileList.length > 0) {
+                // Upload từng ảnh và lấy URL
+                const uploadPromises = fileList.map(file => {
+                    return uploadSingleImageToCloudinary(file.originFileObj);
+                });
+                
+                imageUrls = await Promise.all(uploadPromises);
+            }
             
-            message.success('Đăng bài viết thành công!');
-            setFileList([]);
-            setPostText('');
-            onClose();
+            // Tạo dữ liệu bài đăng
+            const postData = {
+                content: postText.trim(),
+                imageUrls: imageUrls.length > 0 ? imageUrls : []
+            };
+            
+            // Gọi action createPost
+            const result = await dispatch(createPost(postData)).unwrap();
+            
+            if (result) {
+                message.success('Đăng bài viết thành công!');
+                setFileList([]);
+                setPostText('');
+                onClose();
+            }
         } catch (error) {
-            message.error('Đăng bài thất bại. Vui lòng thử lại!');
+            console.error('Error posting:', error);
+            message.error(error.message || 'Đăng bài thất bại. Vui lòng thử lại!');
         } finally {
             setUploading(false);
         }
@@ -153,6 +205,11 @@ const PostModal = ({ visible, onClose, user }) => {
             <div style={{ marginTop: 8 }}>Thêm ảnh</div>
         </div>
     );
+
+    // Xác định trạng thái loading từ Redux
+    const isCreatingPost = createStatus === 'loading';
+    // Kết hợp trạng thái loading từ component local và từ Redux
+    const isSubmitting = uploading || isCreatingPost;
 
     return (
         <>
@@ -252,6 +309,7 @@ const PostModal = ({ visible, onClose, user }) => {
                                     beforeUpload={beforeUpload}
                                     multiple
                                     accept="image/*"
+                                    disabled={isSubmitting}
                                 >
                                     {fileList.length >= 10 ? null : uploadButton}
                                 </Upload>
@@ -275,6 +333,7 @@ const PostModal = ({ visible, onClose, user }) => {
                                 value={postText}
                                 onChange={(e) => setPostText(e.target.value)}
                                 rows={6}
+                                disabled={isSubmitting}
                             />
                         </div>
 
@@ -282,16 +341,16 @@ const PostModal = ({ visible, onClose, user }) => {
                             <button
                                 className="cancel-btn"
                                 onClick={onClose}
-                                disabled={uploading}
+                                disabled={isSubmitting}
                             >
                                 Huỷ
                             </button>
                             <button
                                 className="post-btn"
                                 onClick={handlePost}
-                                disabled={uploading || (fileList.length === 0 && !postText.trim())}
+                                disabled={isSubmitting || (fileList.length === 0 && !postText.trim())}
                             >
-                                {uploading ? 'Đang đăng...' : 'Chia sẻ'}
+                                {isSubmitting ? 'Đang đăng...' : 'Chia sẻ'}
                             </button>
                         </div>
                     </div>

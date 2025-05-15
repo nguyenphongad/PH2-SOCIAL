@@ -1,18 +1,18 @@
-import React from 'react'
-import ClipLoader from "react-spinners/ClipLoader";
+import React from 'react';
+import { LoadingOutlined } from '@ant-design/icons';
+import { Spin } from 'antd';
 
-const LoadingText = ({size, color}) => {
+const LoadingText = ({ text = "Đang tải..." }) => {
+    const antIcon = <LoadingOutlined style={{ fontSize: 40 }} spin />;
+    
     return (
-        <span className="loading_text">
-            <ClipLoader
-                color={color || "#ffffff"}
-                size={size}
-                aria-label="Loading Spinner"
-                data-testid="loader"
-                className='loading_icon_text'
-            />
-        </span>
-    )
-}
+        <div className="loading_text">
+            <div className="loading-container-centered">
+                <Spin indicator={antIcon} />
+                <p className="loading-text">{text}</p>
+            </div>
+        </div>
+    );
+};
 
-export default LoadingText
+export default LoadingText;

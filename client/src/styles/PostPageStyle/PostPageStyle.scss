@@ -217,8 +217,10 @@
 }
 
 .post-creation-modal {
+
+    // padding: 100px;
     .ant-modal-content {
-        border-radius: 0;
+        border-radius: 20;
 
         .ant-modal-header {
             border-bottom: 1px solid #f1f1f1;
@@ -247,11 +249,11 @@
 
     .post-modal-media-section {
         flex: 1;
-        background-color: #000;
         display: flex;
         align-items: center;
         justify-content: center;
         position: relative;
+        background-color: #fff;
 
         .upload-placeholder {
             display: flex;
@@ -267,25 +269,26 @@
             p {
                 margin-top: 20px;
                 font-size: 16px;
-                color: #ddd;
+                color: #666; // Thay đổi từ #ddd để hiển thị rõ hơn
             }
 
             .ant-upload-picture-card-wrapper {
                 width: auto;
 
                 .ant-upload.ant-upload-select-picture-card {
-                    background-color: rgba(255, 255, 255, 0.1);
-                    border: 1px dashed rgba(255, 255, 255, 0.3);
-                    color: #fff;
+                    background-color: #f0f0f0; // Thay đổi từ rgba(255, 255, 255, 0.1)
+                    border: 2px dashed #ddd;
+                    color: #666; // Thay đổi từ #fff
                     width: 120px;
                     height: 120px;
 
                     &:hover {
+                        background-color: #e8e8e8;
                         border-color: $main_color;
                     }
 
                     .anticon {
-                        color: #fff;
+                        color: #666; // Thay đổi từ #fff
                         font-size: 24px;
                     }
                 }
@@ -324,6 +327,17 @@
                     }
                 }
 
+                // Tùy chỉnh dots mặc định
+                .custom-carousel-dots {
+                    bottom: -30px; // Ẩn đi dots mặc định (di chuyển ra ngoài container)
+                    display: none !important; // Ẩn hoàn toàn
+                    li {
+                        button {
+                            display: none !important;
+                        }
+                    }
+                }
+
                 .slick-arrow {
                     background: rgba(0, 0, 0, 0.3);
                     border-radius: 50%;
@@ -342,19 +356,80 @@
                         background: rgba(0, 0, 0, 0.5);
                     }
                 }
+
+                .slick-slide {
+                    will-change: opacity;
+                    transition: opacity 0.3s ease;
+                }
+
+                // Thêm hiệu ứng fade để mượt hơn
+                .slick-track {
+                    perspective: 1000;
+                    -webkit-perspective: 1000;
+                }
             }
 
             .carousel-item {
-                height: 100vh;
+                height: 500px; // Thay đổi từ 100vh để tránh overflow
                 display: flex !important;
                 justify-content: center;
                 align-items: center;
                 position: relative;
+                overflow: hidden;
+                background: #f9f9f9; // Thêm màu nền nhẹ để tránh flash màu trắng
+                transform: translateZ(0);  // Kích hoạt GPU acceleration
+                backface-visibility: hidden; // Cải thiện render
+
+                .carousel-image-wrapper {
+                    position: relative;
+                    height: 100%;
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    transform: translateZ(0);
+                    will-change: transform;
+                }
 
                 .carousel-image {
                     max-height: 100%;
                     max-width: 100%;
                     object-fit: contain;
+                }
+
+                .image-remove-btn {
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    background-color: rgba(0, 0, 0, 0.6);
+                    color: white;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border: none;
+                    cursor: pointer;
+                    transition: all 0.2s;
+                    z-index: 5;
+
+                    &:hover {
+                        background-color: rgba(220, 53, 69, 0.8);
+                        transform: scale(1.1);
+                    }
+                }
+
+                .image-counter {
+                    position: absolute;
+                    top: 10px;
+                    left: 10px;
+                    background: rgba(0, 0, 0, 0.6);
+                    color: white;
+                    padding: 4px 10px;
+                    border-radius: 20px;
+                    font-size: 12px;
+                    font-weight: 600;
                 }
 
                 .tag-overlay {
@@ -372,6 +447,435 @@
 
                     &:hover {
                         opacity: 1;
+                    }
+                }
+            }
+
+            .image-thumbnails {
+                position: absolute;
+                bottom: 20px;
+                left: 0;
+                right: 0;
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+                padding: 0 20px;
+                z-index: 10;
+                
+                .thumbnail-item {
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 4px;
+                    overflow: hidden;
+                    border: 2px solid transparent;
+                    opacity: 0.7;
+                    transition: all 0.2s;
+                    cursor: pointer;
+                    
+                    &.active {
+                        border-color: white;
+                        opacity: 1;
+                        box-shadow: 0 0 0 2px $main_color;
+                    }
+                    
+                    &:hover {
+                        opacity: 1;
+                        transform: translateY(-3px);
+                    }
+                    
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+                }
+            }
+        }
+
+        .post-image-slider-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+
+            .slick-slider {
+                width: 100%;
+                height: 100%;
+                
+                .slick-list, .slick-track {
+                    height: 100%;
+                }
+                
+                .slick-slide > div {
+                    height: 100%;
+                }
+
+                .slick-dots {
+                    bottom: 60px;
+                    
+                    li {
+                        margin: 0 4px;
+                        
+                        .custom-dot {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            
+                            .dot {
+                                width: 8px;
+                                height: 8px;
+                                background-color: rgba(255, 255, 255, 0.5);
+                                border-radius: 50%;
+                                transition: all 0.3s ease;
+                                
+                                &.active {
+                                    background-color: white;
+                                    transform: scale(1.25);
+                                }
+                            }
+                        }
+                        
+                        button:before {
+                            content: none;
+                        }
+                    }
+                }
+                
+                .slick-arrow {
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    z-index: 10;
+                    width: 36px;
+                    height: 36px;
+                    border-radius: 50%;
+                    background-color: rgba(0, 0, 0, 0.5);
+                    display: flex !important;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    color: white;
+                    transition: all 0.3s ease;
+                    font-size: 16px;
+                    
+                    &:hover {
+                        background-color: rgba(0, 0, 0, 0.7);
+                        transform: translateY(-50%) scale(1.1);
+                    }
+                    
+                    &.slick-prev {
+                        left: 16px;
+                    }
+                    
+                    &.slick-next {
+                        right: 16px;
+                    }
+                }
+            }
+            
+            .slider-item {
+                height: 500px;
+                display: flex !important;
+                justify-content: center;
+                align-items: center;
+                position: relative;
+                overflow: hidden;
+                background: #f9f9f9;
+                transform: translateZ(0);
+                backface-visibility: hidden;
+
+                .slider-image-wrapper {
+                    position: relative;
+                    height: 100%;
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    transform: translateZ(0);
+                    will-change: transform;
+                }
+
+                .slider-image {
+                    max-height: 100%;
+                    max-width: 100%;
+                    object-fit: contain;
+                }
+
+                .image-remove-btn {
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    background-color: rgba(0, 0, 0, 0.6);
+                    color: white;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border: none;
+                    cursor: pointer;
+                    transition: all 0.2s;
+                    z-index: 5;
+
+                    &:hover {
+                        background-color: rgba(220, 53, 69, 0.8);
+                        transform: scale(1.1);
+                    }
+                }
+
+                .image-counter {
+                    position: absolute;
+                    top: 10px;
+                    left: 10px;
+                    background: rgba(0, 0, 0, 0.6);
+                    color: white;
+                    padding: 4px 10px;
+                    border-radius: 20px;
+                    font-size: 12px;
+                    font-weight: 600;
+                    z-index: 5;
+                }
+
+                .tag-overlay {
+                    position: absolute;
+                    bottom: 100px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: rgba(0, 0, 0, 0.7);
+                    color: white;
+                    padding: 8px 16px;
+                    border-radius: 20px;
+                    font-size: 14px;
+                    opacity: 0.7;
+                    transition: opacity 0.2s ease;
+                    z-index: 5;
+
+                    &:hover {
+                        opacity: 1;
+                    }
+                }
+            }
+
+            .image-thumbnails {
+                position: absolute;
+                bottom: 20px;
+                left: 0;
+                right: 0;
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+                padding: 0 20px;
+                z-index: 10;
+                
+                .thumbnail-item {
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 4px;
+                    overflow: hidden;
+                    border: 2px solid transparent;
+                    opacity: 0.7;
+                    transition: all 0.2s;
+                    cursor: pointer;
+                    
+                    &.active {
+                        border-color: white;
+                        opacity: 1;
+                        box-shadow: 0 0 0 2px $main_color;
+                    }
+                    
+                    &:hover {
+                        opacity: 1;
+                        transform: translateY(-3px);
+                    }
+                    
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+                }
+            }
+        }
+
+        .custom-image-slider {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: #f9f9f9;
+            
+            .slider-container {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .slider-item {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                opacity: 0;
+                transition: opacity 0.3s ease-in-out;
+                
+                &.active {
+                    opacity: 1;
+                    z-index: 1;
+                }
+            }
+            
+            .slider-image-wrapper {
+                position: relative;
+                height: 100%;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            
+            .slider-image {
+                max-height: 90%;
+                max-width: 90%;
+                object-fit: contain;
+            }
+            
+            .slider-nav {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                z-index: 10;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background-color: rgba(0, 0, 0, 0.5);
+                border: none;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-size: 16px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                
+                &:hover:not(.disabled) {
+                    background-color: rgba(0, 0, 0, 0.7);
+                    transform: translateY(-50%) scale(1.1);
+                }
+                
+                &.disabled {
+                    opacity: 0.3;
+                    cursor: not-allowed;
+                }
+                
+                &.prev {
+                    left: 20px;
+                }
+                
+                &.next {
+                    right: 20px;
+                }
+            }
+            
+            .image-counter {
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                background: rgba(0, 0, 0, 0.6);
+                color: white;
+                padding: 5px 12px;
+                border-radius: 20px;
+                font-size: 14px;
+                font-weight: 500;
+                z-index: 5;
+            }
+            
+            .image-remove-btn {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                width: 34px;
+                height: 34px;
+                border-radius: 50%;
+                background-color: rgba(0, 0, 0, 0.6);
+                color: white;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: none;
+                cursor: pointer;
+                transition: all 0.2s;
+                z-index: 5;
+                
+                &:hover {
+                    background-color: rgba(220, 53, 69, 0.8);
+                    transform: scale(1.1);
+                }
+            }
+            
+            .tag-overlay {
+                position: absolute;
+                bottom: 80px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(0, 0, 0, 0.7);
+                color: white;
+                padding: 8px 16px;
+                border-radius: 20px;
+                font-size: 14px;
+                opacity: 0.7;
+                transition: opacity 0.2s ease;
+                z-index: 5;
+                
+                &:hover {
+                    opacity: 1;
+                }
+            }
+            
+            .image-thumbnails {
+                position: absolute;
+                bottom: 20px;
+                left: 0;
+                right: 0;
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+                padding: 0 20px;
+                z-index: 5;
+                
+                .thumbnail-item {
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 4px;
+                    overflow: hidden;
+                    border: 2px solid transparent;
+                    opacity: 0.6;
+                    transition: all 0.2s;
+                    cursor: pointer;
+                    
+                    &.active {
+                        border-color: white;
+                        opacity: 1;
+                        box-shadow: 0 0 0 2px $main_color;
+                    }
+                    
+                    &:hover:not(.active) {
+                        opacity: 0.9;
+                        transform: translateY(-3px);
+                    }
+                    
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
                     }
                 }
             }

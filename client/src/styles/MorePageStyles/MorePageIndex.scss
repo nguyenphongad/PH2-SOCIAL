@@ -648,18 +648,7 @@
 
 // Duy trì các style cho modal hiện có
 .modal_confilm_logout {
-    .ant-btn-primary {
-        background-color: $main_color;
-
-        span {
-            color: #fff !important;
-        }
-
-        &:hover {
-            background-color: $main_color_hover !important;
-        }
-    }
-
+    // Xóa bỏ các style bị trùng lặp và gây đè lên nhau
     .ant-btn-primary {
         background-color: #e74c3c;
         border-color: #e74c3c;
@@ -686,30 +675,6 @@
         .ant-modal-body {
             font-size: 16px;
             padding: 30px 24px;
-        }
-    }
-}
-
-.modal_fler_user {
-    .ant-modal-body {
-        padding-top: 20px;
-    }
-
-    .item_user_fler {
-        display: flex;
-        padding: 10px 0px;
-        border-top: 1px solid #eaeaea;
-
-        img {
-            width: 50px;
-            height: 50px;
-            object-fit: cover;
-            border-radius: 100%;
-            margin-right: 20px;
-        }
-
-        .st_username_user {
-            font-weight: 600;
         }
     }
 }
@@ -866,11 +831,11 @@
                     }
 
                     &.btn-logout {
-                        color: #e74c3c;
-                        font-weight: 700;
+                        background-color: #e74c3c;
+                        color: white;
 
                         &:hover {
-                            color: #c0392b;
+                            background-color: #c0392b;
                         }
 
                         &:active {

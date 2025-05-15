@@ -1,8 +1,105 @@
-import instance from "../config/post.axios.config";
+import instance from '../config/post.axios.config';
 
+export const get = async (uri, token, params) => {
+    try {
+        const headers = {};
+        if (token) {
+            headers.Authorization = `Bearer ${token}`;
+        }
+
+        const res = await instance.get(uri, { headers, params });
+        return res;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const post = async (uri, data, token) => {
+    try {
+        const headers = {};
+        if (token) {
+            headers.Authorization = `Bearer ${token}`;
+        }
+
+        const res = await instance.post(uri, data, { headers });
+        return res;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const put = async (uri, data, token) => {
+    try {
+        const headers = {};
+        if (token) {
+            headers.Authorization = `Bearer ${token}`;
+        }
+
+        const res = await instance.put(uri, data, { headers });
+        return res;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const del = async (uri, token, data) => {
+    try {
+        const headers = {};
+        if (token) {
+            headers.Authorization = `Bearer ${token}`;
+        }
+
+        const res = await instance.delete(uri, { headers, data });
+        return res;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const patch = async (uri, data, token) => {
+    try {
+        const headers = {};
+        if (token) {
+            headers.Authorization = `Bearer ${token}`;
+        }
+
+        const res = await instance.patch(uri, data, { headers });
+        return res;
+    } catch (error) {
+        throw error;
+    }
+};
+
+// Hàm đặc biệt cho việc lấy feed posts
 export const fetchPosts = async (token, params = {}) => {
-  const headers = token ? { Authorization: `Bearer ${token}` } : {};
-  const res = await instance.get("/post/feed", { headers, params });
-  // backend trả về { feedPosts: [...] }
-  return res.data.feedPosts;
+    try {
+        const headers = {};
+        if (token) {
+            headers.Authorization = `Bearer ${token}`;
+        }
+        
+        const res = await instance.get("/post/feed", { headers, params });
+        return res.data.feedPosts;
+    } catch (error) {
+        throw error;
+    }
+};
+
+// Hàm đặc biệt cho việc upload file
+export const uploadFile = async (file, token) => {
+    try {
+        const headers = {};
+        if (token) {
+            headers.Authorization = `Bearer ${token}`;
+            headers['Content-Type'] = 'multipart/form-data';
+        }
+        
+        const formData = new FormData();
+        formData.append('file', file);
+        
+        const res = await instance.post("/upload", formData, { headers });
+        return res.data.imageUrl; // Giả sử server trả về URL của ảnh sau khi upload
+    } catch (error) {
+        throw error;
+    }
 };

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Modal, Upload, Button, message, Carousel } from 'antd';
-import { PlusOutlined, LoadingOutlined, ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
-import { FaRegEdit, FaMapMarkerAlt, FaUserTag } from 'react-icons/fa';
+import React, { useState, useRef, useEffect } from 'react';
+import { Modal, Upload, message } from 'antd';
+import { PlusOutlined, LoadingOutlined, CloseOutlined } from '@ant-design/icons';
+import { FaMapMarkerAlt, FaUserTag, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 const PostModal = ({ visible, onClose, user }) => {
     const [fileList, setFileList] = useState([]);
@@ -9,6 +9,19 @@ const PostModal = ({ visible, onClose, user }) => {
     const [postText, setPostText] = useState('');
     const [previewVisible, setPreviewVisible] = useState(false);
     const [previewImage, setPreviewImage] = useState('');
+    const [currentSlide, setCurrentSlide] = useState(0);
+    const [processedImages, setProcessedImages] = useState({});
+    
+    // Reset state khi đóng modal
+    useEffect(() => {
+        if (!visible) {
+            const timeout = setTimeout(() => {
+                setCurrentSlide(0);
+                setProcessedImages({});
+            }, 300);
+            return () => clearTimeout(timeout);
+        }
+    }, [visible]);
     
     // Kiểm tra trước khi upload
     const beforeUpload = (file) => {
@@ -24,26 +37,67 @@ const PostModal = ({ visible, onClose, user }) => {
     };
 
     // Xử lý thay đổi file uploads
-    const handleChange = ({ fileList }) => setFileList(fileList);
+    const handleChange = ({ fileList: newFileList }) => {
+        const updatedFileList = [...newFileList];
+        setFileList(updatedFileList);
+    };
 
-    // Preview ảnh
-    const handlePreview = async (file) => {
-        if (!file.url && !file.preview) {
-            file.preview = await getBase64(file.originFileObj);
+    // Xử lý xem trước & tối ưu bộ nhớ
+    const getImageUrl = (file) => {
+        if (!file.originFileObj) return file.url;
+        
+        if (processedImages[file.uid]) {
+            return processedImages[file.uid];
         }
-        setPreviewImage(file.url || file.preview);
+        
+        const objectUrl = URL.createObjectURL(file.originFileObj);
+        
+        setProcessedImages(prev => ({
+            ...prev,
+            [file.uid]: objectUrl
+        }));
+        
+        return objectUrl;
+    };
+
+    // Preview ảnh riêng lẻ
+    const handlePreview = async (file) => {
+        const url = getImageUrl(file);
+        setPreviewImage(url);
         setPreviewVisible(true);
     };
 
-    // Chuyển file thành base64 để preview
-    const getBase64 = (file) => {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = error => reject(error);
-        });
+    // Xóa ảnh
+    const handleRemoveImage = (index) => {
+        const newFileList = [...fileList];
+        
+        const removedFile = newFileList[index];
+        if (removedFile && removedFile.uid && processedImages[removedFile.uid]) {
+            URL.revokeObjectURL(processedImages[removedFile.uid]);
+            setProcessedImages(prev => {
+                const updated = {...prev};
+                delete updated[removedFile.uid];
+                return updated;
+            });
+        }
+        
+        newFileList.splice(index, 1);
+        setFileList(newFileList);
+        
+        // Reset slide index
+        if (currentSlide >= newFileList.length) {
+            setCurrentSlide(Math.max(0, newFileList.length - 1));
+        }
     };
+
+    // Giải phóng bộ nhớ khi component unmount
+    useEffect(() => {
+        return () => {
+            Object.values(processedImages).forEach(url => {
+                URL.revokeObjectURL(url);
+            });
+        };
+    }, []);
 
     // Xử lý đăng bài
     const handlePost = async () => {
@@ -62,7 +116,6 @@ const PostModal = ({ visible, onClose, user }) => {
             // });
             // formData.append('content', postText);
             
-            // Chờ 1 giây để mô phỏng quá trình đăng bài
             await new Promise(resolve => setTimeout(resolve, 1000));
             
             message.success('Đăng bài viết thành công!');
@@ -76,45 +129,22 @@ const PostModal = ({ visible, onClose, user }) => {
         }
     };
 
-    // Component nút mũi tên cho carousel
-    const NextArrow = props => {
-        const { className, style, onClick } = props;
-        return (
-            <div
-                className={className}
-                style={{
-                    ...style,
-                    color: "white",
-                    fontSize: "20px",
-                    lineHeight: "1",
-                    right: "10px",
-                    zIndex: 2
-                }}
-                onClick={onClick}
-            >
-                <ArrowRightOutlined />
-            </div>
-        );
+    // Xử lý chuyển slide
+    const nextSlide = () => {
+        if (currentSlide < fileList.length - 1) {
+            setCurrentSlide(currentSlide + 1);
+        }
     };
 
-    const PrevArrow = props => {
-        const { className, style, onClick } = props;
-        return (
-            <div
-                className={className}
-                style={{
-                    ...style,
-                    color: "white",
-                    fontSize: "20px",
-                    lineHeight: "1",
-                    left: "10px",
-                    zIndex: 2
-                }}
-                onClick={onClick}
-            >
-                <ArrowLeftOutlined />
-            </div>
-        );
+    const prevSlide = () => {
+        if (currentSlide > 0) {
+            setCurrentSlide(currentSlide - 1);
+        }
+    };
+
+    // Chọn thumbnail
+    const goToSlide = (index) => {
+        setCurrentSlide(index);
     };
 
     const uploadButton = (
@@ -131,35 +161,86 @@ const PostModal = ({ visible, onClose, user }) => {
                 title="Tạo bài viết mới"
                 onCancel={onClose}
                 footer={null}
-                width="100%"
-                style={{ top: 0, maxWidth: '100vw', margin: 0, padding: 0 }}
-                bodyStyle={{ padding: 0, height: 'calc(100vh - 56px)' }}
+                width="80%"
+                style={{ top: 50, maxWidth: '100vw', margin: "0px auto", padding: 0 }}
+                bodyStyle={{ height: '600px' }}
                 className="post-creation-modal"
                 destroyOnClose
-                maskClosable={false}
             >
                 <div className="post-modal-content">
                     <div className="post-modal-media-section">
                         {fileList.length > 0 ? (
-                            <div className="post-image-carousel-container">
-                                <Carousel
-                                    arrows
-                                    prevArrow={<PrevArrow />}
-                                    nextArrow={<NextArrow />}
-                                >
-                                    {fileList.map(file => (
-                                        <div className="carousel-item" key={file.uid}>
-                                            <img
-                                                src={file.url || URL.createObjectURL(file.originFileObj)}
-                                                alt="Post"
-                                                className="carousel-image"
-                                            />
-                                            <div className="tag-overlay">
-                                                <span>Nhấp vào ảnh để gắn thẻ mọi người</span>
-                                            </div>
+                            <div className="custom-image-slider">
+                                <div className="slider-container">
+                                    {fileList.map((file, index) => (
+                                        <div 
+                                            key={file.uid || index} 
+                                            className={`slider-item ${index === currentSlide ? 'active' : ''}`}
+                                        >
+                                            {index === currentSlide && (
+                                                <div className="slider-image-wrapper">
+                                                    <img
+                                                        src={getImageUrl(file)}
+                                                        alt="Post"
+                                                        className="slider-image"
+                                                        loading="lazy"
+                                                    />
+                                                    <button 
+                                                        className="image-remove-btn" 
+                                                        onClick={() => handleRemoveImage(index)}
+                                                        title="Xóa ảnh này"
+                                                    >
+                                                        <CloseOutlined />
+                                                    </button>
+                                                    
+                                                    
+                                                    {fileList.length > 1 && (
+                                                        <div className="image-counter">
+                                                            {index + 1}/{fileList.length}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            )}
                                         </div>
                                     ))}
-                                </Carousel>
+                                </div>
+                                
+                                {fileList.length > 1 && (
+                                    <>
+                                        <button 
+                                            className={`slider-nav prev ${currentSlide === 0 ? 'disabled' : ''}`}
+                                            onClick={prevSlide}
+                                            disabled={currentSlide === 0}
+                                        >
+                                            <FaArrowLeft />
+                                        </button>
+                                        <button 
+                                            className={`slider-nav next ${currentSlide === fileList.length - 1 ? 'disabled' : ''}`}
+                                            onClick={nextSlide}
+                                            disabled={currentSlide === fileList.length - 1}
+                                        >
+                                            <FaArrowRight />
+                                        </button>
+                                    </>
+                                )}
+                                
+                                {fileList.length > 1 && (
+                                    <div className="image-thumbnails">
+                                        {fileList.map((file, index) => (
+                                            <div 
+                                                key={file.uid || index} 
+                                                className={`thumbnail-item ${index === currentSlide ? 'active' : ''}`}
+                                                onClick={() => goToSlide(index)}
+                                            >
+                                                <img
+                                                    src={getImageUrl(file)}
+                                                    alt={`Thumbnail ${index}`}
+                                                    loading="lazy"
+                                                />
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
                             </div>
                         ) : (
                             <div className="upload-placeholder">
@@ -197,15 +278,6 @@ const PostModal = ({ visible, onClose, user }) => {
                             />
                         </div>
 
-                        <div className="post-options">
-                            <button className="option-btn">
-                                <FaMapMarkerAlt /> Thêm vị trí
-                            </button>
-                            <button className="option-btn">
-                                <FaUserTag /> Thêm cộng tác viên
-                            </button>
-                        </div>
-
                         <div className="post-actions">
                             <button
                                 className="cancel-btn"
@@ -227,7 +299,7 @@ const PostModal = ({ visible, onClose, user }) => {
             </Modal>
 
             <Modal
-                visible={previewVisible}
+                open={previewVisible}
                 footer={null}
                 onCancel={() => setPreviewVisible(false)}
             >

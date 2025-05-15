@@ -16,7 +16,7 @@ const HomePageIndex = () => {
   if (status === "loading") return <LoadingText text="Đang tải bài viết…" />;
   if (status === "failed")  return <div className="error">{error}</div>;
 
-  console.log(posts)
+  // console.log(posts)
 
   return (
     <div className="container_home">

@@ -168,40 +168,93 @@ const postsSlice = createSlice({
       })
 
       // TOGGLE LIKE POST - Like/Unlike bài đăng
-      .addCase(toggleLike.pending, (state) => {
+      .addCase(toggleLike.pending, (state, action) => {
         state.likeStatus = "loading";
-      })
-      .addCase(toggleLike.fulfilled, (state, { payload }) => {
-        state.likeStatus = "succeeded";
         
-        // Cần phải cập nhật lại danh sách likes trong bài đăng
-        // Vì backend trả về message thành công, không trả về bài viết đã cập nhật
-        // Chỉ thay đổi trạng thái UI, sẽ cập nhật chính xác khi refresh
+        // Optimistic UI update - Cập nhật UI ngay lập tức trước khi API hoàn thành
+        const postId = action.meta.arg; // Lấy postId từ tham số của action
         
         // Cập nhật trong danh sách items
-        const post = state.items.find(post => post._id === payload.postId);
-        if (post) {
-          // Nếu message là "Đã thích bài đăng" thì tăng count
-          if (payload.message === "Đã thích bài đăng") {
-            post.likes = [...(post.likes || []), "temp-like-id"];
+        const postIndex = state.items.findIndex(post => post._id === postId);
+        if (postIndex !== -1) {
+          const post = state.items[postIndex];
+          // Đảo ngược trạng thái like
+          const currentLikeStatus = post.isLikedByCurrentUser || false;
+          post.isLikedByCurrentUser = !currentLikeStatus;
+          
+          if (post.isLikedByCurrentUser) {
+            // Nếu like thì tăng số like
+            if (!post.likes) post.likes = [];
+            post.likes.push('temp-like-id');
           } else {
-            // Nếu message là "Đã bỏ thích bài đăng" thì giảm count
-            post.likes = (post.likes || []).slice(0, -1);
+            // Nếu unlike thì giảm số like
+            if (post.likes && post.likes.length > 0) {
+              post.likes.pop();
+            }
           }
         }
         
         // Cập nhật trong current post nếu đang xem chi tiết
-        if (state.currentPost && state.currentPost._id === payload.postId) {
-          if (payload.message === "Đã thích bài đăng") {
-            state.currentPost.likes = [...(state.currentPost.likes || []), "temp-like-id"];
+        if (state.currentPost && state.currentPost._id === postId) {
+          const currentLikeStatus = state.currentPost.isLikedByCurrentUser || false;
+          state.currentPost.isLikedByCurrentUser = !currentLikeStatus;
+          
+          if (state.currentPost.isLikedByCurrentUser) {
+            if (!state.currentPost.likes) state.currentPost.likes = [];
+            state.currentPost.likes.push('temp-like-id');
           } else {
-            state.currentPost.likes = (state.currentPost.likes || []).slice(0, -1);
+            if (state.currentPost.likes && state.currentPost.likes.length > 0) {
+              state.currentPost.likes.pop();
+            }
           }
         }
       })
-      .addCase(toggleLike.rejected, (state, { payload }) => {
+      .addCase(toggleLike.fulfilled, (state, { payload }) => {
+        state.likeStatus = "succeeded";
+        
+        // Lưu ý: Backend trả về message thành công, không trả về bài viết đã cập nhật
+        // Chúng ta đã cập nhật UI tạm thời ở trên (optimistic update)
+        // Không cần làm gì thêm ngoài việc đánh dấu trạng thái đã hoàn thành
+      })
+      .addCase(toggleLike.rejected, (state, { payload, meta }) => {
         state.likeStatus = "failed";
         state.error = payload;
+        
+        // Rollback khi có lỗi - khôi phục trạng thái ban đầu
+        const postId = meta.arg;
+        
+        // Rollback trong danh sách items
+        const postIndex = state.items.findIndex(post => post._id === postId);
+        if (postIndex !== -1) {
+          const post = state.items[postIndex];
+          // Đảo ngược trạng thái like để khôi phục
+          post.isLikedByCurrentUser = !post.isLikedByCurrentUser;
+          
+          if (post.isLikedByCurrentUser) {
+            // Nếu trạng thái hiện tại là like, tức là trước đó unlike bị lỗi, thêm lại like
+            if (!post.likes) post.likes = [];
+            post.likes.push('temp-like-id');
+          } else {
+            // Nếu trạng thái hiện tại là unlike, tức là trước đó like bị lỗi, bỏ like
+            if (post.likes && post.likes.length > 0) {
+              post.likes.pop();
+            }
+          }
+        }
+        
+        // Rollback trong current post
+        if (state.currentPost && state.currentPost._id === postId) {
+          state.currentPost.isLikedByCurrentUser = !state.currentPost.isLikedByCurrentUser;
+          
+          if (state.currentPost.isLikedByCurrentUser) {
+            if (!state.currentPost.likes) state.currentPost.likes = [];
+            state.currentPost.likes.push('temp-like-id');
+          } else {
+            if (state.currentPost.likes && state.currentPost.likes.length > 0) {
+              state.currentPost.likes.pop();
+            }
+          }
+        }
       })
 
       // ADD COMMENT - Thêm bình luận vào bài đăng

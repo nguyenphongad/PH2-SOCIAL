@@ -275,6 +275,18 @@
                     span {
                         font-weight: 600;
                     }
+
+                    &.liked {
+                        color: #e53935; /* Màu đỏ khi đã like */
+                        
+                        .icon {
+                            color: #e53935;
+                        }
+                    }
+                    
+                    .liked-icon {
+                        color: #e53935; /* Màu đỏ cho icon tim khi đã like */
+                    }
                 }
             }
             

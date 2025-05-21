@@ -1,4 +1,3 @@
-
 const PostModel = require('../models/PostModel');
 const UserModel = require('../models/UserModel');
 const LikeModel = require('../models/LikeModel');
@@ -46,8 +45,8 @@ const createPost = async (req, res) => {
 // Lấy bài đăng theo PostId
 const getPostByUsernameAndPostId = async (req, res) => {
      try {
-
           const { postId } = req.params;
+          const currentUserId = req.user?.userID; // Lấy userID từ token
 
           console.log("id bài đăng: ", postId)
 
@@ -55,12 +54,60 @@ const getPostByUsernameAndPostId = async (req, res) => {
                return res.status(400).json({ message: 'ID bài đăng không hợp lệ' });
           }
 
-          const post = await PostModel.findOne({ _id: postId });
+          // Tìm bài đăng
+          const post = await PostModel.findOne({ _id: postId }).lean();
           if (!post) {
                return res.status(404).json({ message: 'Bài đăng không tồn tại' });
           }
 
-          return res.status(200).json({ post });
+          // Kiểm tra trạng thái like của người dùng hiện tại nếu đã đăng nhập
+          let isLikedByCurrentUser = false;
+          if (currentUserId) {
+               const existingLike = await LikeModel.findOne({ 
+                    postId: postId, 
+                    userId: currentUserId 
+               });
+               isLikedByCurrentUser = !!existingLike;
+          }
+
+          // Lấy thông tin chi tiết của người dùng đã đăng bài
+          const user = await UserModel.findOne({ username: post.username })
+               .select('_id userID username name profilePicture bio followers following')
+               .lean();
+
+          // Lấy comments của bài viết
+          const comments = await CommentsModel.find({ postId: postId })
+               .sort({ createdAt: 1 })
+               .lean();
+
+          // Tạo response có cấu trúc tương tự như getFeedPosts
+          const postResponse = {
+               _id: post._id,
+               user: user ? {
+                    _id: user._id || null,
+                    userID: user.userID || post.userID || null,
+                    username: user.username || post.username,
+                    name: user.name || "",
+                    profilePicture: user.profilePicture || "https://res.cloudinary.com/dg1kyvurg/image/upload/v1747339399/posts/default-avatar.png",
+                    bio: user.bio || "",
+                    followers: user.followers?.length || 0,
+                    following: user.following?.length || 0
+               } : {
+                    userID: post.userID,
+                    username: post.username,
+                    profilePicture: "https://res.cloudinary.com/dg1kyvurg/image/upload/v1747339399/posts/default-avatar.png"
+               },
+               content: post.content || "",
+               imageUrls: post.imageUrls || [],
+               videoUrl: post.videoUrl || "",
+               likes: post.likes || [],
+               comments: comments || [],
+               createdAt: post.createdAt,
+               updatedAt: post.updatedAt,
+               isLikedByCurrentUser: isLikedByCurrentUser
+          };
+
+          return res.status(200).json({ post: postResponse });
      } catch (error) {
           console.error('Lỗi lấy bài đăng:', error);
           return res.status(500).json({ message: 'Lỗi server lấy bài đăng' });
@@ -181,7 +228,7 @@ const deletePost = async (req, res) => {
      }
 };
 
-// Lấy tất cả bài đăng từ các user đang theo dõi
+// Lấy tất cả bài đăng từ các user đang theo dõi và cả của người dùng hiện tại
 const getFeedPosts = async (req, res) => {
      try {
           const currentUserId = req.user.userID; // Lấy _id của user từ token
@@ -197,38 +244,38 @@ const getFeedPosts = async (req, res) => {
                return res.status(404).json({ message: 'Người dùng không tồn tại' });
           }
 
-
-          let followingObjectIds = [];
+          // Tạo danh sách các ID để lọc bài viết
+          // Bao gồm: ID của những người đang theo dõi + ID của chính người dùng
+          let followingIds = [];
           if (currentUser.following && Array.isArray(currentUser.following)) {
-               followingObjectIds = currentUser.following
+               followingIds = currentUser.following
                     .map(id => mongoose.Types.ObjectId.isValid(id) ? new mongoose.Types.ObjectId(id) : null)
                     .filter(id => id !== null);
           }
-          if (mongoose.Types.ObjectId.isValid(currentUser._id)) { // Sử dụng _id từ currentUser đã tìm được
-               followingObjectIds.push(currentUser._id);
+          
+          // Thêm ID của người dùng hiện tại vào danh sách
+          if (mongoose.Types.ObjectId.isValid(currentUserId)) {
+               followingIds.push(new mongoose.Types.ObjectId(currentUserId));
           }
-          followingObjectIds = [...new Set(followingObjectIds.map(id => id.toString()))].map(id => new mongoose.Types.ObjectId(id));
+          
+          // Loại bỏ các ID trùng lặp
+          const uniqueIds = [...new Set(followingIds.map(id => id.toString()))].map(id => new mongoose.Types.ObjectId(id));
 
-
-          if (followingObjectIds.length === 0) {
+          // Nếu không có ID nào để lọc (trường hợp hiếm gặp), trả về mảng rỗng
+          if (uniqueIds.length === 0) {
                return res.status(200).json({ feedPosts: [], currentPage: page, totalPages: 0, totalPosts: 0 });
           }
 
           // Lấy tổng số bài đăng phù hợp
-          const totalPosts = await PostModel.countDocuments({ userID: { $in: followingObjectIds } });
+          const totalPosts = await PostModel.countDocuments({ userID: { $in: uniqueIds } });
           const totalPages = Math.ceil(totalPosts / limit);
 
-          // 1. Lấy danh sách bài đăng gốc (đã populate userID)
-          const originalFeedPosts = await PostModel.find({ userID: { $in: followingObjectIds } })
+          // Lấy danh sách bài đăng từ những người đang follow và của chính người dùng
+          const originalFeedPosts = await PostModel.find({ userID: { $in: uniqueIds } })
                .sort({ createdAt: -1 })
                .skip(skip)
                .limit(limit)
-               .populate({
-                    path: 'userID', // Trường trong PostModel
-                    model: 'Users', // Tên model User
-                    select: 'username profilePicture' // Các trường cần lấy
-               })
-               .lean(); // Sử dụng lean() để trả về plain JavaScript objects, giúp thêm trường mới dễ hơn
+               .lean();
 
           // Nếu không có bài đăng nào thì trả về luôn
           if (!originalFeedPosts || originalFeedPosts.length === 0) {
@@ -237,6 +284,23 @@ const getFeedPosts = async (req, res) => {
 
           // 2. Lấy danh sách các postId từ feed
           const postIds = originalFeedPosts.map(post => post._id);
+          
+          // 3. Lấy thông tin user (bao gồm profilePicture) cho mỗi bài đăng
+          // Lấy danh sách usernames từ các bài đăng
+          const usernames = originalFeedPosts.map(post => post.username).filter(Boolean);
+          
+          // Tìm thông tin người dùng theo username
+          const users = await UserModel.find({ username: { $in: usernames } })
+               .select('username profilePicture userID name bio followers following')
+               .lean();
+          
+          // Tạo map để tìm kiếm user nhanh theo username
+          const userMap = {};
+          users.forEach(user => {
+               if (user.username) {
+                    userMap[user.username] = user;
+               }
+          });
 
           // 3. Tìm các lượt thích của người dùng hiện tại cho các bài đăng này
           const userLikes = await LikeModel.find({
@@ -247,15 +311,40 @@ const getFeedPosts = async (req, res) => {
           // 4. Tạo một Set chứa các postId mà người dùng đã thích để tra cứu nhanh
           const likedPostIds = new Set(userLikes.map(like => like.postId.toString()));
 
-          // 5. Thêm trường isLikedByCurrentUser vào mỗi bài đăng
-          const feedPostsWithLikeStatus = originalFeedPosts.map(post => ({
-               ...post, // Giữ lại tất cả các trường của bài đăng gốc
-               isLikedByCurrentUser: likedPostIds.has(post._id.toString()) // Kiểm tra xem postId có trong Set không
-          }));
+          // 5. Thêm trường isLikedByCurrentUser và thông tin user vào mỗi bài đăng
+          const feedPostsWithLikeStatus = originalFeedPosts.map(post => {
+               // Lấy thông tin user từ userMap theo username
+               const user = userMap[post.username] || {};
+               
+               // Tạo cấu trúc dữ liệu mới theo yêu cầu
+               return {
+                    _id: post._id,
+                    user: {
+                         _id: user._id || null,
+                         userID: user.userID || post.userID || null,
+                         username: user.username || post.username,
+                         name: user.name || "",
+                         profilePicture: user.profilePicture || "https://res.cloudinary.com/dg1kyvurg/image/upload/v1747339399/posts/default-avatar.png",
+                         bio: user.bio || "",
+                         followers: user.followers?.length || 0,
+                         following: user.following?.length || 0
+                    },
+                    content: post.content || "",
+                    imageUrls: post.imageUrls || [],
+                    videoUrl: post.videoUrl || "",
+                    likes: post.likes || [],
+                    comments: post.comments || [],
+                    createdAt: post.createdAt,
+                    updatedAt: post.updatedAt,
+                    isLikedByCurrentUser: likedPostIds.has(post._id.toString())
+               };
+          });
 
+          // Debug log để kiểm tra dữ liệu
+          console.log('New feed post structure example:', JSON.stringify(feedPostsWithLikeStatus[0], null, 2));
 
           return res.status(200).json({
-               feedPosts: feedPostsWithLikeStatus, // Trả về mảng bài đăng đã có thêm trạng thái like
+               feedPosts: feedPostsWithLikeStatus,
                currentPage: page,
                totalPages,
                totalPosts
@@ -292,7 +381,6 @@ const searchPosts = async (req, res) => {
                .sort({ createdAt: -1 }); // Sắp xếp theo thời gian tạo (mới nhất trước)
 
           return res.status(200).json({ searchPosts });
-
      } catch (error) {
           console.error('Lỗi tìm kiếm bài đăng:', error);
           return res.status(500).json({ message: 'Lỗi server tìm kiếm bài đăng', error: error.message });
@@ -331,7 +419,6 @@ const toggleLikePost = async (req, res) => {
 
                message = 'Đã bỏ thích bài đăng';
                isLikedByCurrentUser = false; // Trạng thái mới là false
-
           } else {
                // --- LIKE ---
                const newLike = new LikeModel({ postId: postId, userId: userId });
@@ -357,7 +444,6 @@ const toggleLikePost = async (req, res) => {
                isLikedByCurrentUser: isLikedByCurrentUser,
                post: updatedPost
           });
-
      } catch (error) {
           console.error('Lỗi xử lý like bài đăng:', error);
           return res.status(500).json({ message: 'Lỗi server xử lý like bài đăng', error: error.message });
@@ -387,7 +473,6 @@ const addComment = async (req, res) => {
           await PostModel.findByIdAndUpdate(postId, { $push: { comments: newComment._id } });
 
           return res.status(201).json({ message: 'Đã bình luận', comment: newComment });
-
      } catch (error) {
           console.error('Lỗi thêm bình luận:', error);
           return res.status(500).json({ message: 'Lỗi server thêm bình luận', error: error.message });
@@ -408,7 +493,6 @@ const getComments = async (req, res) => {
           // .populate('userId', 'username profilePicture'); // (Tùy chọn) Lấy thông tin người dùng
 
           return res.status(200).json({ comments });
-
      } catch (error) {
           console.error('Lỗi lấy bình luận:', error);
           return res.status(500).json({ message: 'Lỗi server lấy bình luận', error: error.message });

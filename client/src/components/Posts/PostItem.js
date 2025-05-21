@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { FaShare, FaRegHeart, FaRegComment, FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { FaShare, FaRegHeart, FaHeart, FaRegComment, FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleLike } from "../../redux/thunks/postThunk";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -14,6 +16,13 @@ const PostItem = ({ post }) => {
   const hasMultipleImages = post.imageUrls && post.imageUrls.length > 1;
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
+  
+  // Kiểm tra xem user hiện tại đã like bài viết chưa
+  const isLikedByCurrentUser = post.isLikedByCurrentUser || false;
+  
+  // Lấy thông tin user từ cấu trúc mới
+  const userData = post.user || {};
 
   // Xử lý chuyển slide
   const nextSlide = (e) => {
@@ -37,7 +46,7 @@ const PostItem = ({ post }) => {
 
   // Hàm xử lý khi click vào bài viết để mở chi tiết
   const handlePostClick = () => {
-    // Đảm bảo lưu đúng state để có thể quay lại đúng trang
+    console.log("Navigating to post detail with background:", location.pathname);
     navigate(`/post/${post._id}`, {
       state: { backgroundLocation: location }
     });
@@ -48,24 +57,49 @@ const PostItem = ({ post }) => {
     e.stopPropagation(); // Đảm bảo không kích hoạt sự kiện click vào bài viết
   };
 
+  // Xử lý khi click vào button like
+  const handleLikeClick = (e) => {
+    e.stopPropagation(); // Ngăn sự kiện click lan đến bài viết
+    dispatch(toggleLike(post._id));
+  };
+
+  // Thêm hàm xử lý khi click vào nút comment
+  const handleCommentClick = (e) => {
+    e.stopPropagation(); // Ngăn sự kiện click lan đến bài viết
+    console.log("Navigating to comment with background:", location.pathname);
+    // Điều hướng đến trang chi tiết bài viết với modal
+    navigate(`/post/${post._id}`, {
+      state: { 
+        backgroundLocation: location,
+        openCommentBox: true // Thêm flag để mở hộp comment khi modal mở
+      }
+    });
+  };
+
   return (
     <div className="post" onClick={handlePostClick}>
       <div className="post__header" onClick={(e) => e.stopPropagation()}>
         <Link 
-          to={`/${post.username}`} 
+          to={`/${userData.username || post.username}`} 
           className="post__user-info"
           onClick={handleUserLinkClick}
         >
-          <img src={post.profilePicture} alt="" className="post__avatar" />
+          {/* Sử dụng avatarUrl từ đối tượng user */}
+          <img 
+            src={userData.profilePicture || "https://res.cloudinary.com/dg1kyvurg/image/upload/v1747339399/posts/default-avatar.png"} 
+            alt="" 
+            className="post__avatar" 
+          />
           <div className="post__user-details">
-            <strong className="post__username">{post.username}</strong>
+            <strong className="post__username">{userData.username || post.username}</strong>
             <span className="post__time">{dayjs(post.createdAt).fromNow()}</span>
           </div>
         </Link>
         <button className="post__more-btn">•••</button>
       </div>
+      
       <div className="post__content">
-          {post.content}
+        {post.content}
       </div>
 
       {post.imageUrls && post.imageUrls.length > 0 && (
@@ -123,13 +157,18 @@ const PostItem = ({ post }) => {
 
       <div className="post__actions" onClick={(e) => e.stopPropagation()}>
         <div className="post__actions-left">
-          <button className="action-btn">
-            <FaRegHeart className="icon" />
-            <span>{post.likes.length}</span>
+          <button className={`action-btn ${isLikedByCurrentUser ? 'liked' : ''}`} onClick={handleLikeClick}>
+            {isLikedByCurrentUser ? (
+              <FaHeart className="icon liked-icon" /> // Icon trái tim đặc khi đã like
+            ) : (
+              <FaRegHeart className="icon" /> // Icon trái tim rỗng khi chưa like
+            )}
+            <span>{post.likes?.length || 0}</span>
           </button>
-          <button className="action-btn">
+          {/* Cập nhật nút comment để sử dụng handleCommentClick */}
+          <button className="action-btn" onClick={handleCommentClick}>
             <FaRegComment className="icon" />
-            <span>{post.comments.length}</span>
+            <span>{post.comments?.length || 0}</span>
           </button>
           <button className="action-btn">
             <FaShare className="icon" />

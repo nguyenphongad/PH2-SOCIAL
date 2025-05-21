@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaHeart, FaRegHeart, FaComment, FaArrowLeft, FaArrowRight, FaShare, FaTimesCircle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { getPostDetail, addComment } from '../../redux/thunks/postThunk';
+import { getPostDetail, addComment, toggleLike } from '../../redux/thunks/postThunk';
 import LoadingText from '../../components/loadingComponent.js/LoadingText';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -12,13 +12,20 @@ import "dayjs/locale/vi";
 dayjs.extend(relativeTime);
 dayjs.locale("vi");
 
-const PostDetailModal = ({ isVisible, post, onClose, isFullPage = false }) => {
-    const { postId } = useParams();
+const PostDetailModal = ({ isVisible, postId: modalPostId, onClose, openCommentBox = false }) => {
+    // Lấy postId từ URL params (nếu có)
+    const { postId: urlPostId } = useParams();
+    // Sử dụng modalPostId (từ props) hoặc urlPostId (từ URL)
+    const postId = modalPostId || urlPostId;
+    
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [currentSlide, setCurrentSlide] = useState(0);
     const [commentText, setCommentText] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
+    
+    // Tạo ref cho input comment
+    const commentInputRef = React.useRef(null);
     
     // Lấy bài viết từ Redux store
     const { currentPost, status } = useSelector(state => state.post || {});
@@ -32,15 +39,28 @@ const PostDetailModal = ({ isVisible, post, onClose, isFullPage = false }) => {
     
     // Reset current slide when post changes
     useEffect(() => {
-        if (post?._id) {
+        if (currentPost?._id) {
             setCurrentSlide(0);
         }
-    }, [post?._id]);
+    }, [currentPost?._id]);
+    
+    // Focus vào ô comment nếu cần
+    useEffect(() => {
+        if (openCommentBox && commentInputRef.current) {
+            setTimeout(() => {
+                commentInputRef.current.focus();
+            }, 300);
+        }
+    }, [openCommentBox, currentPost]);
     
     // Xử lý đóng modal
     const handleClose = () => {
-        // Sử dụng navigate(-1) để quay lại trang trước đó
-        navigate(-1);
+        // Sử dụng prop onClose nếu được truyền vào, ngược lại sẽ quay lại trang trước
+        if (onClose) {
+            onClose();
+        } else {
+            navigate(-1);
+        }
     };
     
     // Xử lý chuyển slide
@@ -82,6 +102,13 @@ const PostDetailModal = ({ isVisible, post, onClose, isFullPage = false }) => {
         }
     };
 
+    // Xử lý khi click vào button like
+    const handleLikeClick = () => {
+        if (currentPost) {
+            dispatch(toggleLike(currentPost._id));
+        }
+    };
+
     // Hiển thị loading khi đang tải dữ liệu
     if (status === 'loading') {
         return (
@@ -108,7 +135,7 @@ const PostDetailModal = ({ isVisible, post, onClose, isFullPage = false }) => {
     }
 
     // Không tiếp tục render nếu không có post data
-    if (!post || !post._id) return null;
+    if (!currentPost || !currentPost._id) return null;
 
     // Render modal với đầy đủ thông tin bài viết
     return (
@@ -174,10 +201,14 @@ const PostDetailModal = ({ isVisible, post, onClose, isFullPage = false }) => {
                     
                     <div className="post-detail-info">
                         <div className="post-detail-header">
-                            <Link to={`/${currentPost.username}`} className="post-user-info">
-                                <img src={currentPost.profilePicture} alt="" className="post-avatar" />
+                            <Link to={`/${currentPost.user?.username || currentPost.username}`} className="post-user-info">
+                                <img 
+                                    src={currentPost.user?.profilePicture || currentPost.profilePicture || "https://res.cloudinary.com/dg1kyvurg/image/upload/v1747339399/posts/default-avatar.png"} 
+                                    alt="" 
+                                    className="post-avatar" 
+                                />
                                 <div className="post-user-details">
-                                    <strong className="post-username">{currentPost.username}</strong>
+                                    <strong className="post-username">{currentPost.user?.username || currentPost.username}</strong>
                                     <span className="post-time">{dayjs(currentPost.createdAt).fromNow()}</span>
                                 </div>
                             </Link>
@@ -193,8 +224,15 @@ const PostDetailModal = ({ isVisible, post, onClose, isFullPage = false }) => {
                         </div>
                         
                         <div className="post-detail-actions">
-                            <button className="action-btn">
-                                <FaRegHeart className="icon" />
+                            <button 
+                                className={`action-btn ${currentPost.isLikedByCurrentUser ? 'liked' : ''}`}
+                                onClick={handleLikeClick}
+                            >
+                                {currentPost.isLikedByCurrentUser ? (
+                                    <FaHeart className="icon liked-icon" />
+                                ) : (
+                                    <FaRegHeart className="icon" />
+                                )}
                                 <span>{currentPost.likes?.length || 0}</span>
                             </button>
                             <button className="action-btn">
@@ -234,6 +272,7 @@ const PostDetailModal = ({ isVisible, post, onClose, isFullPage = false }) => {
                             </div>
                             <div className="comment-form">
                                 <textarea 
+                                    ref={commentInputRef}
                                     placeholder="Thêm bình luận..." 
                                     className="comment-input"
                                     value={commentText}

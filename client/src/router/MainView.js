@@ -1,23 +1,24 @@
-import React, { useEffect, useState } from 'react'
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
-import LoginPage from '../pages/authPages/LoginPage'
-import RegisterPage from '../pages/authPages/RegisterPage'
-import NotFoundPages from '../pages/authPages/NotFoundPages'
-import ChatPageIndex from '../pages/chatPages/ChatPageIndex'
-import LayoutIndex from '../pages/LayoutIndex'
-import RequireAuth from '../middlewares/RequireAuth'
-import { useDispatch, useSelector } from 'react-redux'
-import { Bounce, ToastContainer } from 'react-toastify'
+import React, { useEffect, useState, useMemo } from 'react';
+import { Navigate, Route, Routes, useLocation, useNavigate, Outlet } from 'react-router-dom';
+import LoginPage from '../pages/authPages/LoginPage';
+import RegisterPage from '../pages/authPages/RegisterPage';
+import NotFoundPages from '../pages/authPages/NotFoundPages';
+import ChatPageIndex from '../pages/chatPages/ChatPageIndex';
+import LayoutIndex from '../pages/LayoutIndex';
+import RequireAuth from '../middlewares/RequireAuth';
+import { useDispatch, useSelector } from 'react-redux';
+import { Bounce, ToastContainer } from 'react-toastify';
 
 import { logout } from "../redux/slices/authSlice";
-import SearchPageIndex from '../pages/searchPages/SearchPageIndex'
-import MorePageIndex from '../pages/morePages/MorePageIndex'
-import HomePageIndex from '../pages/homePages/HomePageIndex'
-import NoticationPageIndex from '../pages/notificationPages/NoticationPageIndex'
-import PostPageIndex from '../pages/postPages/PostPageIndex'
-import { checkToken } from '../redux/thunks/authThunk'
-import { getUserProfile } from '../redux/thunks/userThunk'
-import PostDetailPage from '../pages/postPages/PostDetailPage'
+import SearchPageIndex from '../pages/searchPages/SearchPageIndex';
+import MorePageIndex from '../pages/morePages/MorePageIndex';
+import HomePageIndex from '../pages/homePages/HomePageIndex';
+import NoticationPageIndex from '../pages/notificationPages/NoticationPageIndex';
+import PostPageIndex from '../pages/postPages/PostPageIndex';
+import { checkToken } from '../redux/thunks/authThunk';
+import { getUserProfile } from '../redux/thunks/userThunk';
+import PostDetailPage from '../pages/postPages/PostDetailPage';
+import PostDetailModal from '../pages/postPages/PostDetailModal';
 
 export const ProtectedAuth = ({ component }) => {
     const { token } = useSelector(state => state.auth);
@@ -32,10 +33,46 @@ export const ProtectedAuth = ({ component }) => {
     return token ? <Navigate to="/" /> : component;
 };
 
+// Chức năng Layout cho modal
+function AppLayout() {
+    const location = useLocation();
+    const navigate = useNavigate();
+    // backgroundLocation được truyền qua state khi sử dụng navigate() từ các component khác
+    const background = location.state?.backgroundLocation;
+    
+    return (
+        <>
+            <Outlet />
+            
+            {/* Render modal khi có background location */}
+            {background && (
+                <Routes>
+                    <Route 
+                        path="/post/:postId" 
+                        element={
+                            <PostDetailModal 
+                                onClose={() => navigate(-1)} 
+                                openCommentBox={location.state?.openCommentBox}
+                                isVisible={true}
+                            />
+                        } 
+                    />
+                </Routes>
+            )}
+        </>
+    );
+}
+
 const MainView = () => {
     const { token } = useSelector((state) => state.auth);
     const location = useLocation();
-    const background = location.state?.background;
+    const navigate = useNavigate();
+    
+    // Đảm bảo lấy đúng backgroundLocation từ state
+    // Quan trọng: Lưu giữ backgroundLocation ban đầu trong suốt vòng đời component
+    const background = useMemo(() => {
+        return location.state?.backgroundLocation;
+    }, [location.state?.backgroundLocation?.pathname]);
     
     // Lấy username từ URL để xác định route cho profile
     const pathParts = location.pathname.split("/");
@@ -129,55 +166,62 @@ const MainView = () => {
             />
 
             {/* 
-              * Nếu có background state (chuyển từ trang khác -> hiện modal),
-              * sử dụng location từ background để render trang bên dưới modal.
-              * Nếu không, sử dụng location hiện tại.
-              */}
+              Quan trọng: Sử dụng location từ background (nếu có) hoặc location hiện tại 
+              Điều này đảm bảo không bị load lại nội dung đằng sau khi tương tác với modal
+            */}
             <Routes location={background || location}>
-                {/* Nếu đã đăng nhập, không cho phép vào Login/Register */}
-                <Route path="/login" element={<ProtectedAuth component={<LoginPage />} />} />
-                <Route path="/register" element={<ProtectedAuth component={<RegisterPage />} />} />
+                {/* Bọc tất cả các route trong AppLayout để hỗ trợ modal */}
+                <Route element={<AppLayout />}>
+                    {/* Nếu đã đăng nhập, không cho phép vào Login/Register */}
+                    <Route path="/login" element={<ProtectedAuth component={<LoginPage />} />} />
+                    <Route path="/register" element={<ProtectedAuth component={<RegisterPage />} />} />
 
-                {/* Các route yêu cầu đăng nhập */}
-                <Route element={<RequireAuth />}>
-                    <Route path="/" element={<LayoutIndex userCheck={userCheck} />}>
-                        {/* Các route cố định */}
-                        {routesConfig.map((route, index) => (
-                            <Route key={index} path={route.path} element={route.component} />
-                        ))}
-                        
-                        {/* Route cho profile người dùng (dynamic route) */}
-                        {username && (
-                            <Route 
-                                path={`/${username}`}
-                                element={userPeople.isNotFound ? <NotFoundPages /> : <MorePageIndex userPeople={userPeople} />}
-                            />
-                        )}
-
-                        
-                        
-                        {/* Fallback route */}
-                        <Route path="*" element={<NotFoundPages />} />
+                    {/* Các route yêu cầu đăng nhập */}
+                    <Route element={<RequireAuth />}>
+                        <Route path="/" element={<LayoutIndex userCheck={userCheck} />}>
+                            {/* Các route cố định */}
+                            {routesConfig.map((route, index) => (
+                                <Route key={index} path={route.path} element={route.component} />
+                            ))}
+                            
+                            {/* Route cho profile người dùng (dynamic route) */}
+                            {username && (
+                                <Route 
+                                    path={`/${username}`}
+                                    element={userPeople.isNotFound ? <NotFoundPages /> : <MorePageIndex userPeople={userPeople} />}
+                                />
+                            )}
+                            
+                            {/* Fallback route */}
+                            <Route path="*" element={<NotFoundPages />} />
+                        </Route>
                     </Route>
-                </Route>
 
-                {/* Redirect tất cả trang không tìm thấy về Home */}
-                <Route path="*" element={<NotFoundPages />} />
+                    {/* Redirect tất cả trang không tìm thấy về Home */}
+                    <Route path="*" element={<NotFoundPages />} />
+                </Route>
             </Routes>
 
             {/* 
-              * Chỉ khi có background state (chuyển từ trang khác), 
-              * render thêm route /post/:postId dưới dạng modal
-              */}
+              Chỉ render modal khi có background location
+              Modal này sẽ hiển thị ở trên cùng, không làm trang hiện tại bị reload
+            */}
             {background && (
                 <Routes>
-                    <Route element={<RequireAuth />}>
-                        <Route path="/post/:postId" element={<PostDetailPage isModal={true} />} />
-                    </Route>
+                    <Route 
+                        path="/post/:postId" 
+                        element={
+                            <PostDetailModal 
+                                onClose={() => navigate(background.pathname || -1, { replace: true })} 
+                                openCommentBox={location.state?.openCommentBox}
+                                isVisible={true}
+                            />
+                        } 
+                    />
                 </Routes>
             )}
         </>
-    )
-}
+    );
+};
 
-export default MainView
+export default MainView;

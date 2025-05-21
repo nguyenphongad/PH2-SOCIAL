@@ -50,36 +50,21 @@ export const getUserPosts = createAsyncThunk(
 export const getPostDetail = createAsyncThunk(
   "posts/getPostDetail",
   async (postId, { getState, rejectWithValue }) => {
-    // Kiểm tra trước nếu đã có post với ID tương tự trong state
-    const currentState = getState();
-    const currentPost = currentState.post.currentPost;
-    
-    // Nếu đã có dữ liệu bài viết và ID trùng khớp, không cần fetch lại
-    if (currentPost && currentPost._id === postId) {
-      return currentPost;
-    }
-    
     const token = getState().auth.token;
     try {
+      console.log("Fetching post detail for ID:", postId);
       const response = await get(`${ENDPOINT.GET_POST_DETAIL}/${postId}`, token);
+      
       if (!response.data || !response.data.post) {
+        console.error("No post data in response");
         return rejectWithValue({ message: "Không tìm thấy bài viết" });
       }
+      
+      console.log("Post detail response:", response.data.post);
       return response.data.post;
     } catch (err) {
       console.error("Error fetching post detail:", err);
       return rejectWithValue(err.response?.data || { message: "Lỗi khi tải bài viết" });
-    }
-  },
-  {
-    condition: (postId, { getState }) => {
-      // Kiểm tra trạng thái hiện tại
-      const { post } = getState();
-      // Nếu đang loading, không gọi thêm request
-      if (post.status === 'loading') {
-        return false;
-      }
-      return true;
     }
   }
 );
@@ -118,7 +103,8 @@ export const toggleLike = createAsyncThunk(
   async (postId, { getState, rejectWithValue }) => {
     const token = getState().auth.token;
     try {
-      const response = await post(`${ENDPOINT.LIKE_POST}/${postId}`, {}, token);
+      // Sửa lại đường dẫn để khớp với route: /:postId/likes
+      const response = await post(`/${postId}${ENDPOINT.LIKE_POST}`, {}, token);
       return { postId, message: response.data.message };
     } catch (err) {
       return rejectWithValue(err.response?.data || err.message);
@@ -132,7 +118,8 @@ export const addComment = createAsyncThunk(
   async ({ postId, content }, { getState, rejectWithValue }) => {
     const token = getState().auth.token;
     try {
-      const response = await post(`${ENDPOINT.ADD_COMMENT}/${postId}`, { content }, token);
+      // Sửa lại đường dẫn để khớp với route: /:postId/comments
+      const response = await post(`/${postId}${ENDPOINT.ADD_COMMENT}`, { content }, token);
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response?.data || err.message);
@@ -146,7 +133,8 @@ export const getComments = createAsyncThunk(
   async (postId, { getState, rejectWithValue }) => {
     const token = getState().auth.token;
     try {
-      const response = await get(`${ENDPOINT.GET_COMMENTS}/${postId}`, token);
+      // Sửa lại đường dẫn để khớp với route: /:postId/comments
+      const response = await get(`/${postId}${ENDPOINT.GET_COMMENTS}`, token);
       return { postId, comments: response.data.comments };
     } catch (err) {
       return rejectWithValue(err.response?.data || err.message);

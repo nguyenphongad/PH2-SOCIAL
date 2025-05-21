@@ -188,12 +188,15 @@ const MorePageIndex = ({ userPeople }) => {
                         <div className="followers-list">
                             {userFollower?.data?.map((follower) => (
                                 <div key={follower.userID} className='follower-item'>
-                                    <Link to={`../${follower.username}`} onClick={() => setOpenModelFollower(false)}>
+                                    <Link 
+                                        to={`/${follower.username}`} 
+                                        onClick={() => setOpenModelFollower(false)}
+                                    >
                                         <img src={follower.profilePicture} alt={follower.name} />
                                     </Link>
                                     <div className="follower-info">
                                         <Link
-                                            to={`../${follower.username}`}
+                                            to={`/${follower.username}`}
                                             onClick={() => setOpenModelFollower(false)}
                                             className='username'
                                         >

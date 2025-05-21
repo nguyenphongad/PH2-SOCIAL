@@ -1,0 +1,12 @@
+/* ... existing styles ... */
+
+/* Styling cho nút like */
+.action-btn.liked {
+  color: #e53935; /* Màu đỏ khi đã like */
+}
+
+.liked-icon {
+  color: #e53935; /* Màu đỏ cho icon tim khi đã like */
+}
+
+/* ... existing styles ... */

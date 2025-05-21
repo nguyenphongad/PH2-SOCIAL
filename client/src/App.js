@@ -5,7 +5,7 @@ import "./styles/index.scss"
 import 'react-toastify/dist/ReactToastify.css';
 
 import { BrowserRouter } from 'react-router-dom';
-import store from "./redux/store"; // Đã sửa import { store } thành import store
+import { store } from "./redux/store";
 
 function App() {
   return (

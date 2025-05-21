@@ -2,89 +2,90 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPostDetail } from '../../redux/thunks/postThunk';
-import PostDetailModal from './PostDetailModal';
 import LoadingText from '../../components/loadingComponent.js/LoadingText';
-import NotFoundPages from '../authPages/NotFoundPages';
+import PostDetailModal from './PostDetailModal';
 
-const PostDetailPage = ({ isModal = false }) => {
-    const { postId } = useParams();
-    const [isVisible, setIsVisible] = useState(true);
-    const navigate = useNavigate();
-    const location = useLocation();
-    const dispatch = useDispatch();
+const PostDetailPage = () => {
+  const { postId } = useParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [localLoading, setLocalLoading] = useState(true);
+  
+  // Kiểm tra có phải là truy cập trực tiếp không
+  const isDirectAccess = !location.state?.backgroundLocation;
+  
+  // Lấy thông tin bài viết từ Redux store
+  const { currentPost, status, error } = useSelector(state => state.post);
+  
+  useEffect(() => {
+    // Set loading state
+    setLocalLoading(true);
     
-    const postState = useSelector(state => state.post || {});
-    const { currentPost, status, error } = postState;
-    
-    // Lấy background location từ state
-    const background = location.state?.backgroundLocation;
-    
-    // Fetch bài viết khi component mount
-    useEffect(() => {
-        if (postId) {
-            dispatch(getPostDetail(postId));
-        }
-    }, [postId, dispatch]);
-    
-    // Xử lý đóng modal/trang
-    const handleClose = () => {
-        setIsVisible(false);
-        
-        setTimeout(() => {
-            if (background) {
-                // Quay lại trang trước đó khi đóng modal
-                navigate(background.pathname, { 
-                    replace: true 
-                });
-            } else {
-                // Nếu là trang đầy đủ hoặc không có background, quay lại trang trước đó
-                navigate(-1);
-            }
-        }, 200);
-    };
+    // Luôn fetch dữ liệu khi component mount hoặc postId thay đổi
+    if (postId) {
+      console.log("Fetching post detail for ID:", postId);
+      dispatch(getPostDetail(postId))
+        .unwrap()
+        .then(result => {
+          console.log("Fetch result:", result);
+          setLocalLoading(false);
+        })
+        .catch(err => {
+          console.error("Fetch error:", err);
+          setLocalLoading(false);
+        });
+    }
+  }, [postId, dispatch]);
+  
+  // Xử lý quay lại
+  const handleGoBack = () => {
+    navigate('/');
+  };
 
-    // Loading state
-    if (status === 'loading') {
-        return <LoadingText text="Đang tải bài viết..." />;
-    }
-    
-    // Error state - chỉ hiển thị NotFound khi đã thử tải và xác định bài viết không tồn tại
-    if (status === 'failed' || (status === 'succeeded' && !currentPost)) {
-        return (
-            <div className="post-not-found">
-                <NotFoundPages />
-            </div>
-        );
-    }
-    
-    // Đảm bảo currentPost tồn tại trước khi render
-    if (!currentPost) {
-        return null;
-    }
-
-    // Nếu là modal (mở từ một trang khác qua location state)
-    if (isModal || background) {
-        return (
-            <PostDetailModal 
-                isVisible={isVisible} 
-                post={currentPost}
-                onClose={handleClose}
-                isFullPage={false}
-            />
-        );
-    }
-
-    // Nếu truy cập trực tiếp URL hoặc refresh trang
+  // Hiển thị loading khi đang fetch
+  if (localLoading || status === 'loading') {
+    return <div className="post-detail-page-container"><LoadingText text="Đang tải bài viết..." /></div>;
+  }
+  
+  // Hiển thị lỗi nếu có
+  if (status === 'failed') {
     return (
-        <div className="post-detail-standalone">
-            <PostDetailModal 
-                isVisible={true}
-                post={currentPost}
-                onClose={handleClose}
-                isFullPage={true}
-            />
-        </div>
+      <div className="post-detail-page-container error-container">
+        <h3>Không thể tải bài viết</h3>
+        <p>{error}</p>
+        <button onClick={handleGoBack}>Quay lại trang chủ</button>
+      </div>
     );
+  }
+  
+  // Nếu là truy cập qua modal (background), không hiển thị gì cả
+  // vì modal đã được hiển thị qua Routes ngoài
+  if (!isDirectAccess) {
+    return null;
+  }
+  
+  // Nếu không tìm thấy bài viết
+  if (!currentPost) {
+    return (
+      <div className="post-detail-page-container error-container">
+        <h3>Không tìm thấy bài viết</h3>
+        <p>Bài viết có thể đã bị xóa hoặc không tồn tại</p>
+        <button onClick={handleGoBack}>Quay lại trang chủ</button>
+      </div>
+    );
+  }
+  
+  // Nếu là truy cập trực tiếp và đã có bài viết, hiển thị modal
+  return (
+    <div className="post-detail-standalone">
+      <PostDetailModal 
+        postId={postId} 
+        onClose={handleGoBack}
+        isVisible={true}
+      />
+    </div>
+  );
 };
 
 export default PostDetailPage;

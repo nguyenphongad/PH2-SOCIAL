@@ -4606,3 +4606,834 @@
 {"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T09:04:39.247Z"}
 {"level":"info","message":"GET /health - 200 - 0ms","timestamp":"2025-05-21T09:04:39.248Z"}
 {"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T09:04:39.248Z"}
+{"level":"info","message":"Gateway server running on port 9999","timestamp":"2025-05-21T14:01:45.219Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:01:49.188Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:01:49.190Z"}
+{"level":"info","message":"GET /health - 200 - 17ms","timestamp":"2025-05-21T14:01:49.211Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:01:49.219Z"}
+{"level":"info","message":"Waiting for services to start up...","timestamp":"2025-05-21T14:01:55.222Z"}
+{"level":"info","message":"Testing connection to auth-service at http://auth-service:5000/health","timestamp":"2025-05-21T14:01:55.224Z"}
+{"level":"info","message":"✅ Connection to auth-service successful","timestamp":"2025-05-21T14:01:55.247Z"}
+{"level":"info","message":"Testing connection to user-service at http://user-service:5005/health","timestamp":"2025-05-21T14:01:55.247Z"}
+{"level":"info","message":"✅ Connection to user-service successful","timestamp":"2025-05-21T14:01:55.272Z"}
+{"level":"info","message":"Testing connection to social-service at http://social-service:5004/health","timestamp":"2025-05-21T14:01:55.273Z"}
+{"level":"info","message":"✅ Connection to social-service successful","timestamp":"2025-05-21T14:01:55.292Z"}
+{"level":"info","message":"Testing connection to post-service at http://post-service:5003/health","timestamp":"2025-05-21T14:01:55.292Z"}
+{"level":"info","message":"✅ Connection to post-service successful","timestamp":"2025-05-21T14:01:55.324Z"}
+{"level":"info","message":"Testing connection to chat-service at http://chat-service:5555/health","timestamp":"2025-05-21T14:01:55.324Z"}
+{"level":"info","message":"✅ Connection to chat-service successful","timestamp":"2025-05-21T14:01:55.410Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:02:19.387Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:02:19.388Z"}
+{"level":"info","message":"GET /health - 200 - 2ms","timestamp":"2025-05-21T14:02:19.390Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:02:19.390Z"}
+{"level":"info","message":{"bodySize":2,"ip":"::ffff:172.18.0.1","method":"POST","url":"/auth/login"},"timestamp":"2025-05-21T14:02:34.904Z"}
+{"level":"info","message":"POST /auth/login - Start","timestamp":"2025-05-21T14:02:34.904Z"}
+{"level":"info","message":"Client closed connection: POST /auth/login","timestamp":"2025-05-21T14:02:34.905Z"}
+{"level":"info","message":"Proxying to Auth Service","method":"POST","target":"http://auth-service:5000/auth/login","timestamp":"2025-05-21T14:02:34.908Z","url":"/auth/login"}
+{"level":"info","message":"Got response from Auth Service: 200","timestamp":"2025-05-21T14:02:35.147Z"}
+{"level":"info","message":"POST /auth/login - 200 - 244ms","timestamp":"2025-05-21T14:02:35.148Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/auth/checkToken"},"timestamp":"2025-05-21T14:02:35.370Z"}
+{"level":"info","message":"GET /auth/checkToken - Start","timestamp":"2025-05-21T14:02:35.371Z"}
+{"level":"info","message":"Proxying to Auth Service","method":"GET","target":"http://auth-service:5000/auth/checkToken","timestamp":"2025-05-21T14:02:35.374Z","url":"/auth/checkToken"}
+{"level":"info","message":"Client closed connection: GET /auth/checkToken","timestamp":"2025-05-21T14:02:35.375Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/feed"},"timestamp":"2025-05-21T14:02:35.385Z"}
+{"level":"info","message":"GET /post/feed - Start","timestamp":"2025-05-21T14:02:35.385Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /post/feed","timestamp":"2025-05-21T14:02:35.388Z"}
+{"level":"info","message":"Client closed connection: GET /post/feed","timestamp":"2025-05-21T14:02:35.389Z"}
+{"level":"info","message":"Got response from Auth Service: 304","timestamp":"2025-05-21T14:02:35.501Z"}
+{"level":"info","message":"GET /auth/checkToken - 304 - 133ms","timestamp":"2025-05-21T14:02:35.504Z"}
+{"level":"info","message":"GET /post/feed - 304 - 479ms","timestamp":"2025-05-21T14:02:35.864Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/id/682d6cd70527b69540df10ae"},"timestamp":"2025-05-21T14:02:47.795Z"}
+{"level":"info","message":"GET /post/id/682d6cd70527b69540df10ae - Start","timestamp":"2025-05-21T14:02:47.795Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /post/id/682d6cd70527b69540df10ae","timestamp":"2025-05-21T14:02:47.797Z"}
+{"level":"info","message":"Client closed connection: GET /post/id/682d6cd70527b69540df10ae","timestamp":"2025-05-21T14:02:47.798Z"}
+{"level":"info","message":"GET /post/id/682d6cd70527b69540df10ae - 304 - 287ms","timestamp":"2025-05-21T14:02:48.082Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:02:49.452Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:02:49.452Z"}
+{"level":"info","message":"GET /health - 200 - 0ms","timestamp":"2025-05-21T14:02:49.453Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:02:49.453Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/id/682d6cd70527b69540df10ae"},"timestamp":"2025-05-21T14:02:54.703Z"}
+{"level":"info","message":"GET /post/id/682d6cd70527b69540df10ae - Start","timestamp":"2025-05-21T14:02:54.703Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /post/id/682d6cd70527b69540df10ae","timestamp":"2025-05-21T14:02:54.707Z"}
+{"level":"info","message":"Client closed connection: GET /post/id/682d6cd70527b69540df10ae","timestamp":"2025-05-21T14:02:54.707Z"}
+{"level":"info","message":"GET /post/id/682d6cd70527b69540df10ae - 304 - 317ms","timestamp":"2025-05-21T14:02:55.021Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/auth/checkToken"},"timestamp":"2025-05-21T14:02:57.270Z"}
+{"level":"info","message":"GET /auth/checkToken - Start","timestamp":"2025-05-21T14:02:57.270Z"}
+{"level":"info","message":"Proxying to Auth Service","method":"GET","target":"http://auth-service:5000/auth/checkToken","timestamp":"2025-05-21T14:02:57.272Z","url":"/auth/checkToken"}
+{"level":"info","message":"Client closed connection: GET /auth/checkToken","timestamp":"2025-05-21T14:02:57.272Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/feed"},"timestamp":"2025-05-21T14:02:57.273Z"}
+{"level":"info","message":"GET /post/feed - Start","timestamp":"2025-05-21T14:02:57.273Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /post/feed","timestamp":"2025-05-21T14:02:57.274Z"}
+{"level":"info","message":"Client closed connection: GET /post/feed","timestamp":"2025-05-21T14:02:57.274Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/id/682d6cd70527b69540df10ae"},"timestamp":"2025-05-21T14:02:57.276Z"}
+{"level":"info","message":"GET /post/id/682d6cd70527b69540df10ae - Start","timestamp":"2025-05-21T14:02:57.276Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /post/id/682d6cd70527b69540df10ae","timestamp":"2025-05-21T14:02:57.277Z"}
+{"level":"info","message":"Client closed connection: GET /post/id/682d6cd70527b69540df10ae","timestamp":"2025-05-21T14:02:57.278Z"}
+{"level":"info","message":"Got response from Auth Service: 304","timestamp":"2025-05-21T14:02:57.368Z"}
+{"level":"info","message":"GET /auth/checkToken - 304 - 98ms","timestamp":"2025-05-21T14:02:57.369Z"}
+{"level":"info","message":"GET /post/feed - 304 - 334ms","timestamp":"2025-05-21T14:02:57.607Z"}
+{"level":"info","message":"GET /post/id/682d6cd70527b69540df10ae - 304 - 373ms","timestamp":"2025-05-21T14:02:57.649Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"POST","url":"/post/682d6cd70527b69540df10ae/likes"},"timestamp":"2025-05-21T14:03:03.738Z"}
+{"level":"info","message":"POST /post/682d6cd70527b69540df10ae/likes - Start","timestamp":"2025-05-21T14:03:03.738Z"}
+{"level":"info","message":"Client closed connection: POST /post/682d6cd70527b69540df10ae/likes","timestamp":"2025-05-21T14:03:03.738Z"}
+{"level":"info","message":"Redirecting to Post Service: POST /post/682d6cd70527b69540df10ae/likes","timestamp":"2025-05-21T14:03:03.740Z"}
+{"level":"info","message":"POST /post/682d6cd70527b69540df10ae/likes - 200 - 1199ms","timestamp":"2025-05-21T14:03:04.937Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"POST","url":"/chat/list-message"},"timestamp":"2025-05-21T14:03:13.586Z"}
+{"level":"info","message":"POST /chat/list-message - Start","timestamp":"2025-05-21T14:03:13.586Z"}
+{"level":"info","message":"Client closed connection: POST /chat/list-message","timestamp":"2025-05-21T14:03:13.587Z"}
+{"level":"info","message":"Redirecting to Chat Service: POST /chat/list-message","timestamp":"2025-05-21T14:03:13.588Z"}
+{"level":"info","message":"POST /chat/list-message - 200 - 239ms","timestamp":"2025-05-21T14:03:13.826Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"POST","url":"/chat/list-message"},"timestamp":"2025-05-21T14:03:15.542Z"}
+{"level":"info","message":"POST /chat/list-message - Start","timestamp":"2025-05-21T14:03:15.542Z"}
+{"level":"info","message":"Client closed connection: POST /chat/list-message","timestamp":"2025-05-21T14:03:15.542Z"}
+{"level":"info","message":"Redirecting to Chat Service: POST /chat/list-message","timestamp":"2025-05-21T14:03:15.543Z"}
+{"level":"info","message":"POST /chat/list-message - 200 - 185ms","timestamp":"2025-05-21T14:03:15.727Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/chat/67c47f0b52ed1fa804a4b1ee"},"timestamp":"2025-05-21T14:03:16.404Z"}
+{"level":"info","message":"GET /chat/67c47f0b52ed1fa804a4b1ee - Start","timestamp":"2025-05-21T14:03:16.404Z"}
+{"level":"info","message":"Redirecting to Chat Service: GET /chat/67c47f0b52ed1fa804a4b1ee","timestamp":"2025-05-21T14:03:16.405Z"}
+{"level":"info","message":"Client closed connection: GET /chat/67c47f0b52ed1fa804a4b1ee","timestamp":"2025-05-21T14:03:16.405Z"}
+{"level":"info","message":"GET /chat/67c47f0b52ed1fa804a4b1ee - 304 - 177ms","timestamp":"2025-05-21T14:03:16.581Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:03:19.536Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:03:19.536Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:03:19.537Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:03:19.537Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/social/checkFollowStatus/asd"},"timestamp":"2025-05-21T14:03:21.244Z"}
+{"level":"info","message":"GET /social/checkFollowStatus/asd - Start","timestamp":"2025-05-21T14:03:21.244Z"}
+{"level":"info","message":"Redirecting to Social Service: GET /social/checkFollowStatus/asd","timestamp":"2025-05-21T14:03:21.247Z"}
+{"level":"info","message":"Client closed connection: GET /social/checkFollowStatus/asd","timestamp":"2025-05-21T14:03:21.248Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/users/asd"},"timestamp":"2025-05-21T14:03:21.249Z"}
+{"level":"info","message":"GET /users/asd - Start","timestamp":"2025-05-21T14:03:21.250Z"}
+{"level":"info","message":"Redirecting to User Service: GET /user/asd","timestamp":"2025-05-21T14:03:21.252Z"}
+{"level":"info","message":"Client closed connection: GET /user/asd","timestamp":"2025-05-21T14:03:21.253Z"}
+{"level":"info","message":"GET /user/asd - 304 - 231ms","timestamp":"2025-05-21T14:03:21.481Z"}
+{"level":"info","message":"GET /social/checkFollowStatus/asd - 304 - 320ms","timestamp":"2025-05-21T14:03:21.564Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/user/asd"},"timestamp":"2025-05-21T14:03:22.759Z"}
+{"level":"info","message":"GET /post/user/asd - Start","timestamp":"2025-05-21T14:03:22.760Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /post/user/asd","timestamp":"2025-05-21T14:03:22.762Z"}
+{"level":"info","message":"Client closed connection: GET /post/user/asd","timestamp":"2025-05-21T14:03:22.762Z"}
+{"level":"info","message":"GET /post/user/asd - 304 - 202ms","timestamp":"2025-05-21T14:03:22.962Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/id/682d6c740527b69540df107e"},"timestamp":"2025-05-21T14:03:25.162Z"}
+{"level":"info","message":"GET /post/id/682d6c740527b69540df107e - Start","timestamp":"2025-05-21T14:03:25.163Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /post/id/682d6c740527b69540df107e","timestamp":"2025-05-21T14:03:25.165Z"}
+{"level":"info","message":"Client closed connection: GET /post/id/682d6c740527b69540df107e","timestamp":"2025-05-21T14:03:25.165Z"}
+{"level":"info","message":"GET /post/id/682d6c740527b69540df107e - 304 - 401ms","timestamp":"2025-05-21T14:03:25.564Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/social/checkFollowStatus/asd"},"timestamp":"2025-05-21T14:03:26.837Z"}
+{"level":"info","message":"GET /social/checkFollowStatus/asd - Start","timestamp":"2025-05-21T14:03:26.838Z"}
+{"level":"info","message":"Redirecting to Social Service: GET /social/checkFollowStatus/asd","timestamp":"2025-05-21T14:03:26.841Z"}
+{"level":"info","message":"Client closed connection: GET /social/checkFollowStatus/asd","timestamp":"2025-05-21T14:03:26.843Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/users/asd"},"timestamp":"2025-05-21T14:03:26.845Z"}
+{"level":"info","message":"GET /users/asd - Start","timestamp":"2025-05-21T14:03:26.846Z"}
+{"level":"info","message":"Redirecting to User Service: GET /user/asd","timestamp":"2025-05-21T14:03:26.847Z"}
+{"level":"info","message":"Client closed connection: GET /user/asd","timestamp":"2025-05-21T14:03:26.848Z"}
+{"level":"info","message":"GET /user/asd - 304 - 136ms","timestamp":"2025-05-21T14:03:26.982Z"}
+{"level":"info","message":"GET /social/checkFollowStatus/asd - 304 - 236ms","timestamp":"2025-05-21T14:03:27.074Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/user/asd"},"timestamp":"2025-05-21T14:03:28.338Z"}
+{"level":"info","message":"GET /post/user/asd - Start","timestamp":"2025-05-21T14:03:28.338Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /post/user/asd","timestamp":"2025-05-21T14:03:28.339Z"}
+{"level":"info","message":"Client closed connection: GET /post/user/asd","timestamp":"2025-05-21T14:03:28.339Z"}
+{"level":"info","message":"GET /post/user/asd - 304 - 520ms","timestamp":"2025-05-21T14:03:28.858Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:03:49.623Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:03:49.623Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:03:49.625Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:03:49.625Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:04:19.720Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:04:19.720Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:04:19.721Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:04:19.721Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:04:49.790Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:04:49.790Z"}
+{"level":"info","message":"GET /health - 200 - 2ms","timestamp":"2025-05-21T14:04:49.792Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:04:49.792Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:05:19.854Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:05:19.855Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:05:19.856Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:05:19.856Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:05:49.939Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:05:49.939Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:05:49.941Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:05:49.941Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:06:20.043Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:06:20.044Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:06:20.045Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:06:20.045Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:06:50.139Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:06:50.140Z"}
+{"level":"info","message":"GET /health - 200 - 3ms","timestamp":"2025-05-21T14:06:50.143Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:06:50.143Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:07:20.212Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:07:20.212Z"}
+{"level":"info","message":"GET /health - 200 - 0ms","timestamp":"2025-05-21T14:07:20.214Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:07:20.214Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:07:50.318Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:07:50.319Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:07:50.320Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:07:50.320Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:08:20.459Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:08:20.459Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:08:20.460Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:08:20.461Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:08:50.581Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:08:50.581Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:08:50.582Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:08:50.582Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:09:20.655Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:09:20.655Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:09:20.656Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:09:20.656Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:09:50.769Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:09:50.769Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:09:50.770Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:09:50.770Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:10:20.826Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:10:20.826Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:10:20.827Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:10:20.827Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:10:50.900Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:10:50.900Z"}
+{"level":"info","message":"GET /health - 200 - 0ms","timestamp":"2025-05-21T14:10:50.901Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:10:50.902Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/id/682d6c740527b69540df107e"},"timestamp":"2025-05-21T14:11:04.178Z"}
+{"level":"info","message":"GET /post/id/682d6c740527b69540df107e - Start","timestamp":"2025-05-21T14:11:04.179Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /post/id/682d6c740527b69540df107e","timestamp":"2025-05-21T14:11:04.184Z"}
+{"level":"info","message":"Client closed connection: GET /post/id/682d6c740527b69540df107e","timestamp":"2025-05-21T14:11:04.184Z"}
+{"level":"info","message":"GET /post/id/682d6c740527b69540df107e - 304 - 770ms","timestamp":"2025-05-21T14:11:04.949Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/users/asd"},"timestamp":"2025-05-21T14:11:06.540Z"}
+{"level":"info","message":"GET /users/asd - Start","timestamp":"2025-05-21T14:11:06.542Z"}
+{"level":"info","message":"Redirecting to User Service: GET /user/asd","timestamp":"2025-05-21T14:11:06.545Z"}
+{"level":"info","message":"Client closed connection: GET /user/asd","timestamp":"2025-05-21T14:11:06.552Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/social/checkFollowStatus/asd"},"timestamp":"2025-05-21T14:11:06.554Z"}
+{"level":"info","message":"GET /social/checkFollowStatus/asd - Start","timestamp":"2025-05-21T14:11:06.555Z"}
+{"level":"info","message":"Redirecting to Social Service: GET /social/checkFollowStatus/asd","timestamp":"2025-05-21T14:11:06.558Z"}
+{"level":"info","message":"Client closed connection: GET /social/checkFollowStatus/asd","timestamp":"2025-05-21T14:11:06.559Z"}
+{"level":"info","message":"GET /user/asd - 304 - 126ms","timestamp":"2025-05-21T14:11:06.669Z"}
+{"level":"info","message":"GET /social/checkFollowStatus/asd - 304 - 253ms","timestamp":"2025-05-21T14:11:06.808Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/feed"},"timestamp":"2025-05-21T14:11:07.490Z"}
+{"level":"info","message":"GET /post/feed - Start","timestamp":"2025-05-21T14:11:07.491Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /post/feed","timestamp":"2025-05-21T14:11:07.493Z"}
+{"level":"info","message":"Client closed connection: GET /post/feed","timestamp":"2025-05-21T14:11:07.494Z"}
+{"level":"info","message":"GET /post/feed - 200 - 834ms","timestamp":"2025-05-21T14:11:08.325Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:11:20.993Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:11:20.993Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:11:20.994Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:11:20.994Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:11:51.064Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:11:51.064Z"}
+{"level":"info","message":"GET /health - 200 - 2ms","timestamp":"2025-05-21T14:11:51.066Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:11:51.066Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:12:21.143Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:12:21.144Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:12:21.145Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:12:21.145Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:12:51.182Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:12:51.182Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:12:51.183Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:12:51.183Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:13:21.244Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:13:21.244Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:13:21.245Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:13:21.246Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:13:51.333Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:13:51.334Z"}
+{"level":"info","message":"GET /health - 200 - 2ms","timestamp":"2025-05-21T14:13:51.336Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:13:51.337Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:14:21.395Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:14:21.395Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:14:21.397Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:14:21.397Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:14:51.479Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:14:51.480Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:14:51.481Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:14:51.481Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:15:21.544Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:15:21.545Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:15:21.546Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:15:21.546Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:15:51.635Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:15:51.636Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:15:51.637Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:15:51.638Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:16:21.713Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:16:21.713Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:16:21.715Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:16:21.715Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:16:51.785Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:16:51.785Z"}
+{"level":"info","message":"GET /health - 200 - 2ms","timestamp":"2025-05-21T14:16:51.787Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:16:51.787Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:17:21.842Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:17:21.842Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:17:21.843Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:17:21.845Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:17:51.956Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:17:51.957Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:17:51.958Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:17:51.958Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:18:22.039Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:18:22.040Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:18:22.042Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:18:22.043Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:18:52.123Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:18:52.124Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:18:52.125Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:18:52.125Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:19:22.209Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:19:22.209Z"}
+{"level":"info","message":"GET /health - 200 - 4ms","timestamp":"2025-05-21T14:19:22.213Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:19:22.214Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:19:52.276Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:19:52.277Z"}
+{"level":"info","message":"GET /health - 200 - 2ms","timestamp":"2025-05-21T14:19:52.279Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:19:52.280Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:20:22.435Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:20:22.436Z"}
+{"level":"info","message":"GET /health - 200 - 2ms","timestamp":"2025-05-21T14:20:22.438Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:20:22.439Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:20:52.581Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:20:52.581Z"}
+{"level":"info","message":"GET /health - 200 - 2ms","timestamp":"2025-05-21T14:20:52.583Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:20:52.583Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:21:22.690Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:21:22.691Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:21:22.692Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:21:22.692Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:21:52.770Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:21:52.770Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:21:52.771Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:21:52.771Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:22:22.849Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:22:22.850Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:22:22.851Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:22:22.852Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:22:52.962Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:22:52.963Z"}
+{"level":"info","message":"GET /health - 200 - 2ms","timestamp":"2025-05-21T14:22:52.965Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:22:52.965Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:23:23.058Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:23:23.059Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:23:23.060Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:23:23.060Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:23:53.136Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:23:53.136Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:23:53.137Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:23:53.138Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:24:23.176Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:24:23.176Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:24:23.177Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:24:23.179Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:24:53.251Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:24:53.251Z"}
+{"level":"info","message":"GET /health - 200 - 2ms","timestamp":"2025-05-21T14:24:53.253Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:24:53.254Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:25:23.344Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:25:23.344Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:25:23.345Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:25:23.345Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:25:53.492Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:25:53.494Z"}
+{"level":"info","message":"GET /health - 200 - 2ms","timestamp":"2025-05-21T14:25:53.497Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:25:53.497Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:26:23.610Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:26:23.610Z"}
+{"level":"info","message":"GET /health - 200 - 0ms","timestamp":"2025-05-21T14:26:23.611Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:26:23.611Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:26:53.688Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:26:53.688Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:26:53.689Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:26:53.690Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:27:23.749Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:27:23.749Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:27:23.750Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:27:23.751Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:27:53.824Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:27:53.824Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:27:53.825Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:27:53.825Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:28:23.895Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:28:23.895Z"}
+{"level":"info","message":"GET /health - 200 - 0ms","timestamp":"2025-05-21T14:28:23.896Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:28:23.896Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:28:53.933Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:28:53.933Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:28:53.934Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:28:53.934Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:29:24.051Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:29:24.052Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:29:24.053Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:29:24.054Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:29:54.161Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:29:54.162Z"}
+{"level":"info","message":"GET /health - 200 - 0ms","timestamp":"2025-05-21T14:29:54.162Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:29:54.163Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:30:24.229Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:30:24.229Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:30:24.230Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:30:24.230Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:30:54.280Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:30:54.280Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:30:54.282Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:30:54.283Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:31:24.404Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:31:24.405Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:31:24.406Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:31:24.407Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:31:54.496Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:31:54.496Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:31:54.497Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:31:54.497Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:32:24.562Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:32:24.562Z"}
+{"level":"info","message":"GET /health - 200 - 0ms","timestamp":"2025-05-21T14:32:24.563Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:32:24.563Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:32:54.661Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:32:54.661Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:32:54.662Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:32:54.662Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:33:24.728Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:33:24.728Z"}
+{"level":"info","message":"GET /health - 200 - 0ms","timestamp":"2025-05-21T14:33:24.729Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:33:24.729Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:33:54.849Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:33:54.850Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:33:54.851Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:33:54.852Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:34:24.918Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:34:24.918Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:34:24.919Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:34:24.919Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:34:54.988Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:34:54.988Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:34:54.989Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:34:54.989Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/id/682d6cd70527b69540df10ae"},"timestamp":"2025-05-21T14:35:16.532Z"}
+{"level":"info","message":"GET /post/id/682d6cd70527b69540df10ae - Start","timestamp":"2025-05-21T14:35:16.532Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /post/id/682d6cd70527b69540df10ae","timestamp":"2025-05-21T14:35:16.543Z"}
+{"level":"info","message":"Client closed connection: GET /post/id/682d6cd70527b69540df10ae","timestamp":"2025-05-21T14:35:16.543Z"}
+{"level":"info","message":"GET /post/id/682d6cd70527b69540df10ae - 200 - 522ms","timestamp":"2025-05-21T14:35:17.055Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/id/682d6c740527b69540df107e"},"timestamp":"2025-05-21T14:35:22.999Z"}
+{"level":"info","message":"GET /post/id/682d6c740527b69540df107e - Start","timestamp":"2025-05-21T14:35:23.000Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /post/id/682d6c740527b69540df107e","timestamp":"2025-05-21T14:35:23.003Z"}
+{"level":"info","message":"Client closed connection: GET /post/id/682d6c740527b69540df107e","timestamp":"2025-05-21T14:35:23.005Z"}
+{"level":"info","message":"GET /post/id/682d6c740527b69540df107e - 304 - 386ms","timestamp":"2025-05-21T14:35:23.386Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:35:25.065Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:35:25.065Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:35:25.066Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:35:25.066Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:35:55.167Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:35:55.168Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:35:55.170Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:35:55.171Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:36:25.307Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:36:25.307Z"}
+{"level":"info","message":"GET /health - 200 - 2ms","timestamp":"2025-05-21T14:36:25.309Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:36:25.309Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:36:55.396Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:36:55.396Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:36:55.397Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:36:55.397Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:37:25.446Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:37:25.446Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:37:25.447Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:37:25.447Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:37:55.499Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:37:55.499Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:37:55.500Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:37:55.500Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:38:25.552Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:38:25.552Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:38:25.553Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:38:25.553Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:38:55.597Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:38:55.597Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:38:55.598Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:38:55.598Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:39:25.650Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:39:25.650Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:39:25.651Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:39:25.651Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:39:55.703Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:39:55.704Z"}
+{"level":"info","message":"GET /health - 200 - 0ms","timestamp":"2025-05-21T14:39:55.704Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:39:55.704Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:40:25.769Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:40:25.769Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:40:25.770Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:40:25.771Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:40:55.846Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:40:55.846Z"}
+{"level":"info","message":"GET /health - 200 - 2ms","timestamp":"2025-05-21T14:40:55.848Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:40:55.848Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:41:25.926Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:41:25.926Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:41:25.927Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:41:25.927Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:41:56.003Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:41:56.003Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:41:56.004Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:41:56.004Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:42:26.103Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:42:26.103Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:42:26.104Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:42:26.104Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:42:56.215Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:42:56.216Z"}
+{"level":"info","message":"GET /health - 200 - 2ms","timestamp":"2025-05-21T14:42:56.219Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:42:56.220Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:43:26.266Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:43:26.267Z"}
+{"level":"info","message":"GET /health - 200 - 0ms","timestamp":"2025-05-21T14:43:26.267Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:43:26.267Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:43:56.337Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:43:56.337Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:43:56.338Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:43:56.338Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:44:26.418Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:44:26.419Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:44:26.420Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:44:26.421Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:44:56.510Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:44:56.510Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:44:56.511Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:44:56.511Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:45:26.582Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:45:26.582Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:45:26.584Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:45:26.585Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/auth/checkToken"},"timestamp":"2025-05-21T14:45:37.750Z"}
+{"level":"info","message":"GET /auth/checkToken - Start","timestamp":"2025-05-21T14:45:37.751Z"}
+{"level":"info","message":"Proxying to Auth Service","method":"GET","target":"http://auth-service:5000/auth/checkToken","timestamp":"2025-05-21T14:45:37.760Z","url":"/auth/checkToken"}
+{"level":"info","message":"Client closed connection: GET /auth/checkToken","timestamp":"2025-05-21T14:45:37.761Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/feed"},"timestamp":"2025-05-21T14:45:37.764Z"}
+{"level":"info","message":"GET /post/feed - Start","timestamp":"2025-05-21T14:45:37.765Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /post/feed","timestamp":"2025-05-21T14:45:37.769Z"}
+{"level":"info","message":"Client closed connection: GET /post/feed","timestamp":"2025-05-21T14:45:37.769Z"}
+{"level":"info","message":"Got response from Auth Service: 304","timestamp":"2025-05-21T14:45:38.000Z"}
+{"level":"info","message":"GET /auth/checkToken - 304 - 249ms","timestamp":"2025-05-21T14:45:38.001Z"}
+{"level":"info","message":"GET /post/feed - 304 - 882ms","timestamp":"2025-05-21T14:45:38.647Z"}
+{"level":"info","message":{"body":{"content":"dd","imageUrls":["https://res.cloudinary.com/dg1kyvurg/image/upload/v1747838749/Posts/qr0xcb3ai0oamtfizkyl.png"]},"bodySize":2,"ip":"::ffff:172.18.0.1","method":"POST","url":"/post/create"},"timestamp":"2025-05-21T14:45:50.594Z"}
+{"level":"info","message":"POST /post/create - Start","timestamp":"2025-05-21T14:45:50.595Z"}
+{"level":"info","message":"Client closed connection: POST /post/create","timestamp":"2025-05-21T14:45:50.596Z"}
+{"level":"info","message":"Redirecting to Post Service: POST /post/create","timestamp":"2025-05-21T14:45:50.598Z"}
+{"level":"info","message":"POST /post/create - 201 - 349ms","timestamp":"2025-05-21T14:45:50.945Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:45:56.686Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:45:56.686Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:45:56.687Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:45:56.687Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:46:26.817Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:46:26.818Z"}
+{"level":"info","message":"GET /health - 200 - 2ms","timestamp":"2025-05-21T14:46:26.821Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:46:26.822Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/feed"},"timestamp":"2025-05-21T14:46:46.238Z"}
+{"level":"info","message":"GET /post/feed - Start","timestamp":"2025-05-21T14:46:46.239Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /post/feed","timestamp":"2025-05-21T14:46:46.241Z"}
+{"level":"info","message":"Client closed connection: GET /post/feed","timestamp":"2025-05-21T14:46:46.242Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/auth/checkToken"},"timestamp":"2025-05-21T14:46:46.244Z"}
+{"level":"info","message":"GET /auth/checkToken - Start","timestamp":"2025-05-21T14:46:46.244Z"}
+{"level":"info","message":"Proxying to Auth Service","method":"GET","target":"http://auth-service:5000/auth/checkToken","timestamp":"2025-05-21T14:46:46.246Z","url":"/auth/checkToken"}
+{"level":"info","message":"Client closed connection: GET /auth/checkToken","timestamp":"2025-05-21T14:46:46.248Z"}
+{"level":"info","message":"Got response from Auth Service: 200","timestamp":"2025-05-21T14:46:46.358Z"}
+{"level":"info","message":"GET /auth/checkToken - 200 - 115ms","timestamp":"2025-05-21T14:46:46.360Z"}
+{"level":"info","message":"GET /post/feed - 200 - 466ms","timestamp":"2025-05-21T14:46:46.705Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/id/682de71ec4bc0b9db79ea999"},"timestamp":"2025-05-21T14:46:49.650Z"}
+{"level":"info","message":"GET /post/id/682de71ec4bc0b9db79ea999 - Start","timestamp":"2025-05-21T14:46:49.650Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /post/id/682de71ec4bc0b9db79ea999","timestamp":"2025-05-21T14:46:49.653Z"}
+{"level":"info","message":"Client closed connection: GET /post/id/682de71ec4bc0b9db79ea999","timestamp":"2025-05-21T14:46:49.654Z"}
+{"level":"info","message":"GET /post/id/682de71ec4bc0b9db79ea999 - 200 - 674ms","timestamp":"2025-05-21T14:46:50.324Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:46:56.902Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:46:56.902Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:46:56.903Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:46:56.903Z"}
+{"level":"info","message":{"body":{"content":"xin chào","imageUrls":["https://res.cloudinary.com/dg1kyvurg/image/upload/v1747838833/Posts/ecbdimj2dybdimgdgzyi.jpg","https://res.cloudinary.com/dg1kyvurg/image/upload/v1747838835/Posts/zrcngwvphxsdbtgvc2dh.jpg"]},"bodySize":2,"ip":"::ffff:172.18.0.1","method":"POST","url":"/post/create"},"timestamp":"2025-05-21T14:47:15.758Z"}
+{"level":"info","message":"POST /post/create - Start","timestamp":"2025-05-21T14:47:15.759Z"}
+{"level":"info","message":"Client closed connection: POST /post/create","timestamp":"2025-05-21T14:47:15.760Z"}
+{"level":"info","message":"Redirecting to Post Service: POST /post/create","timestamp":"2025-05-21T14:47:15.763Z"}
+{"level":"info","message":"POST /post/create - 201 - 238ms","timestamp":"2025-05-21T14:47:15.997Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/social/checkFollowStatus/asd"},"timestamp":"2025-05-21T14:47:19.568Z"}
+{"level":"info","message":"GET /social/checkFollowStatus/asd - Start","timestamp":"2025-05-21T14:47:19.569Z"}
+{"level":"info","message":"Redirecting to Social Service: GET /social/checkFollowStatus/asd","timestamp":"2025-05-21T14:47:19.573Z"}
+{"level":"info","message":"Client closed connection: GET /social/checkFollowStatus/asd","timestamp":"2025-05-21T14:47:19.573Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/users/asd"},"timestamp":"2025-05-21T14:47:19.583Z"}
+{"level":"info","message":"GET /users/asd - Start","timestamp":"2025-05-21T14:47:19.583Z"}
+{"level":"info","message":"Redirecting to User Service: GET /user/asd","timestamp":"2025-05-21T14:47:19.585Z"}
+{"level":"info","message":"Client closed connection: GET /user/asd","timestamp":"2025-05-21T14:47:19.586Z"}
+{"level":"info","message":"GET /user/asd - 200 - 303ms","timestamp":"2025-05-21T14:47:19.886Z"}
+{"level":"info","message":"GET /social/checkFollowStatus/asd - 304 - 421ms","timestamp":"2025-05-21T14:47:19.990Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/user/asd"},"timestamp":"2025-05-21T14:47:21.084Z"}
+{"level":"info","message":"GET /post/user/asd - Start","timestamp":"2025-05-21T14:47:21.089Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /post/user/asd","timestamp":"2025-05-21T14:47:21.095Z"}
+{"level":"info","message":"Client closed connection: GET /post/user/asd","timestamp":"2025-05-21T14:47:21.097Z"}
+{"level":"info","message":"GET /post/user/asd - 200 - 215ms","timestamp":"2025-05-21T14:47:21.305Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/id/682de773c4bc0b9db79ea9a7"},"timestamp":"2025-05-21T14:47:22.719Z"}
+{"level":"info","message":"GET /post/id/682de773c4bc0b9db79ea9a7 - Start","timestamp":"2025-05-21T14:47:22.720Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /post/id/682de773c4bc0b9db79ea9a7","timestamp":"2025-05-21T14:47:22.722Z"}
+{"level":"info","message":"Client closed connection: GET /post/id/682de773c4bc0b9db79ea9a7","timestamp":"2025-05-21T14:47:22.722Z"}
+{"level":"info","message":"GET /post/id/682de773c4bc0b9db79ea9a7 - 200 - 405ms","timestamp":"2025-05-21T14:47:23.125Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/users/asd"},"timestamp":"2025-05-21T14:47:24.873Z"}
+{"level":"info","message":"GET /users/asd - Start","timestamp":"2025-05-21T14:47:24.873Z"}
+{"level":"info","message":"Redirecting to User Service: GET /user/asd","timestamp":"2025-05-21T14:47:24.879Z"}
+{"level":"info","message":"Client closed connection: GET /user/asd","timestamp":"2025-05-21T14:47:24.880Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/social/checkFollowStatus/asd"},"timestamp":"2025-05-21T14:47:24.882Z"}
+{"level":"info","message":"GET /social/checkFollowStatus/asd - Start","timestamp":"2025-05-21T14:47:24.882Z"}
+{"level":"info","message":"Redirecting to Social Service: GET /social/checkFollowStatus/asd","timestamp":"2025-05-21T14:47:24.885Z"}
+{"level":"info","message":"Client closed connection: GET /social/checkFollowStatus/asd","timestamp":"2025-05-21T14:47:24.886Z"}
+{"level":"info","message":"GET /user/asd - 304 - 171ms","timestamp":"2025-05-21T14:47:25.047Z"}
+{"level":"info","message":"GET /social/checkFollowStatus/asd - 304 - 266ms","timestamp":"2025-05-21T14:47:25.149Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/user/asd"},"timestamp":"2025-05-21T14:47:26.401Z"}
+{"level":"info","message":"GET /post/user/asd - Start","timestamp":"2025-05-21T14:47:26.402Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /post/user/asd","timestamp":"2025-05-21T14:47:26.404Z"}
+{"level":"info","message":"Client closed connection: GET /post/user/asd","timestamp":"2025-05-21T14:47:26.405Z"}
+{"level":"info","message":"GET /post/user/asd - 304 - 199ms","timestamp":"2025-05-21T14:47:26.601Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:47:27.029Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:47:27.029Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:47:27.030Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:47:27.030Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/feed"},"timestamp":"2025-05-21T14:47:32.337Z"}
+{"level":"info","message":"GET /post/feed - Start","timestamp":"2025-05-21T14:47:32.337Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /post/feed","timestamp":"2025-05-21T14:47:32.341Z"}
+{"level":"info","message":"Client closed connection: GET /post/feed","timestamp":"2025-05-21T14:47:32.342Z"}
+{"level":"info","message":"GET /post/feed - 200 - 776ms","timestamp":"2025-05-21T14:47:33.114Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/id/682de773c4bc0b9db79ea9a7"},"timestamp":"2025-05-21T14:47:34.352Z"}
+{"level":"info","message":"GET /post/id/682de773c4bc0b9db79ea9a7 - Start","timestamp":"2025-05-21T14:47:34.353Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /post/id/682de773c4bc0b9db79ea9a7","timestamp":"2025-05-21T14:47:34.357Z"}
+{"level":"info","message":"Client closed connection: GET /post/id/682de773c4bc0b9db79ea9a7","timestamp":"2025-05-21T14:47:34.358Z"}
+{"level":"info","message":"GET /post/id/682de773c4bc0b9db79ea9a7 - 304 - 400ms","timestamp":"2025-05-21T14:47:34.754Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/id/682de71ec4bc0b9db79ea999"},"timestamp":"2025-05-21T14:47:38.005Z"}
+{"level":"info","message":"GET /post/id/682de71ec4bc0b9db79ea999 - Start","timestamp":"2025-05-21T14:47:38.005Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /post/id/682de71ec4bc0b9db79ea999","timestamp":"2025-05-21T14:47:38.006Z"}
+{"level":"info","message":"Client closed connection: GET /post/id/682de71ec4bc0b9db79ea999","timestamp":"2025-05-21T14:47:38.007Z"}
+{"level":"info","message":"GET /post/id/682de71ec4bc0b9db79ea999 - 304 - 363ms","timestamp":"2025-05-21T14:47:38.368Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/id/682d6cd70527b69540df10ae"},"timestamp":"2025-05-21T14:47:40.894Z"}
+{"level":"info","message":"GET /post/id/682d6cd70527b69540df10ae - Start","timestamp":"2025-05-21T14:47:40.895Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /post/id/682d6cd70527b69540df10ae","timestamp":"2025-05-21T14:47:40.896Z"}
+{"level":"info","message":"Client closed connection: GET /post/id/682d6cd70527b69540df10ae","timestamp":"2025-05-21T14:47:40.897Z"}
+{"level":"info","message":"GET /post/id/682d6cd70527b69540df10ae - 304 - 387ms","timestamp":"2025-05-21T14:47:41.282Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/id/682d6cd70527b69540df10ae"},"timestamp":"2025-05-21T14:47:48.343Z"}
+{"level":"info","message":"GET /post/id/682d6cd70527b69540df10ae - Start","timestamp":"2025-05-21T14:47:48.343Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /post/id/682d6cd70527b69540df10ae","timestamp":"2025-05-21T14:47:48.344Z"}
+{"level":"info","message":"Client closed connection: GET /post/id/682d6cd70527b69540df10ae","timestamp":"2025-05-21T14:47:48.345Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/feed"},"timestamp":"2025-05-21T14:47:48.346Z"}
+{"level":"info","message":"GET /post/feed - Start","timestamp":"2025-05-21T14:47:48.346Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /post/feed","timestamp":"2025-05-21T14:47:48.347Z"}
+{"level":"info","message":"Client closed connection: GET /post/feed","timestamp":"2025-05-21T14:47:48.350Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/auth/checkToken"},"timestamp":"2025-05-21T14:47:48.351Z"}
+{"level":"info","message":"GET /auth/checkToken - Start","timestamp":"2025-05-21T14:47:48.352Z"}
+{"level":"info","message":"Proxying to Auth Service","method":"GET","target":"http://auth-service:5000/auth/checkToken","timestamp":"2025-05-21T14:47:48.354Z","url":"/auth/checkToken"}
+{"level":"info","message":"Client closed connection: GET /auth/checkToken","timestamp":"2025-05-21T14:47:48.354Z"}
+{"level":"info","message":"Got response from Auth Service: 200","timestamp":"2025-05-21T14:47:48.470Z"}
+{"level":"info","message":"GET /auth/checkToken - 200 - 119ms","timestamp":"2025-05-21T14:47:48.471Z"}
+{"level":"info","message":"GET /post/feed - 304 - 348ms","timestamp":"2025-05-21T14:47:48.694Z"}
+{"level":"info","message":"GET /post/id/682d6cd70527b69540df10ae - 304 - 363ms","timestamp":"2025-05-21T14:47:48.706Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"POST","url":"/post/682de773c4bc0b9db79ea9a7/likes"},"timestamp":"2025-05-21T14:47:56.974Z"}
+{"level":"info","message":"POST /post/682de773c4bc0b9db79ea9a7/likes - Start","timestamp":"2025-05-21T14:47:56.974Z"}
+{"level":"info","message":"Client closed connection: POST /post/682de773c4bc0b9db79ea9a7/likes","timestamp":"2025-05-21T14:47:56.974Z"}
+{"level":"info","message":"Redirecting to Post Service: POST /post/682de773c4bc0b9db79ea9a7/likes","timestamp":"2025-05-21T14:47:56.975Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:47:57.124Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:47:57.124Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:47:57.125Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:47:57.125Z"}
+{"level":"info","message":"POST /post/682de773c4bc0b9db79ea9a7/likes - 200 - 500ms","timestamp":"2025-05-21T14:47:57.474Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/id/682de773c4bc0b9db79ea9a7"},"timestamp":"2025-05-21T14:47:58.988Z"}
+{"level":"info","message":"GET /post/id/682de773c4bc0b9db79ea9a7 - Start","timestamp":"2025-05-21T14:47:58.988Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /post/id/682de773c4bc0b9db79ea9a7","timestamp":"2025-05-21T14:47:58.989Z"}
+{"level":"info","message":"Client closed connection: GET /post/id/682de773c4bc0b9db79ea9a7","timestamp":"2025-05-21T14:47:58.990Z"}
+{"level":"info","message":"GET /post/id/682de773c4bc0b9db79ea9a7 - 200 - 718ms","timestamp":"2025-05-21T14:47:59.706Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"POST","url":"/chat/list-message"},"timestamp":"2025-05-21T14:48:07.676Z"}
+{"level":"info","message":"POST /chat/list-message - Start","timestamp":"2025-05-21T14:48:07.677Z"}
+{"level":"info","message":"Client closed connection: POST /chat/list-message","timestamp":"2025-05-21T14:48:07.677Z"}
+{"level":"info","message":"Redirecting to Chat Service: POST /chat/list-message","timestamp":"2025-05-21T14:48:07.682Z"}
+{"level":"info","message":"POST /chat/list-message - 200 - 504ms","timestamp":"2025-05-21T14:48:08.181Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/social/checkFollowStatus/asd"},"timestamp":"2025-05-21T14:48:20.487Z"}
+{"level":"info","message":"GET /social/checkFollowStatus/asd - Start","timestamp":"2025-05-21T14:48:20.487Z"}
+{"level":"info","message":"Redirecting to Social Service: GET /social/checkFollowStatus/asd","timestamp":"2025-05-21T14:48:20.490Z"}
+{"level":"info","message":"Client closed connection: GET /social/checkFollowStatus/asd","timestamp":"2025-05-21T14:48:20.492Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/users/asd"},"timestamp":"2025-05-21T14:48:20.497Z"}
+{"level":"info","message":"GET /users/asd - Start","timestamp":"2025-05-21T14:48:20.497Z"}
+{"level":"info","message":"Redirecting to User Service: GET /user/asd","timestamp":"2025-05-21T14:48:20.500Z"}
+{"level":"info","message":"Client closed connection: GET /user/asd","timestamp":"2025-05-21T14:48:20.500Z"}
+{"level":"info","message":"GET /social/checkFollowStatus/asd - 304 - 248ms","timestamp":"2025-05-21T14:48:20.736Z"}
+{"level":"info","message":"GET /user/asd - 304 - 495ms","timestamp":"2025-05-21T14:48:20.993Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/user/asd"},"timestamp":"2025-05-21T14:48:21.994Z"}
+{"level":"info","message":"GET /post/user/asd - Start","timestamp":"2025-05-21T14:48:21.995Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /post/user/asd","timestamp":"2025-05-21T14:48:21.997Z"}
+{"level":"info","message":"Client closed connection: GET /post/user/asd","timestamp":"2025-05-21T14:48:21.997Z"}
+{"level":"info","message":"GET /post/user/asd - 200 - 209ms","timestamp":"2025-05-21T14:48:22.204Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:48:27.206Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:48:27.207Z"}
+{"level":"info","message":"GET /health - 200 - 0ms","timestamp":"2025-05-21T14:48:27.207Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:48:27.207Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:48:57.361Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:48:57.361Z"}
+{"level":"info","message":"GET /health - 200 - 2ms","timestamp":"2025-05-21T14:48:57.363Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:48:57.363Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:49:27.461Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:49:27.461Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:49:27.462Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:49:27.462Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:49:57.552Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:49:57.553Z"}
+{"level":"info","message":"GET /health - 200 - 0ms","timestamp":"2025-05-21T14:49:57.553Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:49:57.554Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:50:27.622Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:50:27.622Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:50:27.623Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:50:27.623Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:50:57.727Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:50:57.727Z"}
+{"level":"info","message":"GET /health - 200 - 2ms","timestamp":"2025-05-21T14:50:57.730Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:50:57.731Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:51:27.812Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:51:27.813Z"}
+{"level":"info","message":"GET /health - 200 - 0ms","timestamp":"2025-05-21T14:51:27.813Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:51:27.814Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:51:57.871Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:51:57.871Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:51:57.872Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:51:57.872Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:52:27.943Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:52:27.943Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:52:27.944Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:52:27.944Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:52:58.021Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:52:58.021Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:52:58.022Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:52:58.022Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:53:28.109Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:53:28.109Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:53:28.110Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:53:28.110Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:53:58.179Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:53:58.180Z"}
+{"level":"info","message":"GET /health - 200 - 0ms","timestamp":"2025-05-21T14:53:58.180Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:53:58.181Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:54:28.274Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:54:28.274Z"}
+{"level":"info","message":"GET /health - 200 - 0ms","timestamp":"2025-05-21T14:54:28.274Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:54:28.275Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:54:58.366Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:54:58.369Z"}
+{"level":"info","message":"GET /health - 200 - 2ms","timestamp":"2025-05-21T14:54:58.371Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:54:58.371Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:55:28.452Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:55:28.452Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:55:28.453Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:55:28.453Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:55:58.529Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:55:58.529Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:55:58.530Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:55:58.530Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:56:28.607Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:56:28.607Z"}
+{"level":"info","message":"GET /health - 200 - 0ms","timestamp":"2025-05-21T14:56:28.608Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:56:28.608Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:56:58.680Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:56:58.680Z"}
+{"level":"info","message":"GET /health - 200 - 0ms","timestamp":"2025-05-21T14:56:58.680Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:56:58.680Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:57:28.768Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:57:28.768Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:57:28.769Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:57:28.770Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:57:58.846Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:57:58.846Z"}
+{"level":"info","message":"GET /health - 200 - 0ms","timestamp":"2025-05-21T14:57:58.847Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:57:58.847Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:58:28.923Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:58:28.923Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T14:58:28.925Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:58:28.925Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:58:59.057Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:58:59.058Z"}
+{"level":"info","message":"GET /health - 200 - 2ms","timestamp":"2025-05-21T14:58:59.060Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:58:59.061Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:59:29.169Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:59:29.170Z"}
+{"level":"info","message":"GET /health - 200 - 0ms","timestamp":"2025-05-21T14:59:29.170Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:59:29.170Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T14:59:59.252Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T14:59:59.253Z"}
+{"level":"info","message":"GET /health - 200 - 0ms","timestamp":"2025-05-21T14:59:59.253Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T14:59:59.253Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T15:00:29.336Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T15:00:29.336Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T15:00:29.337Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T15:00:29.338Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T15:00:59.431Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T15:00:59.432Z"}
+{"level":"info","message":"GET /health - 200 - 2ms","timestamp":"2025-05-21T15:00:59.434Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T15:00:59.454Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T15:01:29.499Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T15:01:29.499Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T15:01:29.500Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T15:01:29.500Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T15:01:59.595Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T15:01:59.596Z"}
+{"level":"info","message":"GET /health - 200 - 3ms","timestamp":"2025-05-21T15:01:59.599Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T15:01:59.600Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T15:02:29.673Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T15:02:29.674Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T15:02:29.675Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T15:02:29.676Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T15:02:59.757Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T15:02:59.757Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T15:02:59.758Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T15:02:59.758Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T15:03:29.816Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T15:03:29.816Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T15:03:29.817Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T15:03:29.817Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T15:03:59.937Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T15:03:59.937Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T15:03:59.939Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T15:03:59.939Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T15:04:29.994Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T15:04:29.995Z"}
+{"level":"info","message":"GET /health - 200 - 0ms","timestamp":"2025-05-21T15:04:29.995Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T15:04:29.995Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T15:05:00.133Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T15:05:00.134Z"}
+{"level":"info","message":"GET /health - 200 - 0ms","timestamp":"2025-05-21T15:05:00.134Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T15:05:00.135Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T15:05:30.232Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T15:05:30.232Z"}
+{"level":"info","message":"GET /health - 200 - 0ms","timestamp":"2025-05-21T15:05:30.233Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T15:05:30.234Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T15:06:00.306Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T15:06:00.306Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T15:06:00.307Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T15:06:00.308Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T15:06:30.353Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T15:06:30.353Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T15:06:30.354Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T15:06:30.354Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T15:07:00.401Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T15:07:00.401Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T15:07:00.402Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T15:07:00.402Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T15:07:30.482Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T15:07:30.482Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T15:07:30.483Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T15:07:30.483Z"}
+{"level":"info","message":{"body":{"content":"hi","imageUrls":["https://res.cloudinary.com/dg1kyvurg/image/upload/v1747840054/Posts/qnivmics6hhznya4ga7w.jpg"]},"bodySize":2,"ip":"::ffff:172.18.0.1","method":"POST","url":"/post/create"},"timestamp":"2025-05-21T15:07:34.309Z"}
+{"level":"info","message":"POST /post/create - Start","timestamp":"2025-05-21T15:07:34.309Z"}
+{"level":"info","message":"Client closed connection: POST /post/create","timestamp":"2025-05-21T15:07:34.310Z"}
+{"level":"info","message":"Redirecting to Post Service: POST /post/create","timestamp":"2025-05-21T15:07:34.312Z"}
+{"level":"info","message":"POST /post/create - 201 - 222ms","timestamp":"2025-05-21T15:07:34.531Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T15:08:00.540Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T15:08:00.541Z"}
+{"level":"info","message":"GET /health - 200 - 0ms","timestamp":"2025-05-21T15:08:00.542Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T15:08:00.542Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T15:08:30.625Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T15:08:30.625Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T15:08:30.626Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T15:08:30.626Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T15:09:00.701Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T15:09:00.702Z"}
+{"level":"info","message":"GET /health - 200 - 0ms","timestamp":"2025-05-21T15:09:00.702Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T15:09:00.702Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T15:09:30.830Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T15:09:30.830Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T15:09:30.831Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T15:09:30.831Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T15:10:00.911Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T15:10:00.912Z"}
+{"level":"info","message":"GET /health - 200 - 0ms","timestamp":"2025-05-21T15:10:00.912Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T15:10:00.912Z"}

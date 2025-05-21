@@ -5,13 +5,19 @@ const jwt = require("jsonwebtoken")
 
 
 const loginUser = async (req, res) => {
-    const { username, password } = req.body;
-
-    if (!username || !password) {
-        return res.status(400).json({ message: "Không được để trống!", status: false });
-    }
-
     try {
+        // Log thông tin request để debug
+        console.log('Received login request:', {
+            headers: req.headers,
+            body: req.body
+        });
+
+        const { username, password } = req.body;
+
+        if (!username || !password) {
+            return res.status(400).json({ message: "Không được để trống!", status: false });
+        }
+
         const checkUser = await UserModel.findOne({ username });
         if (!checkUser) {
             return res.status(404).json({ message: "Username không tồn tại!", status: false });
@@ -35,8 +41,11 @@ const loginUser = async (req, res) => {
         });
 
     } catch (error) {
-        console.error("Lỗi đăng nhập:", error);
-        res.status(500).json({ message: "Lỗi server, vui lòng thử lại!", status: false });
+        console.error("Login error:", error);
+        return res.status(500).json({ 
+            message: 'Internal server error', 
+            error: error.message 
+        });
     }
 };
 

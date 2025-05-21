@@ -7,6 +7,12 @@ const mongoose = require("mongoose")
 
 const getChatPartners = async (req, res) => {
     try {
+        // Kiểm tra request đã đóng chưa
+        if (!res.connection || res.connection.destroyed) {
+            console.log('Client disconnected, aborting response');
+            return;
+        }
+
         const currentUserId = req.user.userID;
         console.log("Current User ID:", currentUserId);
 
@@ -100,6 +106,12 @@ const getChatPartners = async (req, res) => {
         res.status(200).json({ partners: result });
 
     } catch (error) {
+        // Kiểm tra nếu response vẫn còn active
+        if (res.headersSent) {
+            console.error("Headers đã được gửi, không thể gửi lỗi:", error);
+            return;
+        }
+
         console.error("Lỗi khi lấy danh sách người nhắn tin:", error);
         res.status(500).json({ error: "Lỗi server" });
     }

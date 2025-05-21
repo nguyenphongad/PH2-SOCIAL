@@ -9,6 +9,13 @@ router.get("/:username", authMiddleware, getProfileByUsername);
 
 router.post("/getUsersInfoFollower", authMiddleware,  getUsersInfoFollower);
 
-
+// Health check endpoint
+router.get('/health', (req, res) => {
+  res.status(200).json({
+    status: 'OK',
+    service: 'user-service',
+    timestamp: new Date().toISOString()
+  });
+});
 
 module.exports = router;

@@ -1,29 +1,34 @@
 const ENDPOINT = {
-    CHECK_TOKEN : "/auth/checkToken",
-    LOGIN_USER : "/auth/login",
+    // ====== AUTH SERVICE ENDPOINTS ======
+    CHECK_TOKEN : "/checkToken",         // GET - Kiểm tra token hợp lệ
+    LOGIN_USER : "/login",               // POST - Đăng nhập người dùng
 
-    GET_USER_PROFILE: "/user",
-    SHOW_LIST_FOLLOWER_USER: "/user/getUsersInfoFollower",
+    // ====== USER SERVICE ENDPOINTS ======
+    GET_USER_PROFILE: "",                // GET - Lấy thông tin profile người dùng
+    SHOW_LIST_FOLLOWER_USER: "/getUsersInfoFollower", // POST - Lấy danh sách người theo dõi
 
-    FOLLOW_USER: "/social/follow",
-    CHECK_FOLLOW_STATUS: "/social/checkFollowStatus",
+    // ====== SOCIAL SERVICE ENDPOINTS ======
+    FOLLOW_USER: "/follow",              // POST - Theo dõi/hủy theo dõi người dùng
+    CHECK_FOLLOW_STATUS: "/checkFollowStatus", // GET - Kiểm tra trạng thái follow
+
+    // ====== CHAT SERVICE ENDPOINTS ======
+    SHOW_LIST_MESSAGE : "/list-message", // GET - Lấy danh sách tin nhắn
+    SHOW_LIST_BOX_MESSAGE : "",          // GET - Lấy danh sách hộp thoại
+
+    // ====== POST SERVICE ENDPOINTS ======
+    // Quản lý bài đăng
+    CREATE_POST: "/create",              // POST - Tạo bài đăng mới
+    GET_POST_DETAIL: "/id",              // GET - Lấy chi tiết bài đăng theo ID
+    GET_USER_POSTS: "/user",             // GET - Lấy tất cả bài đăng của người dùng
+    UPDATE_POST: "",                     // PUT - Cập nhật bài đăng
+    DELETE_POST: "",                     // DELETE - Xóa bài đăng
+    GET_FEED_POSTS: "/feed",             // GET - Lấy feed bài đăng từ người theo dõi
+    SEARCH_POSTS: "/search",             // GET - Tìm kiếm bài đăng
     
-    SHOW_LIST_MESSAGE : "/chat/list-message",
-    SHOW_LIST_BOX_MESSAGE : "/chat",
-
-    // POST endpoints
-    CREATE_POST: "/post/create",                        // POST - Tạo bài đăng mới
-    GET_POST_DETAIL: "/post/id",                          // GET - Lấy chi tiết bài đăng theo ID
-    GET_USER_POSTS: "/post/user",                      // GET - Lấy tất cả bài đăng của người dùng
-    UPDATE_POST: "/post",                              // PUT - Cập nhật bài đăng
-    DELETE_POST: "/post",                              // DELETE - Xóa bài đăng
-    GET_FEED_POSTS: "/post/feed",                      // GET - Lấy feed bài đăng từ người theo dõi
-    SEARCH_POSTS: "/post/search",                      // GET - Tìm kiếm bài đăng
-    
-    // POST interaction endpoints
-    LIKE_POST: "/post/like",                           // POST - Like/unlike bài đăng
-    ADD_COMMENT: "/post/comment",                      // POST - Thêm bình luận
-    GET_COMMENTS: "/post/comments"                     // GET - Lấy danh sách bình luận
+    // Tương tác với bài đăng
+    LIKE_POST: "/like",                  // POST - Like/unlike bài đăng
+    ADD_COMMENT: "/comment",             // POST - Thêm bình luận
+    GET_COMMENTS: "/comments"            // GET - Lấy danh sách bình luận
 }
 
 export default ENDPOINT

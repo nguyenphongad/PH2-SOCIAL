@@ -1,0 +1,9 @@
+{
+  "verbose": true,
+  "ignore": ["*.test.js", "node_modules/", "logs/", "*.log"],
+  "delay": "2000",
+  "watch": ["*.js", "routes/", "controllers/", "middleware/", "models/"],
+  "env": {
+    "NODE_ENV": "development"
+  }
+}

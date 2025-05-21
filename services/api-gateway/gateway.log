@@ -1,0 +1,564 @@
+{"level":"info","message":"Gateway server running on port 9999","timestamp":"2025-05-21T03:04:05.005Z"}
+{"level":"info","message":"Request: GET /","timestamp":"2025-05-21T03:04:36.738Z"}
+{"level":"info","message":"Request: GET /favicon.ico","timestamp":"2025-05-21T03:04:37.195Z"}
+{"level":"info","message":"Request: GET /auth/login","timestamp":"2025-05-21T03:04:45.693Z"}
+{"level":"info","message":"Redirecting to Auth Service: GET /auth/login","timestamp":"2025-05-21T03:04:45.718Z"}
+{"level":"info","message":"Request: GET /auth/checkToken","timestamp":"2025-05-21T03:05:10.361Z"}
+{"level":"info","message":"Redirecting to Auth Service: GET /auth/checkToken","timestamp":"2025-05-21T03:05:10.364Z"}
+{"level":"info","message":"Request: GET /favicon.ico","timestamp":"2025-05-21T03:05:10.519Z"}
+{"level":"info","message":"Request: POST /auth/auth/login","timestamp":"2025-05-21T03:09:54.952Z"}
+{"level":"info","message":"Redirecting to Auth Service: POST /auth/auth/login","timestamp":"2025-05-21T03:09:54.954Z"}
+{"level":"info","message":"Request: POST /auth/auth/login","timestamp":"2025-05-21T03:10:10.477Z"}
+{"level":"info","message":"Redirecting to Auth Service: POST /auth/auth/login","timestamp":"2025-05-21T03:10:10.478Z"}
+{"level":"info","message":"Request: POST /auth/login","timestamp":"2025-05-21T03:14:11.167Z"}
+{"level":"info","message":"Redirecting to Auth Service: POST /auth/login","timestamp":"2025-05-21T03:14:11.169Z"}
+{"level":"info","message":"Request: POST /auth/login","timestamp":"2025-05-21T03:17:11.403Z"}
+{"level":"info","message":"Redirecting to Auth Service: POST /auth/login","timestamp":"2025-05-21T03:17:11.405Z"}
+{"level":"info","message":"Gateway server running on port 9999","timestamp":"2025-05-21T03:20:44.288Z"}
+{"level":"info","message":"Request: POST /auth/login","timestamp":"2025-05-21T03:20:47.668Z"}
+{"level":"info","message":{"body":{"password":"ư","username":"ư"},"headers":{"accept":"application/json, text/plain, */*","accept-encoding":"gzip, deflate, br, zstd","accept-language":"vi,en;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6","connection":"keep-alive","content-length":"33","content-type":"application/json","host":"localhost:9999","origin":"http://localhost:3000","referer":"http://localhost:3000/","sec-ch-ua":"\"Google Chrome\";v=\"135\", \"Not-A.Brand\";v=\"8\", \"Chromium\";v=\"135\"","sec-ch-ua-mobile":"?0","sec-ch-ua-platform":"\"Windows\"","sec-fetch-dest":"empty","sec-fetch-mode":"cors","sec-fetch-site":"same-site","user-agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"},"method":"POST","url":"/auth/login"},"timestamp":"2025-05-21T03:20:47.669Z"}
+{"level":"info","message":"Redirecting to Auth Service: POST /auth/login","timestamp":"2025-05-21T03:20:47.702Z"}
+{"level":"info","message":"Request: POST /auth/login","timestamp":"2025-05-21T03:21:16.679Z"}
+{"level":"info","message":{"body":{"password":"d","username":"d"},"headers":{"accept":"application/json, text/plain, */*","accept-encoding":"gzip, deflate, br, zstd","accept-language":"vi,en;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6","connection":"keep-alive","content-length":"31","content-type":"application/json","host":"localhost:9999","origin":"http://localhost:3000","referer":"http://localhost:3000/","sec-ch-ua":"\"Google Chrome\";v=\"135\", \"Not-A.Brand\";v=\"8\", \"Chromium\";v=\"135\"","sec-ch-ua-mobile":"?0","sec-ch-ua-platform":"\"Windows\"","sec-fetch-dest":"empty","sec-fetch-mode":"cors","sec-fetch-site":"same-site","user-agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"},"method":"POST","url":"/auth/login"},"timestamp":"2025-05-21T03:21:16.680Z"}
+{"level":"info","message":"Redirecting to Auth Service: POST /auth/login","timestamp":"2025-05-21T03:21:16.681Z"}
+{"level":"info","message":"Gateway server running on port 9999","timestamp":"2025-05-21T03:24:08.096Z"}
+{"level":"info","message":"Request: POST /auth/login","timestamp":"2025-05-21T03:24:12.634Z"}
+{"level":"info","message":{"body":{"password":"d","username":"d"},"headers":{"accept":"application/json, text/plain, */*","accept-encoding":"gzip, deflate, br, zstd","accept-language":"vi,en;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6","connection":"keep-alive","content-length":"31","content-type":"application/json","host":"localhost:9999","origin":"http://localhost:3000","referer":"http://localhost:3000/","sec-ch-ua":"\"Google Chrome\";v=\"135\", \"Not-A.Brand\";v=\"8\", \"Chromium\";v=\"135\"","sec-ch-ua-mobile":"?0","sec-ch-ua-platform":"\"Windows\"","sec-fetch-dest":"empty","sec-fetch-mode":"cors","sec-fetch-site":"same-site","user-agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"},"method":"POST","url":"/auth/login"},"timestamp":"2025-05-21T03:24:12.635Z"}
+{"level":"info","message":"Redirecting to Auth Service: POST /auth/login","timestamp":"2025-05-21T03:24:12.659Z"}
+{"level":"info","message":"Gateway server running on port 9999","timestamp":"2025-05-21T03:28:19.564Z"}
+{"level":"info","message":"Request: GET /health","timestamp":"2025-05-21T03:28:32.894Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T03:28:32.894Z"}
+{"level":"info","message":"GET /health - 200 - 7ms","timestamp":"2025-05-21T03:28:32.902Z"}
+{"level":"info","message":"Request: GET /auth/health","timestamp":"2025-05-21T03:28:35.543Z"}
+{"level":"info","message":"GET /auth/health - Start","timestamp":"2025-05-21T03:28:35.544Z"}
+{"level":"info","message":"Redirecting to Auth Service: GET /auth/health","timestamp":"2025-05-21T03:28:35.560Z"}
+{"level":"info","message":"GET /auth/health - 200 - 28ms","timestamp":"2025-05-21T03:28:35.573Z"}
+{"level":"info","message":"Request: GET /auth/health","timestamp":"2025-05-21T03:28:36.014Z"}
+{"level":"info","message":"GET /auth/health - Start","timestamp":"2025-05-21T03:28:36.014Z"}
+{"level":"info","message":"Redirecting to Auth Service: GET /auth/health","timestamp":"2025-05-21T03:28:36.016Z"}
+{"level":"info","message":"GET /auth/health - 200 - 7ms","timestamp":"2025-05-21T03:28:36.021Z"}
+{"level":"info","message":"Request: GET /auth/health","timestamp":"2025-05-21T03:28:55.450Z"}
+{"level":"info","message":"GET /auth/health - Start","timestamp":"2025-05-21T03:28:55.450Z"}
+{"level":"info","message":"Redirecting to Auth Service: GET /auth/health","timestamp":"2025-05-21T03:28:55.452Z"}
+{"level":"info","message":"GET /auth/health - 200 - 6ms","timestamp":"2025-05-21T03:28:55.456Z"}
+{"level":"info","message":"Request: POST /auth/login","timestamp":"2025-05-21T03:29:00.390Z"}
+{"level":"info","message":"POST /auth/login - Start","timestamp":"2025-05-21T03:29:00.391Z"}
+{"level":"info","message":"Redirecting to Auth Service: POST /auth/login","timestamp":"2025-05-21T03:29:00.392Z"}
+{"level":"info","message":"Request: POST /auth/login","timestamp":"2025-05-21T03:29:05.415Z"}
+{"level":"info","message":"POST /auth/login - Start","timestamp":"2025-05-21T03:29:05.415Z"}
+{"level":"info","message":"Redirecting to Auth Service: POST /auth/login","timestamp":"2025-05-21T03:29:05.418Z"}
+{"level":"info","message":"Checking connection to Auth Service at http://auth-service:5000/health","timestamp":"2025-05-21T03:34:14.891Z"}
+{"level":"error","message":"Cannot connect to Auth Service at http://auth-service:5000: request to http://auth-service:5000/health failed, reason: connect ECONNREFUSED 172.18.0.2:5000","timestamp":"2025-05-21T03:34:14.918Z"}
+{"level":"info","message":"Gateway server running on port 9999","timestamp":"2025-05-21T03:34:14.920Z"}
+{"level":"info","message":"Request: GET /health","timestamp":"2025-05-21T03:34:31.977Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T03:34:31.978Z"}
+{"level":"info","message":"GET /health - 200 - 6ms","timestamp":"2025-05-21T03:34:31.984Z"}
+{"level":"info","message":"Request: GET /favicon.ico","timestamp":"2025-05-21T03:34:32.407Z"}
+{"level":"info","message":"GET /favicon.ico - Start","timestamp":"2025-05-21T03:34:32.408Z"}
+{"level":"info","message":"GET /favicon.ico - 304 - 1ms","timestamp":"2025-05-21T03:34:32.409Z"}
+{"level":"info","message":"Request: GET /","timestamp":"2025-05-21T03:34:41.383Z"}
+{"level":"info","message":"GET / - Start","timestamp":"2025-05-21T03:34:41.384Z"}
+{"level":"info","message":"GET / - 200 - 2ms","timestamp":"2025-05-21T03:34:41.386Z"}
+{"level":"info","message":"Request: POST /auth/login","timestamp":"2025-05-21T03:34:43.771Z"}
+{"level":"info","message":"POST /auth/login - Start","timestamp":"2025-05-21T03:34:43.772Z"}
+{"body":{"password":"test","username":"test"},"headers":{"accept":"application/json","accept-encoding":"gzip, deflate, br, zstd","accept-language":"vi,en;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6","connection":"keep-alive","content-length":"37","content-type":"application/json","host":"localhost:9999","origin":"null","sec-ch-ua":"\"Google Chrome\";v=\"135\", \"Not-A.Brand\";v=\"8\", \"Chromium\";v=\"135\"","sec-ch-ua-mobile":"?0","sec-ch-ua-platform":"\"Windows\"","sec-fetch-dest":"empty","sec-fetch-mode":"cors","sec-fetch-site":"cross-site","user-agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"},"level":"info","message":"Redirecting to Auth Service","method":"POST","path":"/auth/login","target":"http://auth-service:5000/auth/login","timestamp":"2025-05-21T03:34:43.778Z","url":"/auth/login"}
+{"level":"info","message":"Request: POST /auth/login","timestamp":"2025-05-21T03:34:48.788Z"}
+{"level":"info","message":"POST /auth/login - Start","timestamp":"2025-05-21T03:34:48.788Z"}
+{"body":{"password":"test","username":"test"},"headers":{"accept":"application/json","accept-encoding":"gzip, deflate, br, zstd","accept-language":"vi,en;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6","connection":"keep-alive","content-length":"37","content-type":"application/json","host":"localhost:9999","origin":"null","sec-ch-ua":"\"Google Chrome\";v=\"135\", \"Not-A.Brand\";v=\"8\", \"Chromium\";v=\"135\"","sec-ch-ua-mobile":"?0","sec-ch-ua-platform":"\"Windows\"","sec-fetch-dest":"empty","sec-fetch-mode":"cors","sec-fetch-site":"cross-site","user-agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"},"level":"info","message":"Redirecting to Auth Service","method":"POST","path":"/auth/login","target":"http://auth-service:5000/auth/login","timestamp":"2025-05-21T03:34:48.790Z","url":"/auth/login"}
+{"level":"info","message":"Gateway server running on port 9999","timestamp":"2025-05-21T03:37:15.055Z"}
+{"level":"info","message":"Testing connection to Auth Service at http://auth-service:5000","timestamp":"2025-05-21T03:37:15.059Z"}
+{"level":"error","message":"❌ Cannot connect to Auth Service: request to http://auth-service:5000/health failed, reason: connect ECONNREFUSED 172.18.0.2:5000","timestamp":"2025-05-21T03:37:15.091Z"}
+{"level":"info","message":"Testing connection to User Service at http://user-service:5005","timestamp":"2025-05-21T03:37:15.092Z"}
+{"level":"error","message":"❌ Cannot connect to User Service: request to http://user-service:5005/health failed, reason: connect ECONNREFUSED 172.18.0.3:5005","timestamp":"2025-05-21T03:37:15.101Z"}
+{"level":"info","message":"Testing connection to Social Service at http://social-service:5004","timestamp":"2025-05-21T03:37:15.101Z"}
+{"level":"error","message":"❌ Cannot connect to Social Service: request to http://social-service:5004/health failed, reason: connect ECONNREFUSED 172.18.0.6:5004","timestamp":"2025-05-21T03:37:15.104Z"}
+{"level":"info","message":"Testing connection to Post Service at http://post-service:5003","timestamp":"2025-05-21T03:37:15.104Z"}
+{"level":"error","message":"❌ Cannot connect to Post Service: request to http://post-service:5003/health failed, reason: connect ECONNREFUSED 172.18.0.4:5003","timestamp":"2025-05-21T03:37:15.106Z"}
+{"level":"info","message":"Testing connection to Chat Service at http://chat-service:5555","timestamp":"2025-05-21T03:37:15.107Z"}
+{"level":"error","message":"❌ Cannot connect to Chat Service: request to http://chat-service:5555/health failed, reason: connect ECONNREFUSED 172.18.0.5:5555","timestamp":"2025-05-21T03:37:15.111Z"}
+{"level":"info","message":"Request: POST /auth/login","timestamp":"2025-05-21T03:37:54.453Z"}
+{"level":"info","message":"POST /auth/login - Start","timestamp":"2025-05-21T03:37:54.453Z"}
+{"level":"info","message":"Redirecting to Auth Service","method":"POST","target":"http://auth-service:5000/auth/login","timestamp":"2025-05-21T03:37:54.460Z","url":"/auth/login"}
+{"level":"info","message":"Request: GET /auth/health","timestamp":"2025-05-21T03:37:57.158Z"}
+{"level":"info","message":"GET /auth/health - Start","timestamp":"2025-05-21T03:37:57.159Z"}
+{"level":"info","message":"Redirecting to Auth Service","method":"GET","target":"http://auth-service:5000/auth/health","timestamp":"2025-05-21T03:37:57.161Z","url":"/auth/health"}
+{"level":"info","message":"GET /auth/health - 200 - 12ms","timestamp":"2025-05-21T03:37:57.171Z"}
+{"level":"info","message":"Request: GET /health","timestamp":"2025-05-21T03:37:58.229Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T03:37:58.229Z"}
+{"level":"info","message":"GET /health - 200 - 4ms","timestamp":"2025-05-21T03:37:58.233Z"}
+{"level":"info","message":"Request: GET /auth/health","timestamp":"2025-05-21T03:37:59.637Z"}
+{"level":"info","message":"GET /auth/health - Start","timestamp":"2025-05-21T03:37:59.637Z"}
+{"level":"info","message":"Redirecting to Auth Service","method":"GET","target":"http://auth-service:5000/auth/health","timestamp":"2025-05-21T03:37:59.638Z","url":"/auth/health"}
+{"level":"info","message":"GET /auth/health - 200 - 6ms","timestamp":"2025-05-21T03:37:59.643Z"}
+{"level":"info","message":"Request: POST /auth/login","timestamp":"2025-05-21T03:38:03.723Z"}
+{"level":"info","message":"POST /auth/login - Start","timestamp":"2025-05-21T03:38:03.723Z"}
+{"level":"info","message":"Redirecting to Auth Service","method":"POST","target":"http://auth-service:5000/auth/login","timestamp":"2025-05-21T03:38:03.725Z","url":"/auth/login"}
+{"level":"info","message":"Request: GET /","timestamp":"2025-05-21T03:38:04.293Z"}
+{"level":"info","message":"GET / - Start","timestamp":"2025-05-21T03:38:04.294Z"}
+{"level":"info","message":"GET / - 304 - 1ms","timestamp":"2025-05-21T03:38:04.295Z"}
+{"level":"info","message":"Request: POST /auth/login","timestamp":"2025-05-21T03:38:04.462Z"}
+{"level":"info","message":"POST /auth/login - Start","timestamp":"2025-05-21T03:38:04.462Z"}
+{"level":"info","message":"Redirecting to Auth Service","method":"POST","target":"http://auth-service:5000/auth/login","timestamp":"2025-05-21T03:38:04.464Z","url":"/auth/login"}
+{"level":"info","message":"Request: POST /auth/login","timestamp":"2025-05-21T03:38:18.004Z"}
+{"level":"info","message":"POST /auth/login - Start","timestamp":"2025-05-21T03:38:18.004Z"}
+{"level":"info","message":"Redirecting to Auth Service","method":"POST","target":"http://auth-service:5000/auth/login","timestamp":"2025-05-21T03:38:18.006Z","url":"/auth/login"}
+{"level":"info","message":"Request: POST /auth/login","timestamp":"2025-05-21T03:38:28.028Z"}
+{"level":"info","message":"POST /auth/login - Start","timestamp":"2025-05-21T03:38:28.030Z"}
+{"level":"info","message":"Redirecting to Auth Service","method":"POST","target":"http://auth-service:5000/auth/login","timestamp":"2025-05-21T03:38:28.033Z","url":"/auth/login"}
+{"level":"info","message":"Gateway server running on port 9999","timestamp":"2025-05-21T03:42:23.767Z"}
+{"level":"info","message":"Testing connection to Auth Service at http://auth-service:5000","timestamp":"2025-05-21T03:42:23.771Z"}
+{"level":"warn","message":"❌ Connection to Auth Service failed with status: 404","timestamp":"2025-05-21T03:42:23.827Z"}
+{"level":"info","message":"Testing connection to User Service at http://user-service:5005","timestamp":"2025-05-21T03:42:23.827Z"}
+{"level":"warn","message":"❌ Connection to User Service failed with status: 404","timestamp":"2025-05-21T03:42:23.839Z"}
+{"level":"info","message":"Testing connection to Social Service at http://social-service:5004","timestamp":"2025-05-21T03:42:23.840Z"}
+{"level":"warn","message":"❌ Connection to Social Service failed with status: 404","timestamp":"2025-05-21T03:42:23.865Z"}
+{"level":"info","message":"Testing connection to Post Service at http://post-service:5003","timestamp":"2025-05-21T03:42:23.865Z"}
+{"level":"warn","message":"❌ Connection to Post Service failed with status: 404","timestamp":"2025-05-21T03:42:23.878Z"}
+{"level":"info","message":"Testing connection to Chat Service at http://chat-service:5555","timestamp":"2025-05-21T03:42:23.878Z"}
+{"level":"warn","message":"❌ Connection to Chat Service failed with status: 404","timestamp":"2025-05-21T03:42:23.895Z"}
+{"level":"info","message":"Gateway server running on port 9999","timestamp":"2025-05-21T03:43:17.176Z"}
+{"level":"info","message":"Testing connection to Auth Service at http://auth-service:5000","timestamp":"2025-05-21T03:43:17.179Z"}
+{"level":"error","message":"❌ Cannot connect to Auth Service: request to http://auth-service:5000/health failed, reason: connect ECONNREFUSED 172.18.0.2:5000","timestamp":"2025-05-21T03:43:17.207Z"}
+{"level":"info","message":"Testing connection to User Service at http://user-service:5005","timestamp":"2025-05-21T03:43:17.207Z"}
+{"level":"error","message":"❌ Cannot connect to User Service: request to http://user-service:5005/health failed, reason: connect ECONNREFUSED 172.18.0.4:5005","timestamp":"2025-05-21T03:43:17.213Z"}
+{"level":"info","message":"Testing connection to Social Service at http://social-service:5004","timestamp":"2025-05-21T03:43:17.214Z"}
+{"level":"error","message":"❌ Cannot connect to Social Service: request to http://social-service:5004/health failed, reason: connect ECONNREFUSED 172.18.0.3:5004","timestamp":"2025-05-21T03:43:17.217Z"}
+{"level":"info","message":"Testing connection to Post Service at http://post-service:5003","timestamp":"2025-05-21T03:43:17.217Z"}
+{"level":"error","message":"❌ Cannot connect to Post Service: request to http://post-service:5003/health failed, reason: connect ECONNREFUSED 172.18.0.6:5003","timestamp":"2025-05-21T03:43:17.221Z"}
+{"level":"info","message":"Testing connection to Chat Service at http://chat-service:5555","timestamp":"2025-05-21T03:43:17.222Z"}
+{"level":"error","message":"❌ Cannot connect to Chat Service: request to http://chat-service:5555/health failed, reason: connect ECONNREFUSED 172.18.0.5:5555","timestamp":"2025-05-21T03:43:17.228Z"}
+{"level":"info","message":"Gateway server running on port 9999","timestamp":"2025-05-21T03:45:26.533Z"}
+{"level":"info","message":{"bodySize":2,"ip":"::ffff:172.18.0.1","method":"POST","url":"/auth/login"},"timestamp":"2025-05-21T03:45:35.008Z"}
+{"level":"info","message":"POST /auth/login - Start","timestamp":"2025-05-21T03:45:35.009Z"}
+{"level":"error","message":"Error: (options.buffer || req).pipe is not a function","timestamp":"2025-05-21T03:45:35.025Z"}
+{"level":"info","message":"Proxying to Auth Service","method":"POST","target":"http://auth-service:5000/auth/auth/login","timestamp":"2025-05-21T03:45:35.031Z","url":"/auth/auth/login"}
+{"level":"info","message":"POST /auth/auth/login - 500 - 21ms","timestamp":"2025-05-21T03:45:35.031Z"}
+{"level":"info","message":"Waiting for services to start up...","timestamp":"2025-05-21T03:45:36.535Z"}
+{"level":"info","message":"Testing connection to auth-service at http://auth-service:5000/health","timestamp":"2025-05-21T03:45:36.536Z"}
+{"level":"warn","message":"❌ Connection to auth-service failed","timestamp":"2025-05-21T03:45:36.548Z"}
+{"level":"info","message":"Testing connection to user-service at http://user-service:5005/health","timestamp":"2025-05-21T03:45:36.548Z"}
+{"level":"warn","message":"❌ Connection to user-service failed","timestamp":"2025-05-21T03:45:36.564Z"}
+{"level":"info","message":"Testing connection to social-service at http://social-service:5004/health","timestamp":"2025-05-21T03:45:36.565Z"}
+{"level":"warn","message":"❌ Connection to social-service failed","timestamp":"2025-05-21T03:45:36.582Z"}
+{"level":"info","message":"Testing connection to post-service at http://post-service:5003/health","timestamp":"2025-05-21T03:45:36.583Z"}
+{"level":"warn","message":"❌ Connection to post-service failed","timestamp":"2025-05-21T03:45:36.597Z"}
+{"level":"info","message":"Testing connection to chat-service at http://chat-service:5555/health","timestamp":"2025-05-21T03:45:36.597Z"}
+{"level":"warn","message":"❌ Connection to chat-service failed","timestamp":"2025-05-21T03:45:36.615Z"}
+{"level":"info","message":{"bodySize":2,"ip":"::ffff:172.18.0.1","method":"POST","url":"/auth/login"},"timestamp":"2025-05-21T03:45:38.795Z"}
+{"level":"info","message":"POST /auth/login - Start","timestamp":"2025-05-21T03:45:38.795Z"}
+{"level":"error","message":"Error: (options.buffer || req).pipe is not a function","timestamp":"2025-05-21T03:45:38.796Z"}
+{"level":"info","message":"Proxying to Auth Service","method":"POST","target":"http://auth-service:5000/auth/auth/login","timestamp":"2025-05-21T03:45:38.797Z","url":"/auth/auth/login"}
+{"level":"info","message":"POST /auth/auth/login - 500 - 2ms","timestamp":"2025-05-21T03:45:38.797Z"}
+{"level":"info","message":"Gateway server running on port 9999","timestamp":"2025-05-21T03:49:05.153Z"}
+{"level":"info","message":{"bodySize":2,"ip":"::ffff:172.18.0.1","method":"POST","url":"/auth/login"},"timestamp":"2025-05-21T03:49:10.513Z"}
+{"level":"info","message":"POST /auth/login - Start","timestamp":"2025-05-21T03:49:10.513Z"}
+{"level":"info","message":"Proxying to Auth Service","method":"POST","target":"http://auth-service:5000/auth/auth/login","timestamp":"2025-05-21T03:49:10.548Z","url":"/auth/login"}
+{"level":"info","message":"Got response from Auth Service: 404","timestamp":"2025-05-21T03:49:10.738Z"}
+{"level":"info","message":"POST /auth/login - 404 - 227ms","timestamp":"2025-05-21T03:49:10.741Z"}
+{"level":"info","message":"Waiting for services to start up...","timestamp":"2025-05-21T03:49:15.159Z"}
+{"level":"info","message":"Testing connection to auth-service at http://auth-service:5000/auth/health","timestamp":"2025-05-21T03:49:15.160Z"}
+{"level":"info","message":"✅ Connection to auth-service successful","timestamp":"2025-05-21T03:49:15.176Z"}
+{"level":"info","message":"Testing connection to user-service at http://user-service:5005/user/health","timestamp":"2025-05-21T03:49:15.177Z"}
+{"level":"warn","message":"❌ Connection to user-service failed","timestamp":"2025-05-21T03:49:15.200Z"}
+{"level":"info","message":"Testing connection to social-service at http://social-service:5004/health","timestamp":"2025-05-21T03:49:15.200Z"}
+{"level":"warn","message":"❌ Connection to social-service failed","timestamp":"2025-05-21T03:49:15.221Z"}
+{"level":"info","message":"Testing connection to post-service at http://post-service:5003/health","timestamp":"2025-05-21T03:49:15.221Z"}
+{"level":"warn","message":"❌ Connection to post-service failed","timestamp":"2025-05-21T03:49:15.242Z"}
+{"level":"info","message":"Testing connection to chat-service at http://chat-service:5555/health","timestamp":"2025-05-21T03:49:15.243Z"}
+{"level":"warn","message":"❌ Connection to chat-service failed","timestamp":"2025-05-21T03:49:15.258Z"}
+{"level":"info","message":"Gateway server running on port 9999","timestamp":"2025-05-21T03:50:58.685Z"}
+{"level":"info","message":"Waiting for services to start up...","timestamp":"2025-05-21T03:51:08.687Z"}
+{"level":"info","message":"Testing connection to auth-service at http://auth-service:5000/health","timestamp":"2025-05-21T03:51:08.690Z"}
+{"level":"info","message":"✅ Connection to auth-service successful","timestamp":"2025-05-21T03:51:08.732Z"}
+{"level":"info","message":"Testing connection to user-service at http://user-service:5005/health","timestamp":"2025-05-21T03:51:08.733Z"}
+{"level":"info","message":"✅ Connection to user-service successful","timestamp":"2025-05-21T03:51:08.751Z"}
+{"level":"info","message":"Testing connection to social-service at http://social-service:5004/health","timestamp":"2025-05-21T03:51:08.753Z"}
+{"level":"info","message":"✅ Connection to social-service successful","timestamp":"2025-05-21T03:51:08.767Z"}
+{"level":"info","message":"Testing connection to post-service at http://post-service:5003/health","timestamp":"2025-05-21T03:51:08.767Z"}
+{"level":"info","message":"✅ Connection to post-service successful","timestamp":"2025-05-21T03:51:08.781Z"}
+{"level":"info","message":"Testing connection to chat-service at http://chat-service:5555/health","timestamp":"2025-05-21T03:51:08.781Z"}
+{"level":"info","message":"✅ Connection to chat-service successful","timestamp":"2025-05-21T03:51:08.792Z"}
+{"level":"info","message":{"bodySize":2,"ip":"::ffff:172.18.0.1","method":"POST","url":"/auth/login"},"timestamp":"2025-05-21T03:51:12.226Z"}
+{"level":"info","message":"POST /auth/login - Start","timestamp":"2025-05-21T03:51:12.226Z"}
+{"level":"info","message":"Proxying to Auth Service","method":"POST","target":"http://auth-service:5000/auth/login","timestamp":"2025-05-21T03:51:12.232Z","url":"/login"}
+{"level":"info","message":"Got response from Auth Service: 404","timestamp":"2025-05-21T03:51:12.253Z"}
+{"level":"info","message":"POST /login - 404 - 31ms","timestamp":"2025-05-21T03:51:12.257Z"}
+{"level":"info","message":"Gateway server running on port 9999","timestamp":"2025-05-21T03:52:27.358Z"}
+{"level":"info","message":"Waiting for services to start up...","timestamp":"2025-05-21T03:52:37.360Z"}
+{"level":"info","message":"Testing connection to auth-service at http://auth-service:5000/health","timestamp":"2025-05-21T03:52:37.361Z"}
+{"level":"info","message":"✅ Connection to auth-service successful","timestamp":"2025-05-21T03:52:37.388Z"}
+{"level":"info","message":"Testing connection to user-service at http://user-service:5005/health","timestamp":"2025-05-21T03:52:37.388Z"}
+{"level":"info","message":"✅ Connection to user-service successful","timestamp":"2025-05-21T03:52:37.397Z"}
+{"level":"info","message":"Testing connection to social-service at http://social-service:5004/health","timestamp":"2025-05-21T03:52:37.398Z"}
+{"level":"info","message":"✅ Connection to social-service successful","timestamp":"2025-05-21T03:52:37.407Z"}
+{"level":"info","message":"Testing connection to post-service at http://post-service:5003/health","timestamp":"2025-05-21T03:52:37.407Z"}
+{"level":"info","message":"✅ Connection to post-service successful","timestamp":"2025-05-21T03:52:37.415Z"}
+{"level":"info","message":"Testing connection to chat-service at http://chat-service:5555/health","timestamp":"2025-05-21T03:52:37.415Z"}
+{"level":"info","message":"✅ Connection to chat-service successful","timestamp":"2025-05-21T03:52:37.423Z"}
+{"level":"info","message":"Gateway server running on port 9999","timestamp":"2025-05-21T03:53:00.952Z"}
+{"level":"info","message":"Waiting for services to start up...","timestamp":"2025-05-21T03:53:10.955Z"}
+{"level":"info","message":"Testing connection to auth-service at http://auth-service:5000/health","timestamp":"2025-05-21T03:53:10.956Z"}
+{"level":"info","message":"✅ Connection to auth-service successful","timestamp":"2025-05-21T03:53:10.995Z"}
+{"level":"info","message":"Testing connection to user-service at http://user-service:5005/health","timestamp":"2025-05-21T03:53:10.996Z"}
+{"level":"info","message":"✅ Connection to user-service successful","timestamp":"2025-05-21T03:53:11.004Z"}
+{"level":"info","message":"Testing connection to social-service at http://social-service:5004/health","timestamp":"2025-05-21T03:53:11.004Z"}
+{"level":"info","message":"✅ Connection to social-service successful","timestamp":"2025-05-21T03:53:11.016Z"}
+{"level":"info","message":"Testing connection to post-service at http://post-service:5003/health","timestamp":"2025-05-21T03:53:11.017Z"}
+{"level":"info","message":"✅ Connection to post-service successful","timestamp":"2025-05-21T03:53:11.028Z"}
+{"level":"info","message":"Testing connection to chat-service at http://chat-service:5555/health","timestamp":"2025-05-21T03:53:11.029Z"}
+{"level":"info","message":"✅ Connection to chat-service successful","timestamp":"2025-05-21T03:53:11.038Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T03:53:28.148Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T03:53:28.149Z"}
+{"level":"info","message":"GET /health - 200 - 5ms","timestamp":"2025-05-21T03:53:28.154Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/favicon.ico"},"timestamp":"2025-05-21T03:53:28.309Z"}
+{"level":"info","message":"GET /favicon.ico - Start","timestamp":"2025-05-21T03:53:28.309Z"}
+{"level":"info","message":"GET /favicon.ico - 304 - 2ms","timestamp":"2025-05-21T03:53:28.311Z"}
+{"level":"info","message":{"bodySize":2,"ip":"::ffff:172.18.0.1","method":"POST","url":"/auth/login"},"timestamp":"2025-05-21T03:53:32.878Z"}
+{"level":"info","message":"POST /auth/login - Start","timestamp":"2025-05-21T03:53:32.880Z"}
+{"level":"info","message":"Proxying to Auth Service","method":"POST","target":"http://auth-service:5000/auth/login","timestamp":"2025-05-21T03:53:32.886Z","url":"/auth/login"}
+{"level":"info","message":"Got response from Auth Service: 404","timestamp":"2025-05-21T03:53:32.971Z"}
+{"level":"info","message":"POST /auth/login - 404 - 94ms","timestamp":"2025-05-21T03:53:32.974Z"}
+{"level":"info","message":{"bodySize":2,"ip":"::ffff:172.18.0.1","method":"POST","url":"/auth/login"},"timestamp":"2025-05-21T03:53:34.424Z"}
+{"level":"info","message":"POST /auth/login - Start","timestamp":"2025-05-21T03:53:34.424Z"}
+{"level":"info","message":"Proxying to Auth Service","method":"POST","target":"http://auth-service:5000/auth/login","timestamp":"2025-05-21T03:53:34.425Z","url":"/auth/login"}
+{"level":"info","message":"Got response from Auth Service: 404","timestamp":"2025-05-21T03:53:34.500Z"}
+{"level":"info","message":"POST /auth/login - 404 - 77ms","timestamp":"2025-05-21T03:53:34.501Z"}
+{"level":"info","message":{"bodySize":2,"ip":"::ffff:172.18.0.1","method":"POST","url":"/auth/login"},"timestamp":"2025-05-21T03:53:36.963Z"}
+{"level":"info","message":"POST /auth/login - Start","timestamp":"2025-05-21T03:53:36.963Z"}
+{"level":"info","message":"Proxying to Auth Service","method":"POST","target":"http://auth-service:5000/auth/login","timestamp":"2025-05-21T03:53:36.965Z","url":"/auth/login"}
+{"level":"info","message":"Got response from Auth Service: 404","timestamp":"2025-05-21T03:53:37.084Z"}
+{"level":"info","message":"POST /auth/login - 404 - 122ms","timestamp":"2025-05-21T03:53:37.086Z"}
+{"level":"info","message":{"bodySize":2,"ip":"::ffff:172.18.0.1","method":"POST","url":"/auth/login"},"timestamp":"2025-05-21T03:53:40.148Z"}
+{"level":"info","message":"POST /auth/login - Start","timestamp":"2025-05-21T03:53:40.149Z"}
+{"level":"info","message":"Proxying to Auth Service","method":"POST","target":"http://auth-service:5000/auth/login","timestamp":"2025-05-21T03:53:40.151Z","url":"/auth/login"}
+{"level":"info","message":"Got response from Auth Service: 200","timestamp":"2025-05-21T03:53:40.363Z"}
+{"level":"info","message":"POST /auth/login - 200 - 217ms","timestamp":"2025-05-21T03:53:40.366Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/auth/checkToken"},"timestamp":"2025-05-21T03:53:40.468Z"}
+{"level":"info","message":"GET /auth/checkToken - Start","timestamp":"2025-05-21T03:53:40.469Z"}
+{"level":"info","message":"Proxying to Auth Service","method":"GET","target":"http://auth-service:5000/auth/checkToken","timestamp":"2025-05-21T03:53:40.470Z","url":"/auth/checkToken"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/posts/feed"},"timestamp":"2025-05-21T03:53:40.542Z"}
+{"level":"info","message":"GET /posts/feed - Start","timestamp":"2025-05-21T03:53:40.543Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /feed","timestamp":"2025-05-21T03:53:40.545Z"}
+{"level":"info","message":"GET /feed - 404 - 22ms","timestamp":"2025-05-21T03:53:40.565Z"}
+{"level":"info","message":"Got response from Auth Service: 200","timestamp":"2025-05-21T03:53:40.576Z"}
+{"level":"info","message":"GET /auth/checkToken - 200 - 108ms","timestamp":"2025-05-21T03:53:40.577Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/social/checkFollowStatus/asd"},"timestamp":"2025-05-21T03:54:07.265Z"}
+{"level":"info","message":"GET /social/checkFollowStatus/asd - Start","timestamp":"2025-05-21T03:54:07.265Z"}
+{"level":"info","message":"Redirecting to Social Service: GET /checkFollowStatus/asd","timestamp":"2025-05-21T03:54:07.269Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/users/asd"},"timestamp":"2025-05-21T03:54:07.271Z"}
+{"level":"info","message":"GET /users/asd - Start","timestamp":"2025-05-21T03:54:07.271Z"}
+{"level":"info","message":"Redirecting to User Service: GET /user/asd","timestamp":"2025-05-21T03:54:07.274Z"}
+{"level":"info","message":"GET /checkFollowStatus/asd - 404 - 19ms","timestamp":"2025-05-21T03:54:07.285Z"}
+{"level":"info","message":"GET /user/asd - 200 - 149ms","timestamp":"2025-05-21T03:54:07.421Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/posts/user/asd"},"timestamp":"2025-05-21T03:54:08.769Z"}
+{"level":"info","message":"GET /posts/user/asd - Start","timestamp":"2025-05-21T03:54:08.770Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /user/asd","timestamp":"2025-05-21T03:54:08.773Z"}
+{"level":"info","message":"GET /user/asd - 404 - 17ms","timestamp":"2025-05-21T03:54:08.789Z"}
+{"level":"info","message":"Gateway server running on port 9999","timestamp":"2025-05-21T03:54:47.975Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/posts/feed"},"timestamp":"2025-05-21T03:54:53.567Z"}
+{"level":"info","message":"GET /posts/feed - Start","timestamp":"2025-05-21T03:54:53.568Z"}
+{"level":"info","message":"Redirecting to Post Service: GET posts/feed","timestamp":"2025-05-21T03:54:53.597Z"}
+{"level":"info","message":"GET posts/feed - 404 - 44ms","timestamp":"2025-05-21T03:54:53.612Z"}
+{"level":"info","message":"Waiting for services to start up...","timestamp":"2025-05-21T03:54:57.982Z"}
+{"level":"info","message":"Testing connection to auth-service at http://auth-service:5000/health","timestamp":"2025-05-21T03:54:57.984Z"}
+{"level":"info","message":"✅ Connection to auth-service successful","timestamp":"2025-05-21T03:54:58.003Z"}
+{"level":"info","message":"Testing connection to user-service at http://user-service:5005/health","timestamp":"2025-05-21T03:54:58.004Z"}
+{"level":"info","message":"✅ Connection to user-service successful","timestamp":"2025-05-21T03:54:58.018Z"}
+{"level":"info","message":"Testing connection to social-service at http://social-service:5004/health","timestamp":"2025-05-21T03:54:58.019Z"}
+{"level":"info","message":"✅ Connection to social-service successful","timestamp":"2025-05-21T03:54:58.029Z"}
+{"level":"info","message":"Testing connection to post-service at http://post-service:5003/health","timestamp":"2025-05-21T03:54:58.030Z"}
+{"level":"info","message":"✅ Connection to post-service successful","timestamp":"2025-05-21T03:54:58.037Z"}
+{"level":"info","message":"Testing connection to chat-service at http://chat-service:5555/health","timestamp":"2025-05-21T03:54:58.037Z"}
+{"level":"info","message":"✅ Connection to chat-service successful","timestamp":"2025-05-21T03:54:58.045Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/feed"},"timestamp":"2025-05-21T03:55:47.536Z"}
+{"level":"info","message":"GET /post/feed - Start","timestamp":"2025-05-21T03:55:47.537Z"}
+{"level":"info","message":"GET /post/feed - 200 - 11ms","timestamp":"2025-05-21T03:55:47.548Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/auth/checkToken"},"timestamp":"2025-05-21T03:55:47.551Z"}
+{"level":"info","message":"GET /auth/checkToken - Start","timestamp":"2025-05-21T03:55:47.551Z"}
+{"level":"info","message":"Proxying to Auth Service","method":"GET","target":"http://auth-service:5000/auth/checkToken","timestamp":"2025-05-21T03:55:47.557Z","url":"/auth/checkToken"}
+{"level":"info","message":"Got response from Auth Service: 304","timestamp":"2025-05-21T03:55:47.749Z"}
+{"level":"info","message":"GET /auth/checkToken - 304 - 198ms","timestamp":"2025-05-21T03:55:47.750Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/feed"},"timestamp":"2025-05-21T03:57:27.437Z"}
+{"level":"info","message":"GET /post/feed - Start","timestamp":"2025-05-21T03:57:27.437Z"}
+{"level":"info","message":"GET /post/feed - 304 - 3ms","timestamp":"2025-05-21T03:57:27.441Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/auth/checkToken"},"timestamp":"2025-05-21T03:57:27.449Z"}
+{"level":"info","message":"GET /auth/checkToken - Start","timestamp":"2025-05-21T03:57:27.450Z"}
+{"level":"info","message":"Proxying to Auth Service","method":"GET","target":"http://auth-service:5000/auth/checkToken","timestamp":"2025-05-21T03:57:27.451Z","url":"/auth/checkToken"}
+{"level":"info","message":"Got response from Auth Service: 304","timestamp":"2025-05-21T03:57:27.527Z"}
+{"level":"info","message":"GET /auth/checkToken - 304 - 78ms","timestamp":"2025-05-21T03:57:27.528Z"}
+{"level":"info","message":"Gateway server running on port 9999","timestamp":"2025-05-21T03:57:33.430Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"POST","url":"/chat/list-message"},"timestamp":"2025-05-21T03:57:40.790Z"}
+{"level":"info","message":"POST /chat/list-message - Start","timestamp":"2025-05-21T03:57:40.791Z"}
+{"level":"info","message":"Redirecting to Chat Service: POST /chat/list-message","timestamp":"2025-05-21T03:57:40.812Z"}
+{"level":"info","message":"Waiting for services to start up...","timestamp":"2025-05-21T03:57:43.435Z"}
+{"level":"info","message":"Testing connection to auth-service at http://auth-service:5000/health","timestamp":"2025-05-21T03:57:43.436Z"}
+{"level":"info","message":"✅ Connection to auth-service successful","timestamp":"2025-05-21T03:57:43.446Z"}
+{"level":"info","message":"Testing connection to user-service at http://user-service:5005/health","timestamp":"2025-05-21T03:57:43.447Z"}
+{"level":"info","message":"✅ Connection to user-service successful","timestamp":"2025-05-21T03:57:43.453Z"}
+{"level":"info","message":"Testing connection to social-service at http://social-service:5004/health","timestamp":"2025-05-21T03:57:43.454Z"}
+{"level":"info","message":"✅ Connection to social-service successful","timestamp":"2025-05-21T03:57:43.461Z"}
+{"level":"info","message":"Testing connection to post-service at http://post-service:5003/health","timestamp":"2025-05-21T03:57:43.461Z"}
+{"level":"info","message":"✅ Connection to post-service successful","timestamp":"2025-05-21T03:57:43.466Z"}
+{"level":"info","message":"Testing connection to chat-service at http://chat-service:5555/health","timestamp":"2025-05-21T03:57:43.467Z"}
+{"level":"info","message":"✅ Connection to chat-service successful","timestamp":"2025-05-21T03:57:43.472Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"POST","url":"/chat/list-message"},"timestamp":"2025-05-21T03:57:45.834Z"}
+{"level":"info","message":"POST /chat/list-message - Start","timestamp":"2025-05-21T03:57:45.835Z"}
+{"level":"info","message":"Redirecting to Chat Service: POST /chat/list-message","timestamp":"2025-05-21T03:57:45.836Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"POST","url":"/chat/list-message"},"timestamp":"2025-05-21T03:57:59.712Z"}
+{"level":"info","message":"POST /chat/list-message - Start","timestamp":"2025-05-21T03:57:59.712Z"}
+{"level":"info","message":"Redirecting to Chat Service: POST /chat/list-message","timestamp":"2025-05-21T03:57:59.714Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/auth/checkToken"},"timestamp":"2025-05-21T03:57:59.735Z"}
+{"level":"info","message":"GET /auth/checkToken - Start","timestamp":"2025-05-21T03:57:59.735Z"}
+{"level":"info","message":"Proxying to Auth Service","method":"GET","target":"http://auth-service:5000/auth/checkToken","timestamp":"2025-05-21T03:57:59.738Z","url":"/auth/checkToken"}
+{"level":"info","message":"Got response from Auth Service: 304","timestamp":"2025-05-21T03:57:59.814Z"}
+{"level":"info","message":"GET /auth/checkToken - 304 - 80ms","timestamp":"2025-05-21T03:57:59.815Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"POST","url":"/chat/list-message"},"timestamp":"2025-05-21T03:58:04.725Z"}
+{"level":"info","message":"POST /chat/list-message - Start","timestamp":"2025-05-21T03:58:04.725Z"}
+{"level":"info","message":"Redirecting to Chat Service: POST /chat/list-message","timestamp":"2025-05-21T03:58:04.727Z"}
+{"level":"info","message":"Gateway server running on port 9999","timestamp":"2025-05-21T04:02:32.832Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"POST","url":"/chat/list-message"},"timestamp":"2025-05-21T04:02:42.371Z"}
+{"level":"info","message":"POST /chat/list-message - Start","timestamp":"2025-05-21T04:02:42.371Z"}
+{"level":"info","message":"Redirecting to Chat Service: POST /chat/list-message","timestamp":"2025-05-21T04:02:42.387Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/auth/checkToken"},"timestamp":"2025-05-21T04:02:42.392Z"}
+{"level":"info","message":"GET /auth/checkToken - Start","timestamp":"2025-05-21T04:02:42.393Z"}
+{"level":"info","message":"Proxying to Auth Service","method":"GET","target":"http://auth-service:5000/auth/checkToken","timestamp":"2025-05-21T04:02:42.395Z","url":"/auth/checkToken"}
+{"level":"info","message":"Got response from Auth Service: 304","timestamp":"2025-05-21T04:02:42.580Z"}
+{"level":"info","message":"GET /auth/checkToken - 304 - 189ms","timestamp":"2025-05-21T04:02:42.582Z"}
+{"level":"info","message":"Waiting for services to start up...","timestamp":"2025-05-21T04:02:42.835Z"}
+{"level":"info","message":"Testing connection to auth-service at http://auth-service:5000/health","timestamp":"2025-05-21T04:02:42.837Z"}
+{"level":"info","message":"✅ Connection to auth-service successful","timestamp":"2025-05-21T04:02:42.846Z"}
+{"level":"info","message":"Testing connection to user-service at http://user-service:5005/health","timestamp":"2025-05-21T04:02:42.847Z"}
+{"level":"info","message":"✅ Connection to user-service successful","timestamp":"2025-05-21T04:02:42.865Z"}
+{"level":"info","message":"Testing connection to social-service at http://social-service:5004/health","timestamp":"2025-05-21T04:02:42.865Z"}
+{"level":"info","message":"✅ Connection to social-service successful","timestamp":"2025-05-21T04:02:42.877Z"}
+{"level":"info","message":"Testing connection to post-service at http://post-service:5003/health","timestamp":"2025-05-21T04:02:42.878Z"}
+{"level":"info","message":"✅ Connection to post-service successful","timestamp":"2025-05-21T04:02:42.890Z"}
+{"level":"info","message":"Testing connection to chat-service at http://chat-service:5555/health","timestamp":"2025-05-21T04:02:42.890Z"}
+{"level":"info","message":"✅ Connection to chat-service successful","timestamp":"2025-05-21T04:02:42.901Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/feed"},"timestamp":"2025-05-21T04:02:44.047Z"}
+{"level":"info","message":"GET /post/feed - Start","timestamp":"2025-05-21T04:02:44.048Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /post/feed","timestamp":"2025-05-21T04:02:44.062Z"}
+{"level":"info","message":"GET /post/feed - 200 - 685ms","timestamp":"2025-05-21T04:02:44.734Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"POST","url":"/chat/list-message"},"timestamp":"2025-05-21T04:02:47.387Z"}
+{"level":"info","message":"POST /chat/list-message - Start","timestamp":"2025-05-21T04:02:47.388Z"}
+{"level":"info","message":"Redirecting to Chat Service: POST /chat/list-message","timestamp":"2025-05-21T04:02:47.390Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/social/checkFollowStatus/asd"},"timestamp":"2025-05-21T04:02:50.344Z"}
+{"level":"info","message":"GET /social/checkFollowStatus/asd - Start","timestamp":"2025-05-21T04:02:50.345Z"}
+{"level":"info","message":"Redirecting to Social Service: GET /social/checkFollowStatus/asd","timestamp":"2025-05-21T04:02:50.347Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/users/asd"},"timestamp":"2025-05-21T04:02:50.349Z"}
+{"level":"info","message":"GET /users/asd - Start","timestamp":"2025-05-21T04:02:50.349Z"}
+{"level":"info","message":"Redirecting to User Service: GET /user/asd","timestamp":"2025-05-21T04:02:50.353Z"}
+{"level":"info","message":"GET /user/asd - 304 - 130ms","timestamp":"2025-05-21T04:02:50.479Z"}
+{"level":"info","message":"GET /social/checkFollowStatus/asd - 200 - 236ms","timestamp":"2025-05-21T04:02:50.581Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/user/asd"},"timestamp":"2025-05-21T04:02:51.882Z"}
+{"level":"info","message":"GET /post/user/asd - Start","timestamp":"2025-05-21T04:02:51.883Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /post/user/asd","timestamp":"2025-05-21T04:02:51.886Z"}
+{"level":"info","message":"GET /post/user/asd - 200 - 160ms","timestamp":"2025-05-21T04:02:52.043Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"POST","url":"/chat/list-message"},"timestamp":"2025-05-21T04:03:00.469Z"}
+{"level":"info","message":"POST /chat/list-message - Start","timestamp":"2025-05-21T04:03:00.470Z"}
+{"level":"info","message":"Redirecting to Chat Service: POST /chat/list-message","timestamp":"2025-05-21T04:03:00.473Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"POST","url":"/chat/list-message"},"timestamp":"2025-05-21T04:03:05.485Z"}
+{"level":"info","message":"POST /chat/list-message - Start","timestamp":"2025-05-21T04:03:05.486Z"}
+{"level":"info","message":"Redirecting to Chat Service: POST /chat/list-message","timestamp":"2025-05-21T04:03:05.488Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"POST","url":"/chat/list-message"},"timestamp":"2025-05-21T04:06:58.633Z"}
+{"level":"info","message":"POST /chat/list-message - Start","timestamp":"2025-05-21T04:06:58.633Z"}
+{"level":"info","message":"Redirecting to Chat Service: POST /chat/list-message","timestamp":"2025-05-21T04:06:58.635Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/auth/checkToken"},"timestamp":"2025-05-21T04:06:58.635Z"}
+{"level":"info","message":"GET /auth/checkToken - Start","timestamp":"2025-05-21T04:06:58.636Z"}
+{"level":"info","message":"Proxying to Auth Service","method":"GET","target":"http://auth-service:5000/auth/checkToken","timestamp":"2025-05-21T04:06:58.636Z","url":"/auth/checkToken"}
+{"level":"info","message":"Got response from Auth Service: 304","timestamp":"2025-05-21T04:06:58.735Z"}
+{"level":"info","message":"GET /auth/checkToken - 304 - 100ms","timestamp":"2025-05-21T04:06:58.736Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"POST","url":"/chat/list-message"},"timestamp":"2025-05-21T04:07:03.646Z"}
+{"level":"info","message":"POST /chat/list-message - Start","timestamp":"2025-05-21T04:07:03.646Z"}
+{"level":"info","message":"Redirecting to Chat Service: POST /chat/list-message","timestamp":"2025-05-21T04:07:03.647Z"}
+{"level":"info","message":"Gateway server running on port 9999","timestamp":"2025-05-21T04:10:32.599Z"}
+{"level":"info","message":"Waiting for services to start up...","timestamp":"2025-05-21T04:10:42.604Z"}
+{"level":"info","message":"Testing connection to auth-service at http://auth-service:5000/health","timestamp":"2025-05-21T04:10:42.605Z"}
+{"level":"error","message":"Fetch error for auth-service: request to http://auth-service:5000/health failed, reason: getaddrinfo ENOTFOUND auth-service","timestamp":"2025-05-21T04:10:49.749Z"}
+{"level":"warn","message":"❌ Connection to auth-service failed","timestamp":"2025-05-21T04:10:49.750Z"}
+{"level":"info","message":"Testing connection to user-service at http://user-service:5005/health","timestamp":"2025-05-21T04:10:49.751Z"}
+{"level":"info","message":"✅ Connection to user-service successful","timestamp":"2025-05-21T04:10:49.790Z"}
+{"level":"info","message":"Testing connection to social-service at http://social-service:5004/health","timestamp":"2025-05-21T04:10:49.790Z"}
+{"level":"error","message":"Fetch error for social-service: request to http://social-service:5004/health failed, reason: getaddrinfo ENOTFOUND social-service","timestamp":"2025-05-21T04:10:56.912Z"}
+{"level":"warn","message":"❌ Connection to social-service failed","timestamp":"2025-05-21T04:10:56.913Z"}
+{"level":"info","message":"Testing connection to post-service at http://post-service:5003/health","timestamp":"2025-05-21T04:10:56.914Z"}
+{"level":"error","message":"Fetch error for post-service: request to http://post-service:5003/health failed, reason: getaddrinfo ENOTFOUND post-service","timestamp":"2025-05-21T04:11:04.032Z"}
+{"level":"warn","message":"❌ Connection to post-service failed","timestamp":"2025-05-21T04:11:04.032Z"}
+{"level":"info","message":"Testing connection to chat-service at http://chat-service:5555/health","timestamp":"2025-05-21T04:11:04.032Z"}
+{"level":"error","message":"Fetch error for chat-service: request to http://chat-service:5555/health failed, reason: getaddrinfo ENOTFOUND chat-service","timestamp":"2025-05-21T04:11:11.170Z"}
+{"level":"warn","message":"❌ Connection to chat-service failed","timestamp":"2025-05-21T04:11:11.171Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"POST","url":"/chat/list-message"},"timestamp":"2025-05-21T04:11:32.975Z"}
+{"level":"info","message":"POST /chat/list-message - Start","timestamp":"2025-05-21T04:11:32.976Z"}
+{"level":"info","message":"Redirecting to Chat Service: POST /chat/list-message","timestamp":"2025-05-21T04:11:32.986Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/auth/checkToken"},"timestamp":"2025-05-21T04:11:32.989Z"}
+{"level":"info","message":"GET /auth/checkToken - Start","timestamp":"2025-05-21T04:11:32.990Z"}
+{"level":"info","message":"Proxying to Auth Service","method":"GET","target":"http://auth-service:5000/auth/checkToken","timestamp":"2025-05-21T04:11:32.992Z","url":"/auth/checkToken"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"POST","url":"/chat/list-message"},"timestamp":"2025-05-21T04:11:37.998Z"}
+{"level":"info","message":"POST /chat/list-message - Start","timestamp":"2025-05-21T04:11:37.998Z"}
+{"level":"info","message":"Redirecting to Chat Service: POST /chat/list-message","timestamp":"2025-05-21T04:11:38.001Z"}
+{"level":"error","message":"Proxy error to Chat Service: getaddrinfo ENOTFOUND chat-service","timestamp":"2025-05-21T04:11:40.305Z"}
+{"level":"error","message":"Proxy error to Auth Service: getaddrinfo ENOTFOUND auth-service","timestamp":"2025-05-21T04:11:40.312Z"}
+{"level":"info","message":"GET /auth/checkToken - 502 - 7324ms","timestamp":"2025-05-21T04:11:40.314Z"}
+{"level":"error","message":"Proxy error to Chat Service: getaddrinfo ENOTFOUND chat-service","timestamp":"2025-05-21T04:11:43.417Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"POST","url":"/chat/list-message"},"timestamp":"2025-05-21T04:12:47.299Z"}
+{"level":"info","message":"POST /chat/list-message - Start","timestamp":"2025-05-21T04:12:47.300Z"}
+{"level":"info","message":"Redirecting to Chat Service: POST /chat/list-message","timestamp":"2025-05-21T04:12:47.305Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/auth/checkToken"},"timestamp":"2025-05-21T04:12:47.310Z"}
+{"level":"info","message":"GET /auth/checkToken - Start","timestamp":"2025-05-21T04:12:47.310Z"}
+{"level":"info","message":"Proxying to Auth Service","method":"GET","target":"http://auth-service:5000/auth/checkToken","timestamp":"2025-05-21T04:12:47.312Z","url":"/auth/checkToken"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"POST","url":"/chat/list-message"},"timestamp":"2025-05-21T04:12:50.751Z"}
+{"level":"info","message":"POST /chat/list-message - Start","timestamp":"2025-05-21T04:12:50.752Z"}
+{"level":"info","message":"Redirecting to Chat Service: POST /chat/list-message","timestamp":"2025-05-21T04:12:50.755Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/auth/checkToken"},"timestamp":"2025-05-21T04:12:50.782Z"}
+{"level":"info","message":"GET /auth/checkToken - Start","timestamp":"2025-05-21T04:12:50.783Z"}
+{"level":"info","message":"Proxying to Auth Service","method":"GET","target":"http://auth-service:5000/auth/checkToken","timestamp":"2025-05-21T04:12:50.786Z","url":"/auth/checkToken"}
+{"level":"error","message":"Proxy error to Chat Service: getaddrinfo ENOTFOUND chat-service","timestamp":"2025-05-21T04:12:54.440Z"}
+{"level":"error","message":"Proxy error to Auth Service: getaddrinfo ENOTFOUND auth-service","timestamp":"2025-05-21T04:12:54.442Z"}
+{"level":"error","message":"Proxy error to Chat Service: getaddrinfo ENOTFOUND chat-service","timestamp":"2025-05-21T04:12:57.553Z"}
+{"level":"error","message":"Proxy error to Auth Service: getaddrinfo ENOTFOUND auth-service","timestamp":"2025-05-21T04:12:57.555Z"}
+{"level":"info","message":"GET /auth/checkToken - 502 - 6774ms","timestamp":"2025-05-21T04:12:57.557Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"POST","url":"/chat/list-message"},"timestamp":"2025-05-21T04:13:57.146Z"}
+{"level":"info","message":"POST /chat/list-message - Start","timestamp":"2025-05-21T04:13:57.147Z"}
+{"level":"info","message":"Redirecting to Chat Service: POST /chat/list-message","timestamp":"2025-05-21T04:13:57.151Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/auth/checkToken"},"timestamp":"2025-05-21T04:13:57.152Z"}
+{"level":"info","message":"GET /auth/checkToken - Start","timestamp":"2025-05-21T04:13:57.153Z"}
+{"level":"info","message":"Proxying to Auth Service","method":"GET","target":"http://auth-service:5000/auth/checkToken","timestamp":"2025-05-21T04:13:57.158Z","url":"/auth/checkToken"}
+{"level":"info","message":"Got response from Auth Service: 200","timestamp":"2025-05-21T04:13:57.312Z"}
+{"level":"info","message":"GET /auth/checkToken - 200 - 161ms","timestamp":"2025-05-21T04:13:57.314Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"POST","url":"/chat/list-message"},"timestamp":"2025-05-21T04:14:02.156Z"}
+{"level":"info","message":"POST /chat/list-message - Start","timestamp":"2025-05-21T04:14:02.157Z"}
+{"level":"info","message":"Redirecting to Chat Service: POST /chat/list-message","timestamp":"2025-05-21T04:14:02.158Z"}
+{"level":"error","message":"Proxy error to Chat Service: getaddrinfo ENOTFOUND chat-service","timestamp":"2025-05-21T04:14:04.473Z"}
+{"level":"error","message":"Proxy error to Chat Service: getaddrinfo ENOTFOUND chat-service","timestamp":"2025-05-21T04:14:05.522Z"}
+{"level":"info","message":"POST /chat/list-message - 502 - 3367ms","timestamp":"2025-05-21T04:14:05.524Z"}
+{"level":"info","message":"Gateway server running on port 9999","timestamp":"2025-05-21T04:18:45.996Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T04:18:50.659Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T04:18:50.660Z"}
+{"level":"info","message":"GET /health - 200 - 17ms","timestamp":"2025-05-21T04:18:50.677Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T04:18:50.679Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"POST","url":"/chat/list-message"},"timestamp":"2025-05-21T04:18:52.875Z"}
+{"level":"info","message":"POST /chat/list-message - Start","timestamp":"2025-05-21T04:18:52.876Z"}
+{"level":"info","message":"Client closed connection: POST /chat/list-message","timestamp":"2025-05-21T04:18:52.878Z"}
+{"level":"info","message":"Redirecting to Chat Service: POST /chat/list-message","timestamp":"2025-05-21T04:18:52.907Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/auth/checkToken"},"timestamp":"2025-05-21T04:18:52.914Z"}
+{"level":"info","message":"GET /auth/checkToken - Start","timestamp":"2025-05-21T04:18:52.915Z"}
+{"level":"info","message":"Proxying to Auth Service","method":"GET","target":"http://auth-service:5000/auth/checkToken","timestamp":"2025-05-21T04:18:52.917Z","url":"/auth/checkToken"}
+{"level":"info","message":"Client closed connection: GET /auth/checkToken","timestamp":"2025-05-21T04:18:52.918Z"}
+{"level":"info","message":"Got response from Auth Service: 304","timestamp":"2025-05-21T04:18:53.079Z"}
+{"level":"info","message":"GET /auth/checkToken - 304 - 166ms","timestamp":"2025-05-21T04:18:53.081Z"}
+{"level":"info","message":"POST /chat/list-message - 200 - 322ms","timestamp":"2025-05-21T04:18:53.198Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/feed"},"timestamp":"2025-05-21T04:18:55.962Z"}
+{"level":"info","message":"GET /post/feed - Start","timestamp":"2025-05-21T04:18:55.963Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /post/feed","timestamp":"2025-05-21T04:18:55.965Z"}
+{"level":"info","message":"Client closed connection: GET /post/feed","timestamp":"2025-05-21T04:18:55.966Z"}
+{"level":"info","message":"Waiting for services to start up...","timestamp":"2025-05-21T04:18:55.997Z"}
+{"level":"info","message":"Testing connection to auth-service at http://auth-service:5000/health","timestamp":"2025-05-21T04:18:55.998Z"}
+{"level":"info","message":"✅ Connection to auth-service successful","timestamp":"2025-05-21T04:18:56.010Z"}
+{"level":"info","message":"Testing connection to user-service at http://user-service:5005/health","timestamp":"2025-05-21T04:18:56.011Z"}
+{"level":"info","message":"✅ Connection to user-service successful","timestamp":"2025-05-21T04:18:56.036Z"}
+{"level":"info","message":"Testing connection to social-service at http://social-service:5004/health","timestamp":"2025-05-21T04:18:56.036Z"}
+{"level":"info","message":"✅ Connection to social-service successful","timestamp":"2025-05-21T04:18:56.066Z"}
+{"level":"info","message":"Testing connection to post-service at http://post-service:5003/health","timestamp":"2025-05-21T04:18:56.066Z"}
+{"level":"info","message":"✅ Connection to post-service successful","timestamp":"2025-05-21T04:18:56.078Z"}
+{"level":"info","message":"Testing connection to chat-service at http://chat-service:5555/health","timestamp":"2025-05-21T04:18:56.079Z"}
+{"level":"info","message":"✅ Connection to chat-service successful","timestamp":"2025-05-21T04:18:56.088Z"}
+{"level":"info","message":"GET /post/feed - 304 - 557ms","timestamp":"2025-05-21T04:18:56.520Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/feed"},"timestamp":"2025-05-21T04:19:00.378Z"}
+{"level":"info","message":"GET /post/feed - Start","timestamp":"2025-05-21T04:19:00.379Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /post/feed","timestamp":"2025-05-21T04:19:00.386Z"}
+{"level":"info","message":"Client closed connection: GET /post/feed","timestamp":"2025-05-21T04:19:00.386Z"}
+{"level":"info","message":"GET /post/feed - 304 - 505ms","timestamp":"2025-05-21T04:19:00.884Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"POST","url":"/chat/list-message"},"timestamp":"2025-05-21T04:19:05.455Z"}
+{"level":"info","message":"POST /chat/list-message - Start","timestamp":"2025-05-21T04:19:05.455Z"}
+{"level":"info","message":"Client closed connection: POST /chat/list-message","timestamp":"2025-05-21T04:19:05.456Z"}
+{"level":"info","message":"Redirecting to Chat Service: POST /chat/list-message","timestamp":"2025-05-21T04:19:05.459Z"}
+{"level":"info","message":"POST /chat/list-message - 200 - 281ms","timestamp":"2025-05-21T04:19:05.736Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/social/checkFollowStatus/asd"},"timestamp":"2025-05-21T04:19:06.904Z"}
+{"level":"info","message":"GET /social/checkFollowStatus/asd - Start","timestamp":"2025-05-21T04:19:06.905Z"}
+{"level":"info","message":"Redirecting to Social Service: GET /social/checkFollowStatus/asd","timestamp":"2025-05-21T04:19:06.907Z"}
+{"level":"info","message":"Client closed connection: GET /social/checkFollowStatus/asd","timestamp":"2025-05-21T04:19:06.907Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/users/asd"},"timestamp":"2025-05-21T04:19:06.908Z"}
+{"level":"info","message":"GET /users/asd - Start","timestamp":"2025-05-21T04:19:06.908Z"}
+{"level":"info","message":"Redirecting to User Service: GET /user/asd","timestamp":"2025-05-21T04:19:06.910Z"}
+{"level":"info","message":"Client closed connection: GET /user/asd","timestamp":"2025-05-21T04:19:06.910Z"}
+{"level":"info","message":"GET /user/asd - 304 - 129ms","timestamp":"2025-05-21T04:19:07.038Z"}
+{"level":"info","message":"GET /social/checkFollowStatus/asd - 304 - 265ms","timestamp":"2025-05-21T04:19:07.170Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/user/asd"},"timestamp":"2025-05-21T04:19:08.408Z"}
+{"level":"info","message":"GET /post/user/asd - Start","timestamp":"2025-05-21T04:19:08.409Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /post/user/asd","timestamp":"2025-05-21T04:19:08.411Z"}
+{"level":"info","message":"Client closed connection: GET /post/user/asd","timestamp":"2025-05-21T04:19:08.411Z"}
+{"level":"info","message":"GET /post/user/asd - 304 - 302ms","timestamp":"2025-05-21T04:19:08.711Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/id/6825eede751de142eccf3f07"},"timestamp":"2025-05-21T04:19:10.520Z"}
+{"level":"info","message":"GET /post/id/6825eede751de142eccf3f07 - Start","timestamp":"2025-05-21T04:19:10.521Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /post/id/6825eede751de142eccf3f07","timestamp":"2025-05-21T04:19:10.524Z"}
+{"level":"info","message":"Client closed connection: GET /post/id/6825eede751de142eccf3f07","timestamp":"2025-05-21T04:19:10.524Z"}
+{"level":"info","message":"GET /post/id/6825eede751de142eccf3f07 - 200 - 110ms","timestamp":"2025-05-21T04:19:10.631Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/social/checkFollowStatus/asd"},"timestamp":"2025-05-21T04:19:13.882Z"}
+{"level":"info","message":"GET /social/checkFollowStatus/asd - Start","timestamp":"2025-05-21T04:19:13.882Z"}
+{"level":"info","message":"Redirecting to Social Service: GET /social/checkFollowStatus/asd","timestamp":"2025-05-21T04:19:13.884Z"}
+{"level":"info","message":"Client closed connection: GET /social/checkFollowStatus/asd","timestamp":"2025-05-21T04:19:13.884Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/users/asd"},"timestamp":"2025-05-21T04:19:13.890Z"}
+{"level":"info","message":"GET /users/asd - Start","timestamp":"2025-05-21T04:19:13.890Z"}
+{"level":"info","message":"Redirecting to User Service: GET /user/asd","timestamp":"2025-05-21T04:19:13.892Z"}
+{"level":"info","message":"Client closed connection: GET /user/asd","timestamp":"2025-05-21T04:19:13.892Z"}
+{"level":"info","message":"GET /user/asd - 304 - 144ms","timestamp":"2025-05-21T04:19:14.035Z"}
+{"level":"info","message":"GET /social/checkFollowStatus/asd - 304 - 216ms","timestamp":"2025-05-21T04:19:14.098Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/user/asd"},"timestamp":"2025-05-21T04:19:15.397Z"}
+{"level":"info","message":"GET /post/user/asd - Start","timestamp":"2025-05-21T04:19:15.398Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /post/user/asd","timestamp":"2025-05-21T04:19:15.400Z"}
+{"level":"info","message":"Client closed connection: GET /post/user/asd","timestamp":"2025-05-21T04:19:15.401Z"}
+{"level":"info","message":"GET /post/user/asd - 304 - 167ms","timestamp":"2025-05-21T04:19:15.566Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T04:19:20.720Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T04:19:20.720Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T04:19:20.722Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T04:19:20.722Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/auth/checkToken"},"timestamp":"2025-05-21T04:19:21.895Z"}
+{"level":"info","message":"GET /auth/checkToken - Start","timestamp":"2025-05-21T04:19:21.904Z"}
+{"level":"info","message":"Proxying to Auth Service","method":"GET","target":"http://auth-service:5000/auth/checkToken","timestamp":"2025-05-21T04:19:21.914Z","url":"/auth/checkToken"}
+{"level":"info","message":"Client closed connection: GET /auth/checkToken","timestamp":"2025-05-21T04:19:21.914Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/id/6825eede751de142eccf3f07"},"timestamp":"2025-05-21T04:19:21.915Z"}
+{"level":"info","message":"GET /post/id/6825eede751de142eccf3f07 - Start","timestamp":"2025-05-21T04:19:21.915Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /post/id/6825eede751de142eccf3f07","timestamp":"2025-05-21T04:19:21.916Z"}
+{"level":"info","message":"Client closed connection: GET /post/id/6825eede751de142eccf3f07","timestamp":"2025-05-21T04:19:21.917Z"}
+{"level":"info","message":"Got response from Auth Service: 304","timestamp":"2025-05-21T04:19:22.025Z"}
+{"level":"info","message":"GET /auth/checkToken - 304 - 122ms","timestamp":"2025-05-21T04:19:22.026Z"}
+{"level":"info","message":"GET /post/id/6825eede751de142eccf3f07 - 304 - 113ms","timestamp":"2025-05-21T04:19:22.028Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/social/checkFollowStatus/asd"},"timestamp":"2025-05-21T04:19:25.005Z"}
+{"level":"info","message":"GET /social/checkFollowStatus/asd - Start","timestamp":"2025-05-21T04:19:25.006Z"}
+{"level":"info","message":"Redirecting to Social Service: GET /social/checkFollowStatus/asd","timestamp":"2025-05-21T04:19:25.010Z"}
+{"level":"info","message":"Client closed connection: GET /social/checkFollowStatus/asd","timestamp":"2025-05-21T04:19:25.012Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/users/asd"},"timestamp":"2025-05-21T04:19:25.013Z"}
+{"level":"info","message":"GET /users/asd - Start","timestamp":"2025-05-21T04:19:25.013Z"}
+{"level":"info","message":"Redirecting to User Service: GET /user/asd","timestamp":"2025-05-21T04:19:25.015Z"}
+{"level":"info","message":"Client closed connection: GET /user/asd","timestamp":"2025-05-21T04:19:25.015Z"}
+{"level":"info","message":"GET /user/asd - 304 - 95ms","timestamp":"2025-05-21T04:19:25.108Z"}
+{"level":"info","message":"GET /social/checkFollowStatus/asd - 304 - 167ms","timestamp":"2025-05-21T04:19:25.173Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/user/asd"},"timestamp":"2025-05-21T04:19:26.510Z"}
+{"level":"info","message":"GET /post/user/asd - Start","timestamp":"2025-05-21T04:19:26.511Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /post/user/asd","timestamp":"2025-05-21T04:19:26.512Z"}
+{"level":"info","message":"Client closed connection: GET /post/user/asd","timestamp":"2025-05-21T04:19:26.513Z"}
+{"level":"info","message":"GET /post/user/asd - 304 - 217ms","timestamp":"2025-05-21T04:19:26.728Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/social/checkFollowStatus/asd"},"timestamp":"2025-05-21T04:19:30.075Z"}
+{"level":"info","message":"GET /social/checkFollowStatus/asd - Start","timestamp":"2025-05-21T04:19:30.076Z"}
+{"level":"info","message":"Redirecting to Social Service: GET /social/checkFollowStatus/asd","timestamp":"2025-05-21T04:19:30.081Z"}
+{"level":"info","message":"Client closed connection: GET /social/checkFollowStatus/asd","timestamp":"2025-05-21T04:19:30.082Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/users/asd"},"timestamp":"2025-05-21T04:19:30.084Z"}
+{"level":"info","message":"GET /users/asd - Start","timestamp":"2025-05-21T04:19:30.085Z"}
+{"level":"info","message":"Redirecting to User Service: GET /user/asd","timestamp":"2025-05-21T04:19:30.087Z"}
+{"level":"info","message":"Client closed connection: GET /user/asd","timestamp":"2025-05-21T04:19:30.088Z"}
+{"level":"info","message":"GET /user/asd - 304 - 131ms","timestamp":"2025-05-21T04:19:30.216Z"}
+{"level":"info","message":"GET /social/checkFollowStatus/asd - 304 - 235ms","timestamp":"2025-05-21T04:19:30.311Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/user/asd"},"timestamp":"2025-05-21T04:19:31.545Z"}
+{"level":"info","message":"GET /post/user/asd - Start","timestamp":"2025-05-21T04:19:31.546Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /post/user/asd","timestamp":"2025-05-21T04:19:31.549Z"}
+{"level":"info","message":"Client closed connection: GET /post/user/asd","timestamp":"2025-05-21T04:19:31.551Z"}
+{"level":"info","message":"GET /post/user/asd - 304 - 300ms","timestamp":"2025-05-21T04:19:31.846Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:172.18.0.1","method":"GET","url":"/post/feed"},"timestamp":"2025-05-21T04:19:37.101Z"}
+{"level":"info","message":"GET /post/feed - Start","timestamp":"2025-05-21T04:19:37.102Z"}
+{"level":"info","message":"Redirecting to Post Service: GET /post/feed","timestamp":"2025-05-21T04:19:37.104Z"}
+{"level":"info","message":"Client closed connection: GET /post/feed","timestamp":"2025-05-21T04:19:37.105Z"}
+{"level":"info","message":"GET /post/feed - 304 - 579ms","timestamp":"2025-05-21T04:19:37.682Z"}
+{"level":"info","message":{"body":{},"bodySize":0,"ip":"::ffff:127.0.0.1","method":"GET","url":"/health"},"timestamp":"2025-05-21T04:19:50.767Z"}
+{"level":"info","message":"GET /health - Start","timestamp":"2025-05-21T04:19:50.767Z"}
+{"level":"info","message":"GET /health - 200 - 1ms","timestamp":"2025-05-21T04:19:50.768Z"}
+{"level":"info","message":"Client closed connection: GET /health","timestamp":"2025-05-21T04:19:50.769Z"}

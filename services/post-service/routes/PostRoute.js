@@ -65,4 +65,13 @@ router.post("/:postId/likes", postMiddleware, toggleLikePost);
 router.post("/:postId/comments", postMiddleware, addComment);
 router.get("/:postId/comments", getComments);
 
+// Health check endpoint
+router.get('/health', (req, res) => {
+  res.status(200).json({
+    status: 'OK',
+    service: 'post-service',
+    timestamp: new Date().toISOString()
+  });
+});
+
 module.exports = router

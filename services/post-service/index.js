@@ -30,5 +30,14 @@ mongoose
     })
     .catch((error)=>console.log(error));
 
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.status(200).json({
+    status: 'OK',
+    service: 'post-service',
+    timestamp: new Date().toISOString()
+  });
+});
 
+// Cấu hình route với tiền tố 'post'
 app.use('/post', router)

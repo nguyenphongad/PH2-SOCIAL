@@ -1,3 +1,4 @@
+// Nếu đã có
 @import "./+styleMixin.scss";
 
 * {
@@ -84,8 +85,13 @@ ul {
 @import "./HomePagesStyle/HomeIndex.scss";
 @import "./MorePageStyles/MorePageIndex.scss";
 @import "./ChatPageStyle/ChatPageIndex.scss";
+@import "./ChatPageStyle/CommentSuggestions.scss";
 @import "./PostPageStyle/PostPageStyle.scss";
 
 // Import PostDetailStyle.scss
 @import './PostPageStyle/PostDetailStyle.scss';
 @import './PostPageStyle/PostDetailPage.scss';
+
+
+@import "./ModalStyles/ModalEventCatcher.scss";
+@import "./PostPageStyle/PostModalStyle.scss";

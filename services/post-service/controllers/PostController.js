@@ -19,7 +19,6 @@ const createPost = async (req, res) => {
                return res.status(400).json({ message: 'Bài đăng phải có nội dung, hình ảnh hoặc video.', status: false });
           }
 
-
           const newPost = new PostModel({
                userID: userID, // Nên là _id của user
                username: username,
@@ -38,8 +37,40 @@ const createPost = async (req, res) => {
           
           console.log(`Đã thêm bài đăng ${newPost._id} vào mảng posts của user ${username} (ID: ${userID})`);
 
-          // Trả về status: true để client dễ kiểm tra
-          return res.status(201).json({ message: "Đăng bài thành công", post: newPost, status: true });
+          // Lấy thông tin chi tiết của người dùng đã đăng bài
+          const user = await UserModel.findOne({ userID: userID })
+               .select('_id userID username name profilePicture bio followers following')
+               .lean();
+
+          // Tạo response có cấu trúc mới giống định dạng yêu cầu
+          const postResponse = {
+               _id: newPost._id,
+               user: {
+                    _id: user._id || null,
+                    userID: user.userID || userID,
+                    username: user.username || username,
+                    name: user.name || "",
+                    profilePicture: user.profilePicture || "https://res.cloudinary.com/dg1kyvurg/image/upload/v1747339399/posts/default-avatar.png",
+                    bio: user.bio || "",
+                    followers: user.followers?.length || 0,
+                    following: user.following?.length || 0
+               },
+               content: newPost.content || "",
+               imageUrls: newPost.imageUrls || [],
+               videoUrl: newPost.videoUrl || "",
+               likes: [],
+               comments: [],
+               createdAt: newPost.createdAt,
+               updatedAt: newPost.updatedAt,
+               isLikedByCurrentUser: false
+          };
+
+          // Trả về status: true và post có định dạng mới
+          return res.status(201).json({ 
+               message: "Đăng bài thành công", 
+               post: postResponse, 
+               status: true 
+          });
 
      } catch (error) {
           console.error("Lỗi đăng bài:", error);
@@ -88,6 +119,34 @@ const getPostByUsernameAndPostId = async (req, res) => {
           const comments = await CommentsModel.find({ postId: postId })
                .sort({ createdAt: 1 })
                .lean();
+          
+          // Lấy danh sách userIds từ các comments để fetch thông tin người dùng
+          const commentUserIds = [...new Set(comments.map(comment => comment.userId))];
+          
+          // Fetch thông tin người dùng cho tất cả các comments cùng một lúc
+          const commentUsers = await UserModel.find({ 
+               userID: { $in: commentUserIds } 
+          })
+          .select('userID username name profilePicture')
+          .lean();
+          
+          // Tạo map cho việc tra cứu nhanh
+          const userMap = {};
+          commentUsers.forEach(user => {
+               userMap[user.userID.toString()] = user;
+          });
+          
+          // Bổ sung thông tin người dùng vào comments
+          const enhancedComments = comments.map(comment => {
+               const commentUser = userMap[comment.userId.toString()] || {};
+               return {
+                    ...comment,
+                    username: commentUser.username || comment.username,
+                    userAvatar: commentUser.profilePicture || "https://res.cloudinary.com/dg1kyvurg/image/upload/v1747339399/posts/default-avatar.png",
+                    name: commentUser.name || "",
+                    // Giữ nguyên các trường khác
+               };
+          });
 
           // Tạo response có cấu trúc tương tự như getFeedPosts
           const postResponse = {
@@ -110,7 +169,7 @@ const getPostByUsernameAndPostId = async (req, res) => {
                imageUrls: post.imageUrls || [],
                videoUrl: post.videoUrl || "",
                likes: post.likes || [],
-               comments: comments || [],
+               comments: enhancedComments || [],
                createdAt: post.createdAt,
                updatedAt: post.updatedAt,
                isLikedByCurrentUser: isLikedByCurrentUser
@@ -470,7 +529,7 @@ const addComment = async (req, res) => {
           const { postId } = req.params;
           const { content } = req.body;
           const userId = req.user.userID;
-          const username = req.user.username; // Lấy username từ req.user
+          const username = req.user.username;
 
           if (!mongoose.Types.ObjectId.isValid(postId)) {
                return res.status(400).json({ message: 'ID bài đăng không hợp lệ' });
@@ -480,16 +539,54 @@ const addComment = async (req, res) => {
                return res.status(400).json({ message: 'Nội dung bình luận không được để trống' });
           }
 
-          const newComment = new CommentsModel({ postId: postId, userId: userId, username: username, content: content.trim() });
+          // Tìm thông tin chi tiết của người dùng đang bình luận
+          const user = await UserModel.findOne({ userID: userId })
+               .select('username profilePicture name')
+               .lean();
+
+          // Lấy thông tin người dùng
+          const userAvatar = user?.profilePicture || "https://res.cloudinary.com/dg1kyvurg/image/upload/v1747339399/posts/default-avatar.png";
+          const name = user?.name || "";
+          const commentUsername = user?.username || username;
+
+          // Tạo bình luận mới
+          const newComment = new CommentsModel({
+               postId: postId,
+               userId: userId,
+               username: commentUsername,
+               content: content.trim(),
+               userAvatar: userAvatar,
+               name: name
+          });
+          
           await newComment.save();
 
-          // (Tùy chọn) Cập nhật mảng comments trong PostModel
+          // Cập nhật mảng comments trong PostModel
           await PostModel.findByIdAndUpdate(postId, { $push: { comments: newComment._id } });
 
-          return res.status(201).json({ message: 'Đã bình luận', comment: newComment });
+          // Trả về comment với đầy đủ thông tin
+          return res.status(201).json({
+               message: 'Đã bình luận thành công',
+               status: true,
+               comment: {
+                    _id: newComment._id,
+                    postId: newComment.postId,
+                    userId: newComment.userId,
+                    username: newComment.username,
+                    content: newComment.content,
+                    userAvatar: newComment.userAvatar,
+                    name: newComment.name,
+                    createdAt: newComment.createdAt,
+                    updatedAt: newComment.updatedAt
+               }
+          });
      } catch (error) {
           console.error('Lỗi thêm bình luận:', error);
-          return res.status(500).json({ message: 'Lỗi server thêm bình luận', error: error.message });
+          return res.status(500).json({ 
+               message: 'Lỗi server thêm bình luận', 
+               error: error.message,
+               status: false
+          });
      }
 };
 

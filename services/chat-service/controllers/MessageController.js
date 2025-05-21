@@ -1,3 +1,5 @@
+const { askGemini } = require("../service/geminiService");
+
 const MessageModel = require("../models/MessageModel");
 const ConversationModel = require("../models/ConversationModel");
 
@@ -139,4 +141,136 @@ const getMessages = async (req, res) => {
   }
 };
 
-module.exports = { sendMessage, getMessages };
+const chatboxComment = async (req, res) => {
+    const { message } = req.body;
+    try {
+        const response = await askGemini(message);
+        res.json({ response });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+// Endpoint mới để lấy đề xuất bình luận từ AI
+const getCommentSuggestions = async (req, res) => {
+    try {
+        const { message } = req.body;
+        
+        // Nếu nội dung trống, yêu cầu AI tạo gợi ý bình luận ngẫu nhiên
+        if (!message || message.trim() === "") {
+            // Tạo prompt để AI tạo bình luận ngẫu nhiên vui nhộn
+            const randomPrompt = `
+            Hãy tạo 5 gợi ý bình luận ngẫu nhiên, vui nhộn cho mạng xã hội.
+            Các bình luận nên:
+            - Hài hước và tích cực
+            - Ngắn gọn (tối đa 50 ký tự)
+            - Sử dụng emoji khi phù hợp
+            - Phù hợp với văn hóa Việt Nam
+            - Có thể dùng cho bất kỳ bài đăng nào
+            
+            Trả lời dưới dạng mảng JSON, không có giải thích thêm.
+            `;
+            
+            // Gọi AI để tạo gợi ý ngẫu nhiên
+            const aiResponse = await askGemini(randomPrompt);
+            
+            try {
+                // Xử lý phản hồi để đảm bảo định dạng đúng
+                const jsonMatch = aiResponse.match(/\[[\s\S]*\]/);
+                let suggestions = [];
+                
+                if (jsonMatch) {
+                    suggestions = JSON.parse(jsonMatch[0]);
+                } else {
+                    // Xử lý khi không tìm thấy mẫu JSON
+                    suggestions = aiResponse
+                        .split('\n')
+                        .filter(line => line.trim().length > 0)
+                        .map(line => line.replace(/^[\d\.\-\*]+\s*/, '').replace(/"/g, '').trim())
+                        .filter(line => line.length > 0 && line.length <= 60)
+                        .slice(0, 5);
+                }
+                
+                return res.status(200).json({
+                    status: true,
+                    suggestions: suggestions
+                });
+            } catch (jsonError) {
+                console.error("Lỗi xử lý JSON từ AI:", jsonError);
+                // Gọi lại AI nếu xử lý JSON thất bại
+                return res.status(500).json({
+                    status: false,
+                    message: "Không thể tạo gợi ý bình luận, vui lòng thử lại"
+                });
+            }
+        }
+
+        // Nếu có nội dung, tiếp tục xử lý bình thường
+        const prompt = `
+        Hãy đưa ra 3-5 gợi ý bình luận ngắn gọn cho bài viết sau đây.
+        Bình luận nên ngắn gọn, liên quan tới nội dung, đa dạng về cảm xúc (tích cực, hài hước, tò mò, v.v.),
+        và phù hợp với văn hóa Việt Nam.
+        Chỉ trả lời dưới định dạng mảng JSON gọn gàng không có lời giải thích thêm.
+        Mỗi bình luận không quá 60 ký tự.
+
+        Bài viết: "${message}"
+        `;
+
+        // Gọi AI để lấy gợi ý
+        const aiResponse = await askGemini(prompt);
+        
+        try {
+            // Xử lý phản hồi để đảm bảo định dạng đúng
+            let jsonResponse;
+            
+            // Lọc ra phần JSON từ phản hồi (trong trường hợp AI trả về text thay vì JSON trực tiếp)
+            const jsonMatch = aiResponse.match(/\[[\s\S]*\]/);
+            
+            if (jsonMatch) {
+                jsonResponse = JSON.parse(jsonMatch[0]);
+            } else {
+                // Nếu không tìm thấy JSON, cố gắng parse cả chuỗi
+                jsonResponse = JSON.parse(aiResponse);
+            }
+            
+            // Đảm bảo đầu ra là một mảng
+            if (!Array.isArray(jsonResponse)) {
+                throw new Error('Không thể chuyển đổi phản hồi từ AI thành mảng');
+            }
+            
+            return res.status(200).json({
+                status: true,
+                suggestions: jsonResponse
+            });
+        } catch (jsonError) {
+            console.error("Lỗi xử lý JSON từ AI:", jsonError);
+            
+            // Nếu không thể parse JSON, xử lý bằng cách tách dòng và làm sạch
+            const fallbackSuggestions = aiResponse
+                .split('\n')
+                .filter(line => line.trim().length > 0)
+                .map(line => line.replace(/^[\d\.\-\*]+\s*/, '').trim())
+                .filter(line => line.length > 0 && line.length <= 60)
+                .slice(0, 6);
+                
+            return res.status(200).json({
+                status: true,
+                suggestions: fallbackSuggestions
+            });
+        }
+    } catch (error) {
+        console.error("Lỗi khi lấy gợi ý bình luận:", error);
+        return res.status(500).json({
+            status: false,
+            message: "Lỗi khi tạo gợi ý bình luận",
+            error: error.message
+        });
+    }
+};
+
+module.exports = { 
+    sendMessage, 
+    getMessages, 
+    chatboxComment, 
+    getCommentSuggestions 
+};

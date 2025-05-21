@@ -203,8 +203,8 @@ const MainView = () => {
             </Routes>
 
             {/* 
-              Chỉ render modal khi có background location
-              Modal này sẽ hiển thị ở trên cùng, không làm trang hiện tại bị reload
+              Khi render modal, luôn truyền key={postId} để React hiểu đây là component mới 
+              mỗi khi postId thay đổi, giúp tạo instance mới thay vì reuse
             */}
             {background && (
                 <Routes>
@@ -212,6 +212,7 @@ const MainView = () => {
                         path="/post/:postId" 
                         element={
                             <PostDetailModal 
+                                key={location.pathname} // Thêm key dựa trên path
                                 onClose={() => navigate(background.pathname || -1, { replace: true })} 
                                 openCommentBox={location.state?.openCommentBox}
                                 isVisible={true}

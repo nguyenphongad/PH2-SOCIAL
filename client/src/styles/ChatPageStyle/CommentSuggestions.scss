@@ -1,0 +1,120 @@
+.comment-suggestions {
+  margin-bottom: 15px;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  animation: fadeIn 0.3s ease;
+
+  .comment-suggestions-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    
+    span {
+      font-size: 14px;
+      color: #555;
+      font-weight: 500;
+      
+      @media (max-width: 576px) {
+        font-size: 13px;
+      }
+    }
+    
+    .suggestion-close-btn {
+      background: none;
+      border: none;
+      color: #666;
+      cursor: pointer;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      padding: 4px;
+      border-radius: 50%;
+      transition: all 0.2s ease;
+      
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+        color: #333;
+      }
+    }
+  }
+  
+  .comment-suggestions-content {
+    .loading-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #666;
+      font-size: 13px;
+      padding: 8px 0;
+      
+      @media (max-width: 576px) {
+        font-size: 12px;
+        padding: 6px 0;
+      }
+    }
+    
+    .error-message {
+      color: #e53935;
+      font-size: 13px;
+      padding: 8px 0;
+      
+      @media (max-width: 576px) {
+        font-size: 12px;
+        padding: 6px 0;
+      }
+    }
+    
+    .suggestions-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 4px 0 5px 0;
+      
+      @media (max-width: 576px) {
+        gap: 6px;
+        padding: 3px 0 8px 0;
+      }
+      
+      .suggestion-item {
+        background-color: #f0f2f5;
+        border-radius: 16px;
+        padding: 6px 12px;
+        font-size: 13px;
+        color: #333;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: 1px solid #e4e6e9;
+        
+        @media (max-width: 576px) {
+          font-size: 12px;
+          padding: 4px 10px;
+        }
+        
+        &:hover {
+          background-color: #e4e6e9;
+          transform: translateY(-2px);
+        }
+        
+        &:active {
+          transform: scale(0.98);
+          background-color: #dcdfe3;
+        }
+      }
+    }
+  }
+}
+
+// Thêm animation cho hiệu ứng xuất hiện
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

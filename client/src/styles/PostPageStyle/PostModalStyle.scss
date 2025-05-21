@@ -1729,3 +1729,674 @@
     padding: 0;
   }
 }
+
+// ...existing code...
+
+.modal-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1100; /* Đặt z-index cao hơn post-detail-modal (1000) */
+    
+    &.visible {
+        visibility: visible;
+        opacity: 1;
+    }
+    
+    .modal-container {
+        background-color: white;
+        width: 90%;
+        max-width: 600px;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        
+        // ...existing code for modal content styling...
+    }
+}
+
+// ...existing code...
+
+.modal-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100; /* Đặt z-index cao hơn post-detail-modal (1000) */
+  
+  &.visible {
+    visibility: visible;
+    opacity: 1;
+  }
+  
+  .modal-container {
+    background-color: white;
+    width: 90%;
+    max-width: 600px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      border-bottom: 1px solid #eeeeee;
+      
+      h2 {
+        font-size: 18px;
+        font-weight: 600;
+        margin: 0;
+      }
+      
+      .close-btn {
+        background: none;
+        border: none;
+        font-size: 18px;
+        color: #666;
+        cursor: pointer;
+        transition: color 0.2s;
+        
+        &:hover {
+          color: $main_color;
+        }
+      }
+    }
+    
+    .modal-body {
+      padding: 20px;
+      flex: 1;
+      max-height: 70vh;
+      overflow-y: auto;
+      
+      // ...existing styles for modal body...
+    }
+  }
+}
+
+// Đảm bảo thêm các style khác nếu còn thiếu...
+
+.modal-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100; /* Đặt z-index cao hơn post-detail-modal (1000) */
+  
+  &.visible {
+    visibility: visible;
+    opacity: 1;
+  }
+  
+  &.hidden {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .modal-container {
+    background-color: white;
+    width: 90%;
+    max-width: 600px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    animation: modalPopIn 0.3s ease;
+    
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      border-bottom: 1px solid #eeeeee;
+      
+      h2 {
+        font-size: 18px;
+        font-weight: 600;
+        margin: 0;
+      }
+      
+      .close-btn {
+        background: none;
+        border: none;
+        font-size: 18px;
+        color: #666;
+        cursor: pointer;
+        transition: color 0.2s;
+        padding: 8px;
+        border-radius: 50%;
+        
+        &:hover {
+          color: $main_color;
+          background-color: #f0f0f0;
+        }
+      }
+    }
+    
+    .modal-body {
+      padding: 20px;
+      flex: 1;
+      max-height: 70vh;
+      overflow-y: auto;
+    }
+  }
+}
+
+@keyframes modalPopIn {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.modal-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100; /* Cao hơn post-detail-modal (1000) */
+  
+  &.visible {
+    visibility: visible;
+    opacity: 1;
+  }
+  
+  &.hidden {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .modal-container {
+    background-color: white;
+    width: 90%;
+    max-width: 600px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    animation: modalPopIn 0.3s ease;
+    
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      border-bottom: 1px solid #eeeeee;
+      
+      h2 {
+        font-size: 18px;
+        font-weight: 600;
+        margin: 0;
+      }
+      
+      .close-btn {
+        background: none;
+        border: none;
+        font-size: 18px;
+        color: #666;
+        cursor: pointer;
+        transition: color 0.2s;
+        padding: 8px;
+        border-radius: 50%;
+        
+        &:hover {
+          color: $main_color;
+          background-color: #f0f0f0;
+        }
+      }
+    }
+    
+    .modal-body {
+      padding: 20px;
+      flex: 1;
+      max-height: 70vh;
+      overflow-y: auto;
+
+      .post-textarea {
+        width: 100%;
+        min-height: 100px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 12px;
+        margin-bottom: 15px;
+        resize: none;
+        font-size: 14px;
+        outline: none;
+
+        &:focus {
+          border-color: $main_color;
+        }
+      }
+    }
+    
+    .modal-footer {
+      padding: 16px 20px;
+      display: flex;
+      justify-content: flex-end;
+      border-top: 1px solid #eeeeee;
+      
+      button {
+        min-width: 100px;
+      }
+    }
+  }
+}
+
+@keyframes modalPopIn {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Additional styles for preview modal, etc */
+.ant-upload-list-picture-card .ant-upload-list-item {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+// Thêm biến main_color hoặc import từ file chung
+$main_color: #5048E5; // Cần thêm biến này hoặc import từ file variables.scss
+
+.modal-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100; /* Đặt z-index cao hơn post-detail-modal (1000) */
+  
+  &.visible {
+    visibility: visible;
+    opacity: 1;
+  }
+  
+  &.hidden {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .modal-container {
+    background-color: white;
+    width: 90%;
+    max-width: 600px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    animation: modalPopIn 0.3s ease;
+    
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      border-bottom: 1px solid #eeeeee;
+      
+      h2 {
+        font-size: 18px;
+        font-weight: 600;
+        margin: 0;
+      }
+      
+      .close-btn {
+        background: none;
+        border: none;
+        font-size: 18px;
+        color: #666;
+        cursor: pointer;
+        transition: color 0.2s;
+        padding: 8px;
+        border-radius: 50%;
+        
+        &:hover {
+          color: $main_color;
+          background-color: #f0f0f0;
+        }
+      }
+    }
+    
+    .modal-body {
+      padding: 20px;
+      flex: 1;
+      max-height: 70vh;
+      overflow-y: auto;
+
+      .post-textarea {
+        width: 100%;
+        min-height: 100px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 12px;
+        margin-bottom: 15px;
+        resize: none;
+        font-size: 14px;
+        outline: none;
+
+        &:focus {
+          border-color: $main_color;
+        }
+      }
+    }
+    
+    .modal-footer {
+      padding: 16px 20px;
+      display: flex;
+      justify-content: flex-end;
+      border-top: 1px solid #eeeeee;
+      
+      button {
+        min-width: 100px;
+      }
+    }
+  }
+}
+
+@keyframes modalPopIn {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+// Thêm style cho ant-upload
+.ant-upload-list-picture-card .ant-upload-list-item {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+// Thêm style cho các nút
+button.ant-btn-primary {
+  background-color: $main_color;
+  border-color: $main_color;
+  
+  &:hover, &:focus {
+    background-color: darken($main_color, 10%);
+    border-color: darken($main_color, 10%);
+  }
+}
+
+// Import hoặc định nghĩa biến màu
+$main_color: #5048E5; // Nếu chưa được import từ file chung
+
+.modal-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100; /* Đặt z-index cao hơn post-detail-modal (1000) */
+  
+  &.visible {
+    visibility: visible;
+    opacity: 1;
+  }
+  
+  &.hidden {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .modal-container {
+    background-color: white;
+    width: 90%;
+    max-width: 700px; /* Tăng kích thước từ 600px lên 700px */
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    animation: modalPopIn 0.3s ease;
+    
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      border-bottom: 1px solid #efefef;
+      
+      h2 {
+        font-size: 18px;
+        font-weight: 600;
+        margin: 0;
+      }
+      
+      .close-btn {
+        background: none;
+        border: none;
+        font-size: 18px;
+        color: #666;
+        cursor: pointer;
+        transition: color 0.2s;
+        padding: 8px;
+        border-radius: 50%;
+        
+        &:hover {
+          color: $main_color;
+          background-color: #f0f0f0;
+        }
+      }
+    }
+    
+    /* Thêm style cho phần thông tin người dùng */
+    .modal-user-info {
+      display: flex;
+      align-items: center;
+      padding: 16px 20px;
+      border-bottom: 1px solid #efefef;
+      
+      .user-avatar {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 14px;
+        border: 1px solid #efefef;
+      }
+      
+      .user-details {
+        display: flex;
+        flex-direction: column;
+        
+        .username {
+          font-weight: 600;
+          font-size: 15px;
+          color: #333;
+        }
+        
+        .name {
+          font-size: 13px;
+          color: #777;
+          margin-top: 2px;
+        }
+      }
+    }
+    
+    .modal-body {
+      padding: 20px;
+      flex: 1;
+      max-height: 70vh;
+      overflow-y: auto;
+
+      .post-textarea {
+        width: 100%;
+        min-height: 150px; /* Tăng từ 100px lên 150px */
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 16px; /* Tăng từ 12px lên 16px */
+        margin-bottom: 20px; /* Tăng từ 15px lên 20px */
+        resize: none;
+        font-size: 16px; /* Tăng từ 14px lên 16px */
+        outline: none;
+        transition: border-color 0.2s ease;
+
+        &:focus {
+          border-color: $main_color;
+          box-shadow: 0 0 0 2px rgba($main_color, 0.1);
+        }
+        
+        &::placeholder {
+          color: #aaa;
+        }
+      }
+      
+      /* Styling cho Upload component từ Ant Design */
+      .ant-upload-list-picture-card-container,
+      .ant-upload.ant-upload-select-picture-card {
+        width: 104px;
+        height: 104px;
+        margin-right: 12px;
+        margin-bottom: 12px;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      
+      .ant-upload-list-picture-card .ant-upload-list-item {
+        padding: 4px;
+        border-radius: 8px;
+      }
+    }
+    
+    .modal-footer {
+      padding: 16px 20px;
+      display: flex;
+      justify-content: flex-end;
+      border-top: 1px solid #efefef;
+      
+      button {
+        min-width: 100px;
+        height: 38px;
+        font-weight: 500;
+        font-size: 15px;
+        background-color: $main_color;
+        border-color: $main_color;
+        
+        &:hover, &:focus {
+          background-color: darken($main_color, 10%);
+          border-color: darken($main_color, 10%);
+        }
+        
+        &:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+}
+
+@keyframes modalPopIn {
+  0% {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Styling cho file list */
+.ant-upload-list-picture-card .ant-upload-list-item-info {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Styling cho các nút */
+button.ant-btn-primary {
+  background-color: $main_color;
+  border-color: $main_color;
+  
+  &:hover, &:focus {
+    background-color: darken($main_color, 10%);
+    border-color: darken($main_color, 10%);
+  }
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .modal-wrapper .modal-container {
+    width: 95%;
+    max-width: 95%;
+    height: auto;
+    max-height: 90vh;
+    
+    .modal-body .post-textarea {
+      min-height: 120px;
+      font-size: 15px;
+      padding: 14px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-wrapper .modal-container {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%;
+    border-radius: 0;
+    
+    .modal-body {
+      max-height: none;
+      flex: 1;
+      
+      .post-textarea {
+        min-height: 100px;
+        font-size: 14px;
+        padding: 12px;
+      }
+    }
+  }
+}

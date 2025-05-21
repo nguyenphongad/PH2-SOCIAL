@@ -11,9 +11,21 @@ const commentSchema = new mongoose.Schema({
     ref: 'Post',
     required: true,
   },
+  username: {
+    type: String,
+    required: true,
+  },
   content: {
     type: String,
     required: true,
+  },
+  userAvatar: {
+    type: String,
+    default: "https://tinhdaunhuy.com/wp-content/uploads/2015/08/default-avatar.jpg"
+  },
+  name: {
+    type: String,
+    default: ""
   },
   createdAt: { // Thời gian tạo bình luận (timestamp)
     type: Number,

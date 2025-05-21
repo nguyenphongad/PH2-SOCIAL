@@ -120,8 +120,10 @@ export const addComment = createAsyncThunk(
     try {
       // Sửa lại đường dẫn để khớp với route: /:postId/comments
       const response = await post(`/${postId}${ENDPOINT.ADD_COMMENT}`, { content }, token);
-      return response.data;
+      console.log("Add comment response:", response.data);
+      return response.data; // Trả về dữ liệu đầy đủ từ API
     } catch (err) {
+      console.error("Error adding comment:", err);
       return rejectWithValue(err.response?.data || err.message);
     }
   }

@@ -264,24 +264,44 @@ const postsSlice = createSlice({
       .addCase(addComment.fulfilled, (state, { payload }) => {
         state.commentStatus = "succeeded";
         
-        // Thêm comment vào danh sách comments
-        const postId = payload.comment.postId;
-        if (!state.comments[postId]) {
-          state.comments[postId] = [];
-        }
-        state.comments[postId] = [...state.comments[postId], payload.comment];
-        
-        // Cập nhật số lượng comment trong danh sách items
-        const post = state.items.find(post => post._id === postId);
-        if (post) {
-          if (!post.comments) post.comments = [];
-          post.comments.push(payload.comment._id);
-        }
-        
-        // Cập nhật số lượng comment trong current post
-        if (state.currentPost && state.currentPost._id === postId) {
-          if (!state.currentPost.comments) state.currentPost.comments = [];
-          state.currentPost.comments.push(payload.comment._id);
+        // Đảm bảo có payload và comment
+        if (payload && payload.comment) {
+          const comment = payload.comment;
+          const postId = comment.postId;
+          
+          // Thêm comment vào danh sách comments
+          if (!state.comments[postId]) {
+            state.comments[postId] = [];
+          }
+          
+          // Kiểm tra xem comment đã tồn tại chưa để tránh trùng lặp
+          const commentExists = state.comments[postId].some(c => c._id === comment._id);
+          if (!commentExists) {
+            state.comments[postId].push(comment);
+          }
+          
+          // Cập nhật số lượng comment trong danh sách items
+          const post = state.items.find(post => post._id === postId);
+          if (post) {
+            if (!post.comments) post.comments = [];
+            
+            // Kiểm tra trùng lặp trước khi thêm vào
+            const commentExistsInPost = post.comments.some(c => c._id === comment._id);
+            if (!commentExistsInPost) {
+              post.comments.push(comment);
+            }
+          }
+          
+          // Cập nhật số lượng comment trong current post
+          if (state.currentPost && state.currentPost._id === postId) {
+            if (!state.currentPost.comments) state.currentPost.comments = [];
+            
+            // Kiểm tra trùng lặp trước khi thêm vào
+            const commentExistsInCurrentPost = state.currentPost.comments.some(c => c._id === comment._id);
+            if (!commentExistsInCurrentPost) {
+              state.currentPost.comments.push(comment);
+            }
+          }
         }
       })
       .addCase(addComment.rejected, (state, { payload }) => {

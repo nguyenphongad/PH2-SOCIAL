@@ -1,0 +1,9 @@
+.modal-event-catcher {
+  position: relative;
+  z-index: 1200; /* Đảm bảo hiển thị phía trên modal khác */
+  
+  /* Đảm bảo modal con hiển thị đúng */
+  .modal-wrapper {
+    z-index: 1210; /* Cao hơn z-index của modal-event-catcher */
+  }
+}

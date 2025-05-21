@@ -6,6 +6,7 @@ const ENDPOINT = {
     // ====== USER SERVICE ENDPOINTS ======
     GET_USER_PROFILE: "",                // GET - Lấy thông tin profile người dùng
     SHOW_LIST_FOLLOWER_USER: "/getUsersInfoFollower", // POST - Lấy danh sách người theo dõi
+    SHOW_LIST_FOLLOWING_USER: "/getUsersInfoFollowing", // POST - Lấy danh sách người đang theo dõi
 
     // ====== SOCIAL SERVICE ENDPOINTS ======
     FOLLOW_USER: "/follow",              // POST - Theo dõi/hủy theo dõi người dùng

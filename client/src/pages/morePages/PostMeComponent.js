@@ -46,7 +46,6 @@ function PostMeComponent({ username }) {
                 <div className="empty-illustration">📷</div>
                 <h3>Chưa có bài viết nào</h3>
                 <p>Bài viết bạn đăng sẽ xuất hiện tại đây</p>
-                <button className="create-post-btn">Tạo bài viết đầu tiên</button>
             </div>
         );
     }

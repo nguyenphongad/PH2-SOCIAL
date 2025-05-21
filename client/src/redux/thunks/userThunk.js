@@ -45,4 +45,24 @@ export const getShowListFollowerUser = createAsyncThunk(
             }
         }
     }
-)
+);
+
+export const getShowListFollowingUser = createAsyncThunk(
+    "user/getShowListFollowingUser",
+    async (userIDs, { rejectWithValue, getState }) => {
+        try {
+            const { token } = getState().auth;
+
+            const res = await post(`${ENDPOINT.SHOW_LIST_FOLLOWING_USER}`, userIDs, token);
+
+            return res.data;
+
+        } catch (error) {
+            if (error.response) {
+                return rejectWithValue(error.response.data);
+            } else {
+                return rejectWithValue({ message: "Lỗi không xác định (thunk user - server bị lỗi/chưa khởi động)" });
+            }
+        }
+    }
+);

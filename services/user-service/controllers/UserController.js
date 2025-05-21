@@ -141,9 +141,52 @@ const getUsersInfoFollower = async (req, res) => {
     }
 }
 
+// get danh sách người đang theo dõi (following)
+const getUsersInfoFollowing = async (req, res) => {
+    try {
+        const userIDs = req.body;
 
+        if (!Array.isArray(userIDs)) {
+            return res.status(400).json({
+                type: "get list following user",
+                status: false,
+                message: "Đầu vào không phải danh sách following"
+            })
+        }
+        
+        const objectIds = userIDs.map(id => new ObjectId(id));
 
+        const users = await UserModel.find(
+            { userID: { $in: objectIds } }, 
+            { username: 1, profilePicture: 1, name: 1 }
+        ).lean();
 
+        if (!users) {
+            return res.status(404).json({
+                type: "get list following user",
+                success: false,
+                message: "Không tìm thấy người dùng"
+            });
+        }
 
+        res.status(200).json({
+            type: "get list following user",
+            success: true,
+            data: users
+        });
 
-module.exports = { getProfileByUsername, searchUser ,getUsersInfoFollower};
+    } catch (error) {
+        console.error("Lỗi khi lấy thông tin người đang theo dõi:", error);
+        res.status(500).json({
+            success: false,
+            message: "Lỗi server khi lấy thông tin người đang theo dõi"
+        });
+    }
+}
+
+module.exports = { 
+    getProfileByUsername, 
+    searchUser, 
+    getUsersInfoFollower,
+    getUsersInfoFollowing   // Thêm hàm mới vào export
+};

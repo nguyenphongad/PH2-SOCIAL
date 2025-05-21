@@ -10,7 +10,7 @@ import { setIsFollowing } from '../../redux/slices/socialSlice';
 
 // thunk
 import { checkFollowStatus, followUser } from '../../redux/thunks/socialThunk';
-import { getShowListFollowerUser, getUserProfile } from '../../redux/thunks/userThunk';
+import { getShowListFollowerUser, getUserProfile, getShowListFollowingUser } from '../../redux/thunks/userThunk';
 
 //toast
 import { toast } from 'react-toastify';
@@ -39,8 +39,10 @@ const MorePageIndex = ({ userPeople }) => {
     const [open, setOpen] = useState(false);
     const [openModalSelect, setOpenModalSelect] = useState(false);
     const [isOpenModelFollower, setOpenModelFollower] = useState(false);
+    const [isOpenModelFollowing, setOpenModelFollowing] = useState(false); // Thêm state cho modal following
     const [isProcessing, setIsProcessing] = useState(false);
     const [isLoadingFollowers, setIsLoadingFollowers] = useState(false);
+    const [isLoadingFollowings, setIsLoadingFollowings] = useState(false); // Thêm state cho loading following
     const [isLoading, setIsLoading] = useState(true);
     // Không cần active tab nữa vì chỉ còn 1 tab
     const [activeTab, setActiveTab] = useState('posts');
@@ -48,7 +50,7 @@ const MorePageIndex = ({ userPeople }) => {
     // dispatch & selectors
     const dispatch = useDispatch();
     const { token } = useSelector((state) => state.auth);
-    const { user, userFollower } = useSelector((state) => state.user);
+    const { user, userFollower, userFollowing } = useSelector((state) => state.user);
     const isLogin = useSelector((state) => state.auth.isLogin);
     const { isFollowing } = useSelector((state) => state.social);
 
@@ -119,6 +121,24 @@ const MorePageIndex = ({ userPeople }) => {
             })
             .finally(() => {
                 setIsLoadingFollowers(false);
+            });
+    }
+
+    // handle open following list modal
+    const handleOpenListFollowingUser = () => {
+        if (isLoadingFollowings) return;
+        setIsLoadingFollowings(true);
+
+        dispatch(getShowListFollowingUser(user?.following))
+            .unwrap()
+            .then(() => {
+                setOpenModelFollowing(true);
+            })
+            .catch((error) => {
+                console.error("Lỗi khi lấy danh sách following:", error);
+            })
+            .finally(() => {
+                setIsLoadingFollowings(false);
             });
     }
 
@@ -211,6 +231,47 @@ const MorePageIndex = ({ userPeople }) => {
                     )}
                 </Modal>
 
+                {/* Following Modal */}
+                <Modal
+                    title="ĐANG THEO DÕI"
+                    open={isOpenModelFollowing}
+                    onCancel={() => setOpenModelFollowing(false)}
+                    footer={null}
+                    className='custom-modal followers-modal'
+                    centered
+                >
+                    {userFollowing === null || userFollowing?.data?.length === 0 ? (
+                        <div className="empty-state">
+                            <FcEmptyBattery size={70} />
+                            <h3>Bạn chưa theo dõi ai</h3>
+                        </div>
+                    ) : (
+                        <div className="followers-list">
+                            {userFollowing?.data?.map((following) => (
+                                <div key={following.userID} className='follower-item'>
+                                    <Link 
+                                        to={`/${following.username}`} 
+                                        onClick={() => setOpenModelFollowing(false)}
+                                    >
+                                        <img src={following.profilePicture} alt={following.name} />
+                                    </Link>
+                                    <div className="follower-info">
+                                        <Link
+                                            to={`/${following.username}`}
+                                            onClick={() => setOpenModelFollowing(false)}
+                                            className='username'
+                                        >
+                                            @{following.username}
+                                        </Link>
+                                        <div className="name">{following.name}</div>
+                                    </div>
+                                    <button className="follow-btn following">Đang theo dõi</button>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </Modal>
+
                 {/* Profile Content */}
                 <div className="profile-container">
                     {isLoading ? (
@@ -237,7 +298,7 @@ const MorePageIndex = ({ userPeople }) => {
                                             <span className="stat-label">người theo dõi</span>
                                         </div>
                                         
-                                        <div className="stat-item">
+                                        <div className="stat-item" onClick={handleOpenListFollowingUser}>
                                             <span className="stat-count">{user?.following?.length || 0}</span>
                                             <span className="stat-label">đang theo dõi</span>
                                         </div>

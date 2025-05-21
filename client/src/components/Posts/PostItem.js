@@ -95,7 +95,6 @@ const PostItem = ({ post }) => {
             <span className="post__time">{dayjs(post.createdAt).fromNow()}</span>
           </div>
         </Link>
-        <button className="post__more-btn">•••</button>
       </div>
       
       <div className="post__content">
@@ -111,7 +110,7 @@ const PostItem = ({ post }) => {
                 className={`post-slide-item ${index === currentSlide ? 'active' : ''}`}
               >
                 {index === currentSlide && (
-                  <img src={url} alt={`post media ${index}`} />
+                  <img src={url} alt={`post media ${index}`} style={{ cursor: "pointer",objectFit:"cover" }} />
                 )}
               </div>
             ))}

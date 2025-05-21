@@ -43,15 +43,19 @@ router.put(
     [
         // Validation rules
         body('content').optional().isString().trim().isLength({ max: 1000 }),
-        body('imageUrl').optional().isURL(),
+        body('imageUrls').optional().isArray(), // Sửa imageUrl thành imageUrls để phù hợp với request
+        body('imageUrls.*').optional().isURL(), // Validation cho từng phần tử trong mảng imageUrls
         body('videoUrl').optional().isURL(),
         (req, res, next) => { // Custom validator
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
                 return res.status(400).json({ errors: errors.array() });
             }
-            if (req.body.imageUrl === undefined && req.body.videoUrl === undefined) {
-                return res.status(400).json({ message: 'Bạn phải cung cấp ít nhất một trong các trường: imageUrl, videoUrl' });
+            // Cập nhật điều kiện kiểm tra
+            if (!req.body.content && (!req.body.imageUrls || req.body.imageUrls.length === 0) && !req.body.videoUrl) {
+                return res.status(400).json({ 
+                    message: 'Bài đăng phải có nội dung, hình ảnh hoặc video.'
+                });
             }
             next();
         }

@@ -5,7 +5,8 @@ const initialState = {
     user: null,
     status: 'idle',
     error: null,
-    userFollower: null
+    userFollower: null,
+    userFollowing: null  // Thêm state cho danh sách following
 };
 
 const userSlice = createSlice({
@@ -54,7 +55,9 @@ const userSlice = createSlice({
             // console.log("slice : " + action.payload)
         },
 
-
+        setUserFollowing: (state, action) => {
+            state.userFollowing = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -92,9 +95,21 @@ const userSlice = createSlice({
 
             })
 
-
+            // get following list
+            .addCase(getShowListFollowingUser.pending, (state) => {
+                state.status = 'loading';
+                state.error = null;
+            })
+            .addCase(getShowListFollowingUser.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.userFollowing = action.payload;
+            })
+            .addCase(getShowListFollowingUser.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
+            })
     },
 });
 
-export const { setUser, clearUser, updatePostCount, updateFollowers, updateFollowing, setUserFollower } = userSlice.actions;
+export const { setUser, clearUser, updatePostCount, updateFollowers, updateFollowing, setUserFollower, setUserFollowing } = userSlice.actions;
 export default userSlice.reducer;

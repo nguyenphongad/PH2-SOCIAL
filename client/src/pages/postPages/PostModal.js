@@ -3,7 +3,7 @@ import { Modal, Upload, message } from 'antd';
 import { PlusOutlined, LoadingOutlined, CloseOutlined } from '@ant-design/icons';
 import { FaMapMarkerAlt, FaUserTag, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
-import { createPost } from '../../redux/thunks/postThunk';
+import { createPost, updatePost } from '../../redux/thunks/postThunk';
 
 // Lấy biến môi trường từ .env
 const CLOUDINARY_CLOUD_NAME = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;
@@ -35,7 +35,8 @@ async function uploadSingleImageToCloudinary(file) {
     }
 }
 
-const PostModal = ({ visible, onClose, user }) => {
+// Sửa lại component để hỗ trợ cả tạo mới và chỉnh sửa
+const PostModal = ({ visible, onClose, user, isEditing = false, existingPost = null }) => {
     const [fileList, setFileList] = useState([]);
     const [uploading, setUploading] = useState(false);
     const [postText, setPostText] = useState('');
@@ -48,6 +49,34 @@ const PostModal = ({ visible, onClose, user }) => {
     // Sử dụng tên slice đúng và có fallback là đối tượng rỗng
     const postState = useSelector(state => state.post || {}); 
     const createStatus = postState.createStatus || 'idle';
+    const updateStatus = postState.updateStatus || 'idle';
+    
+    // Khởi tạo dữ liệu khi đang ở chế độ chỉnh sửa
+    useEffect(() => {
+        if (visible && isEditing && existingPost) {
+            // Đặt nội dung bài viết
+            setPostText(existingPost.content || '');
+            
+            // Xử lý ảnh có sẵn
+            if (existingPost.imageUrls && existingPost.imageUrls.length > 0) {
+                const existingImages = existingPost.imageUrls.map((url, index) => ({
+                    uid: `existing-${index}`,
+                    name: `image-${index}.jpg`,
+                    status: 'done',
+                    url: url,
+                    isExisting: true // Đánh dấu đây là ảnh đã có sẵn
+                }));
+                
+                setFileList(existingImages);
+            } else {
+                setFileList([]);
+            }
+        } else if (visible && !isEditing) {
+            // Reset dữ liệu khi mở modal ở chế độ tạo mới
+            setPostText('');
+            setFileList([]);
+        }
+    }, [visible, isEditing, existingPost]);
     
     // Reset state khi đóng modal
     useEffect(() => {
@@ -136,8 +165,8 @@ const PostModal = ({ visible, onClose, user }) => {
         };
     }, []);
 
-    // Xử lý đăng bài
-    const handlePost = async () => {
+    // Xử lý gửi form - đăng bài mới hoặc cập nhật
+    const handleSubmit = async () => {
         if (fileList.length === 0 && !postText.trim()) {
             message.warning('Vui lòng thêm ảnh hoặc nội dung cho bài viết!');
             return;
@@ -148,34 +177,53 @@ const PostModal = ({ visible, onClose, user }) => {
         try {
             let imageUrls = [];
             
-            // Upload ảnh lên Cloudinary nếu có
-            if (fileList.length > 0) {
-                // Upload từng ảnh và lấy URL
-                const uploadPromises = fileList.map(file => {
+            // Phân loại ảnh: ảnh có sẵn và ảnh mới cần upload
+            const existingImages = fileList.filter(file => file.isExisting).map(file => file.url);
+            const newImages = fileList.filter(file => !file.isExisting);
+            
+            // Upload ảnh mới lên Cloudinary nếu có
+            if (newImages.length > 0) {
+                const uploadPromises = newImages.map(file => {
                     return uploadSingleImageToCloudinary(file.originFileObj);
                 });
                 
-                imageUrls = await Promise.all(uploadPromises);
+                const newImageUrls = await Promise.all(uploadPromises);
+                imageUrls = [...existingImages, ...newImageUrls];
+            } else {
+                imageUrls = existingImages;
             }
             
             // Tạo dữ liệu bài đăng
             const postData = {
                 content: postText.trim(),
-                imageUrls: imageUrls.length > 0 ? imageUrls : []
+                imageUrls: imageUrls
             };
             
-            // Gọi action createPost
-            const result = await dispatch(createPost(postData)).unwrap();
-            
-            if (result) {
-                message.success('Đăng bài viết thành công!');
-                setFileList([]);
-                setPostText('');
-                onClose();
+            if (isEditing && existingPost) {
+                // Cập nhật bài đăng hiện có
+                const result = await dispatch(updatePost({
+                    postId: existingPost._id,
+                    updatedData: postData
+                })).unwrap();
+                
+                if (result) {
+                    message.success('Cập nhật bài viết thành công!');
+                    onClose();
+                }
+            } else {
+                // Tạo bài đăng mới
+                const result = await dispatch(createPost(postData)).unwrap();
+                
+                if (result) {
+                    message.success('Đăng bài viết thành công!');
+                    setFileList([]);
+                    setPostText('');
+                    onClose();
+                }
             }
         } catch (error) {
-            console.error('Error posting:', error);
-            message.error(error.message || 'Đăng bài thất bại. Vui lòng thử lại!');
+            console.error('Error submitting post:', error);
+            message.error(error.message || 'Thao tác thất bại. Vui lòng thử lại!');
         } finally {
             setUploading(false);
         }
@@ -207,15 +255,19 @@ const PostModal = ({ visible, onClose, user }) => {
     );
 
     // Xác định trạng thái loading từ Redux
-    const isCreatingPost = createStatus === 'loading';
+    const isLoading = isEditing ? updateStatus === 'loading' : createStatus === 'loading';
     // Kết hợp trạng thái loading từ component local và từ Redux
-    const isSubmitting = uploading || isCreatingPost;
+    const isSubmitting = uploading || isLoading;
+
+    // Xác định tiêu đề và text button theo mode
+    const modalTitle = isEditing ? "Chỉnh sửa bài viết" : "Tạo bài viết mới";
+    const submitButtonText = isEditing ? "Cập nhật" : "Chia sẻ";
 
     return (
         <>
             <Modal
                 open={visible}
-                title="Tạo bài viết mới"
+                title={modalTitle}
                 onCancel={onClose}
                 footer={null}
                 width="80%"
@@ -347,10 +399,10 @@ const PostModal = ({ visible, onClose, user }) => {
                             </button>
                             <button
                                 className="post-btn"
-                                onClick={handlePost}
+                                onClick={handleSubmit}
                                 disabled={isSubmitting || (fileList.length === 0 && !postText.trim())}
                             >
-                                {isSubmitting ? 'Đang đăng...' : 'Chia sẻ'}
+                                {isSubmitting ? (isEditing ? 'Đang cập nhật...' : 'Đang đăng...') : submitButtonText}
                             </button>
                         </div>
                     </div>

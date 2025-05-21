@@ -12,7 +12,7 @@ const createPost = async (req, res) => {
           // Lấy cả content, imageUrls, và videoUrl từ req.body
           const { content, imageUrls, videoUrl } = req.body;
 
-          const luserID = req.user.userID; // Lấy ID từ token (giả sử đây là _id của user)
+          const userID = req.user.userID; // Lấy ID từ token (giả sử đây là _id của user)
           const username = req.user.username; // Lấy username từ token
 
           if (!content && (!imageUrls || imageUrls.length === 0) && !videoUrl) {
@@ -21,7 +21,7 @@ const createPost = async (req, res) => {
 
 
           const newPost = new PostModel({
-               userID: luserID, // Nên là _id của user
+               userID: userID, // Nên là _id của user
                username: username,
                content: content || "",
                imageUrls: imageUrls && Array.isArray(imageUrls) ? imageUrls : [],
@@ -29,6 +29,15 @@ const createPost = async (req, res) => {
           });
 
           await newPost.save();
+          
+          // Cập nhật mảng posts của user với ID bài viết mới
+          await UserModel.findOneAndUpdate(
+               { userID: userID },
+               { $push: { posts: newPost._id } }
+          );
+          
+          console.log(`Đã thêm bài đăng ${newPost._id} vào mảng posts của user ${username} (ID: ${userID})`);
+
           // Trả về status: true để client dễ kiểm tra
           return res.status(201).json({ message: "Đăng bài thành công", post: newPost, status: true });
 
@@ -140,11 +149,12 @@ const getPostsByUser = async (req, res) => {
 const updatePost = async (req, res) => {
      try {
           const { postId } = req.params;
-          const { content, imageUrl, videoUrl } = req.body;
-          const luserID = req.user.userID;
+          const { content, imageUrls, videoUrl } = req.body; // Sửa imageUrl thành imageUrls
+          const userID = req.user.userID;
 
           console.log("postId để cập nhật:", postId);
-          console.log("userId của người cập nhật:", luserID);
+          console.log("userId của người cập nhật:", userID);
+          console.log("Dữ liệu cập nhật:", req.body); // Log dữ liệu để debug
 
           if (!mongoose.Types.ObjectId.isValid(postId)) {
                return res.status(400).json({ message: 'ID bài đăng không hợp lệ' });
@@ -154,7 +164,7 @@ const updatePost = async (req, res) => {
           if (!post) {
                return res.status(404).json({ message: 'Bài đăng không tồn tại' });
           }
-          if (post.userID.toString() !== luserID) {
+          if (post.userID.toString() !== userID) {
                return res.status(403).json({ message: 'Bạn không có quyền cập nhật bài đăng này!' })
           }
 
@@ -162,21 +172,25 @@ const updatePost = async (req, res) => {
           if (content !== undefined) {
                updateData.content = content;
           }
-          if (imageUrl !== undefined) {
-               updateData.imageUrl = imageUrl;
+          if (imageUrls !== undefined) {
+               updateData.imageUrls = imageUrls; // Sửa imageUrl thành imageUrls
           }
           if (videoUrl !== undefined) {
                updateData.videoUrl = videoUrl;
           }
-          if (req.body.content === undefined) {
-               updateData.$unset = { ...updateData.$unset, content: 1 };
+          
+          // Loại bỏ việc sử dụng $unset vì có thể gây nhầm lẫn
+          // và thay bằng cách set trực tiếp các trường thành giá trị trống khi cần
+          if (content === undefined && post.content) {
+               updateData.content = '';
           }
-          if (req.body.imageUrl === undefined) {
-               updateData.$unset = { ...updateData.$unset, imageUrl: 1 };
+          if (imageUrls === undefined && post.imageUrls) {
+               updateData.imageUrls = [];
           }
-          if (req.body.videoUrl === undefined) {
-               updateData.$unset = { ...updateData.$unset, videoUrl: 1 };
+          if (videoUrl === undefined && post.videoUrl) {
+               updateData.videoUrl = '';
           }
+          
           updateData.updatedAt = Date.now();
 
           const updatedPost = await PostModel.findByIdAndUpdate(
@@ -196,10 +210,10 @@ const updatePost = async (req, res) => {
 const deletePost = async (req, res) => {
      try {
           const { postId } = req.params; // Lấy postId từ URL
-          const luserID = req.user.userID; // Lấy userId từ token
+          const userID = req.user.userID; // Lấy userId từ token
 
           console.log("postId để xóa:", postId);
-          console.log("userId của người xóa:", luserID);
+          console.log("userId của người xóa:", userID);
 
           // Kiểm tra postId hợp lệ
           if (!mongoose.Types.ObjectId.isValid(postId)) {
@@ -213,7 +227,7 @@ const deletePost = async (req, res) => {
           }
 
           // Kiểm tra quyền xóa
-          if (post.userID.toString() !== luserID.toString()) {
+          if (post.userID.toString() !== userID.toString()) {
                return res.status(403).json({ message: 'Bạn không có quyền xóa bài đăng này' });
           }
 

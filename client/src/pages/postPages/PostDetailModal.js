@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { FaHeart, FaRegHeart, FaComment, FaArrowLeft, FaArrowRight, FaShare, FaTimesCircle } from 'react-icons/fa';
+import { FaHeart, FaRegHeart, FaComment, FaArrowLeft, FaArrowRight, FaShare, FaTimesCircle, FaEllipsisV, FaPencilAlt, FaTrashAlt, FaLink } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { getPostDetail, addComment, toggleLike } from '../../redux/thunks/postThunk';
+import { getPostDetail, addComment, toggleLike, deletePost } from '../../redux/thunks/postThunk';
 import LoadingText from '../../components/loadingComponent.js/LoadingText';
+import { Dropdown } from 'antd';
+import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import "dayjs/locale/vi";
+import PostModal from './PostModal';
 
 dayjs.extend(relativeTime);
 dayjs.locale("vi");
@@ -23,6 +26,7 @@ const PostDetailModal = ({ isVisible, postId: modalPostId, onClose, openCommentB
     const [currentSlide, setCurrentSlide] = useState(0);
     const [commentText, setCommentText] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isEditModalVisible, setIsEditModalVisible] = useState(false);
     
     // Tạo ref cho input comment
     const commentInputRef = React.useRef(null);
@@ -107,6 +111,77 @@ const PostDetailModal = ({ isVisible, postId: modalPostId, onClose, openCommentB
         if (currentPost) {
             dispatch(toggleLike(currentPost._id));
         }
+    };
+
+    // Thêm state và logic để xử lý dropdown
+    const currentUser = useSelector(state => state.auth.user);
+    
+    // Xử lý xóa bài viết
+    const handleDeletePost = () => {
+        if (window.confirm("Bạn có chắc chắn muốn xóa bài viết này không?")) {
+            dispatch(deletePost(currentPost._id))
+                .unwrap()
+                .then(() => {
+                    toast.success("Xóa bài viết thành công");
+                    handleClose(); // Đóng modal sau khi xóa thành công
+                })
+                .catch((error) => {
+                    toast.error("Xóa bài viết thất bại: " + (error.message || "Đã xảy ra lỗi"));
+                });
+        }
+    };
+
+    // Xử lý chỉnh sửa bài viết
+    const handleEditPost = () => {
+        setIsEditModalVisible(true);
+    };
+
+    // Xử lý sao chép liên kết
+    const handleCopyLink = () => {
+        const postUrl = `${window.location.origin}/post/${currentPost._id}`;
+        navigator.clipboard.writeText(postUrl)
+            .then(() => {
+                toast.success("Đã sao chép liên kết bài viết");
+            })
+            .catch(() => {
+                toast.error("Không thể sao chép liên kết");
+            });
+    };
+    
+    // Tạo menu items cho Dropdown
+    const getDropdownItems = () => {
+        const items = [];
+        
+        // Chỉ hiển thị tùy chọn sửa/xóa nếu bài viết thuộc về người dùng hiện tại
+        const isCurrentUserPost = currentUser?.userID === currentPost?.user?.userID || 
+                                  currentUser?.userID === currentPost?.userID;
+        
+        if (isCurrentUserPost) {
+            items.push(
+                { 
+                    key: 'edit',
+                    label: 'Chỉnh sửa', 
+                    icon: <FaPencilAlt />,
+                    onClick: handleEditPost
+                },
+                { 
+                    key: 'delete',
+                    label: 'Xóa bài viết',
+                    icon: <FaTrashAlt />,
+                    danger: true,
+                    onClick: handleDeletePost
+                }
+            );
+        }
+        
+        items.push({ 
+            key: 'copyLink',
+            label: 'Sao chép liên kết',
+            icon: <FaLink />,
+            onClick: handleCopyLink
+        });
+        
+        return items;
     };
 
     // Hiển thị loading khi đang tải dữ liệu
@@ -212,9 +287,23 @@ const PostDetailModal = ({ isVisible, postId: modalPostId, onClose, openCommentB
                                     <span className="post-time">{dayjs(currentPost.createdAt).fromNow()}</span>
                                 </div>
                             </Link>
-                            <button className="post-close-btn" onClick={handleClose} title="Đóng">
-                                <FaTimesCircle />
-                            </button>
+                            
+                            <div className="post-detail-actions-header">
+                                {/* Thêm nút tùy chọn ở modal chi tiết */}
+                                <Dropdown 
+                                    menu={{ items: getDropdownItems() }} 
+                                    placement="bottomRight" 
+                                    trigger={['click']}
+                                >
+                                    <button className="post-options-btn">
+                                        <FaEllipsisV />
+                                    </button>
+                                </Dropdown>
+                                
+                                <button className="post-close-btn" onClick={handleClose} title="Đóng">
+                                    <FaTimesCircle />
+                                </button>
+                            </div>
                         </div>
                         
                         <div className="post-detail-content">
@@ -290,6 +379,17 @@ const PostDetailModal = ({ isVisible, postId: modalPostId, onClose, openCommentB
                     </div>
                 </div>
             </div>
+            
+            {/* Modal chỉnh sửa bài viết */}
+            {isEditModalVisible && (
+                <PostModal
+                    visible={isEditModalVisible}
+                    onClose={() => setIsEditModalVisible(false)}
+                    user={currentUser}
+                    isEditing={true}
+                    existingPost={currentPost}
+                />
+            )}
         </div>
     );
 };

@@ -14,7 +14,8 @@ const ENDPOINT = {
 
     // ====== CHAT SERVICE ENDPOINTS ======
     SHOW_LIST_MESSAGE : "/list-message", // GET - Lấy danh sách tin nhắn
-    SHOW_LIST_BOX_MESSAGE : "",          // GET - Lấy danh sách hộp thoại
+    SHOW_LIST_BOX_MESSAGE : "/box-message", // GET - Lấy tin nhắn từ một hộp thư cụ thể
+    SEND_MESSAGE: "/send-message",       // POST - Gửi tin nhắn
     GET_COMMENT_SUGGESTIONS: "/suggestion/comments", // POST - Lấy gợi ý bình luận từ AI
 
     // ====== POST SERVICE ENDPOINTS ======

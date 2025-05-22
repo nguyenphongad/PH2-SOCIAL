@@ -2319,12 +2319,10 @@ $main_color: #5048E5; // Nếu chưa được import từ file chung
         height: 38px;
         font-weight: 500;
         font-size: 15px;
-        background-color: $main_color;
-        border-color: $main_color;
+        background-color: #EB2F96;
         
         &:hover, &:focus {
-          background-color: darken($main_color, 10%);
-          border-color: darken($main_color, 10%);
+          background-color: #a11c65;
         }
         
         &:disabled {

@@ -134,7 +134,7 @@ const postsSlice = createSlice({
       .addCase(updatePost.fulfilled, (state, { payload }) => {
         state.updateStatus = "succeeded";
         
-        // Cập nhật bài đăng trong danh sách
+        // Cập nhật bài đăng trong danh sách items
         state.items = state.items.map(post => 
           post._id === payload._id ? payload : post
         );

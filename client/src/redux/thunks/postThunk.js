@@ -76,6 +76,7 @@ export const updatePost = createAsyncThunk(
     const token = getState().auth.token;
     try {
       const response = await put(`${ENDPOINT.UPDATE_POST}/${postId}`, updatedData, token);
+      // Cập nhật để sử dụng response.data.post thay vì response.data
       return response.data.post;
     } catch (err) {
       return rejectWithValue(err.response?.data || err.message);

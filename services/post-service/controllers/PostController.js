@@ -209,10 +209,10 @@ const updatePost = async (req, res) => {
      try {
           const { postId } = req.params;
           const { content, imageUrls, videoUrl } = req.body; // Sửa imageUrl thành imageUrls
-          const userID = req.user.userID;
+          const currentUserId = req.user.userID;
 
           console.log("postId để cập nhật:", postId);
-          console.log("userId của người cập nhật:", userID);
+          console.log("userId của người cập nhật:", currentUserId);
           console.log("Dữ liệu cập nhật:", req.body); // Log dữ liệu để debug
 
           if (!mongoose.Types.ObjectId.isValid(postId)) {
@@ -223,7 +223,7 @@ const updatePost = async (req, res) => {
           if (!post) {
                return res.status(404).json({ message: 'Bài đăng không tồn tại' });
           }
-          if (post.userID.toString() !== userID) {
+          if (post.userID.toString() !== currentUserId) {
                return res.status(403).json({ message: 'Bạn không có quyền cập nhật bài đăng này!' })
           }
 
@@ -252,12 +252,93 @@ const updatePost = async (req, res) => {
           
           updateData.updatedAt = Date.now();
 
-          const updatedPost = await PostModel.findByIdAndUpdate(
+          // Cập nhật bài đăng
+          await PostModel.findByIdAndUpdate(
                postId,
                updateData,
-               { new: true }
+               { new: false } // Không trả về document đã cập nhật vì chúng ta sẽ tự định dạng response
           );
-          return res.status(200).json({ message: 'Cập nhật bài đăng thành công', post: updatedPost });
+
+          // THÊM: Lấy thông tin đầy đủ của bài đăng sau khi cập nhật
+          // Khởi tạo lại logic tương tự như getPostByUsernameAndPostId
+          const updatedPost = await PostModel.findById(postId).lean();
+
+          // Kiểm tra trạng thái like của người dùng hiện tại
+          let isLikedByCurrentUser = false;
+          const existingLike = await LikeModel.findOne({ 
+               postId: postId, 
+               userId: currentUserId 
+          });
+          isLikedByCurrentUser = !!existingLike;
+
+          // Lấy thông tin chi tiết của người dùng đã đăng bài
+          const user = await UserModel.findOne({ username: updatedPost.username })
+               .select('_id userID username name profilePicture bio followers following')
+               .lean();
+
+          // Lấy comments của bài viết
+          const comments = await CommentsModel.find({ postId: postId })
+               .sort({ createdAt: 1 })
+               .lean();
+          
+          // Lấy danh sách userIds từ các comments để fetch thông tin người dùng
+          const commentUserIds = [...new Set(comments.map(comment => comment.userId))];
+          
+          // Fetch thông tin người dùng cho tất cả các comments cùng một lúc
+          const commentUsers = await UserModel.find({ 
+               userID: { $in: commentUserIds } 
+          })
+          .select('userID username name profilePicture')
+          .lean();
+          
+          // Tạo map cho việc tra cứu nhanh
+          const userMap = {};
+          commentUsers.forEach(user => {
+               userMap[user.userID.toString()] = user;
+          });
+          
+          // Bổ sung thông tin người dùng vào comments
+          const enhancedComments = comments.map(comment => {
+               const commentUser = userMap[comment.userId.toString()] || {};
+               return {
+                    ...comment,
+                    username: commentUser.username || comment.username,
+                    userAvatar: commentUser.profilePicture || "https://res.cloudinary.com/dg1kyvurg/image/upload/v1747339399/posts/default-avatar.png",
+                    name: commentUser.name || "",
+               };
+          });
+
+          // Tạo response có cấu trúc giống như getPostByUsernameAndPostId
+          const postResponse = {
+               _id: updatedPost._id,
+               user: user ? {
+                    _id: user._id || null,
+                    userID: user.userID || updatedPost.userID || null,
+                    username: user.username || updatedPost.username,
+                    name: user.name || "",
+                    profilePicture: user.profilePicture || "https://res.cloudinary.com/dg1kyvurg/image/upload/v1747339399/posts/default-avatar.png",
+                    bio: user.bio || "",
+                    followers: user.followers?.length || 0,
+                    following: user.following?.length || 0
+               } : {
+                    userID: updatedPost.userID,
+                    username: updatedPost.username,
+                    profilePicture: "https://res.cloudinary.com/dg1kyvurg/image/upload/v1747339399/posts/default-avatar.png"
+               },
+               content: updatedPost.content || "",
+               imageUrls: updatedPost.imageUrls || [],
+               videoUrl: updatedPost.videoUrl || "",
+               likes: updatedPost.likes || [],
+               comments: enhancedComments || [],
+               createdAt: updatedPost.createdAt,
+               updatedAt: updatedPost.updatedAt,
+               isLikedByCurrentUser: isLikedByCurrentUser
+          };
+
+          return res.status(200).json({ 
+               message: 'Cập nhật bài đăng thành công', 
+               post: postResponse 
+          });
 
      } catch (error) {
           console.error('Lỗi cập nhật bài đăng:', error);

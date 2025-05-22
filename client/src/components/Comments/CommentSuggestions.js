@@ -1,103 +1,104 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import "../../styles/ChatPageStyle/CommentSuggestions.scss";
-import { LoadingOutlined } from '@ant-design/icons';
+import { useDispatch } from 'react-redux';
 import { FaTimes } from 'react-icons/fa';
-import { BASE_URLS } from '../../config';
+// Đảm bảo import từ commentThunk thay vì chatThunk
+import { getSuggestedComments } from '../../redux/thunks/commentThunk';
 
-const CommentSuggestions = ({ postContent, onSelectSuggestion, isVisible, onHide }) => {
-  const [loading, setLoading] = useState(false);
-  const [suggestions, setSuggestions] = useState([
-    // Gợi ý mặc định sẽ hiển thị ngay lập tức
-    "Thật tuyệt vời! Cảm ơn bạn đã chia sẻ",
-    "Rất thích nội dung này!",
-    "Bài viết hay quá",
-    "Cảm ơn vì đã chia sẻ thông tin hữu ích",
-    "Chúc mừng bạn nhé!"
-  ]);
-  const [error, setError] = useState(null);
-  const [hasLoadedSuggestions, setHasLoadedSuggestions] = useState(false);
-
-  useEffect(() => {
-    // Chỉ tải gợi ý khi component được hiển thị và chưa tải trước đó
-    if (isVisible && postContent && !hasLoadedSuggestions) {
-      loadSuggestions();
-    }
-  }, [isVisible, postContent, hasLoadedSuggestions]);
-
-  const loadSuggestions = async () => {
-    if (!postContent) {
-      return; // Không tải nếu không có nội dung
-    }
+const CommentSuggestions = ({ postContent, onSelectSuggestion, isVisible = true, onHide }) => {
+    const [suggestions, setSuggestions] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [showSuggestions, setShowSuggestions] = useState(true);
+    const dispatch = useDispatch();
     
-    setLoading(true);
-    setError(null);
+    // Cập nhật internal state khi prop isVisible thay đổi
+    useEffect(() => {
+        setShowSuggestions(isVisible);
+    }, [isVisible]);
 
-    try {
-      console.log("Sending request for suggestions with content:", postContent.substring(0, 50) + "...");
-      const response = await axios.post(
-        `${BASE_URLS.CHAT_SERVICE}/suggestion/comments`,
-        { message: postContent },
-        { timeout: 10000 }
-      );
-
-      console.log("Response from suggestion API:", response.data);
-
-      if (response.data && (response.data.suggestions || response.data.response)) {
-        // Hỗ trợ cả hai cấu trúc phản hồi
-        const newSuggestions = response.data.suggestions || response.data.response;
-        if (Array.isArray(newSuggestions) && newSuggestions.length > 0) {
-          setSuggestions(newSuggestions);
-          setHasLoadedSuggestions(true);
+    useEffect(() => {
+        // Chỉ fetch khi component hiển thị và có nội dung
+        if (showSuggestions && postContent) {
+            fetchSuggestions();
         }
-      }
-    } catch (err) {
-      console.error('Error fetching comment suggestions:', err);
-      // Không đặt lỗi vào state để giữ các gợi ý mặc định
-    } finally {
-      setLoading(false);
-    }
-  };
+    }, [postContent, showSuggestions]);
 
-  // Không render gì nếu không hiển thị
-  if (!isVisible) return null;
+    const fetchSuggestions = async () => {
+        if (!postContent) return;
+        
+        setLoading(true);
+        setError(null);
+        
+        try {
+            // Sử dụng thunk getSuggestedComments và truyền trực tiếp postContent
+            const result = await dispatch(getSuggestedComments(postContent)).unwrap();
+            
+            if (result && result.suggestions && result.suggestions.length > 0) {
+                setSuggestions(result.suggestions);
+            } else {
+                // Fallback khi không có gợi ý hoặc kết quả không đúng định dạng
+                setSuggestions([
+                    "Rất hay!",
+                    "Cảm ơn bạn đã chia sẻ!",
+                    "Thật thú vị!",
+                    "Tôi hoàn toàn đồng ý với bạn",
+                    "Chia sẻ thêm nữa đi bạn"
+                ]);
+            }
+        } catch (err) {
+            console.error("Error fetching suggestions:", err);
+            setError("Không thể tải gợi ý. Vui lòng thử lại sau.");
+            
+            // Fallback khi có lỗi
+            setSuggestions([
+                "Rất hay!",
+                "Cảm ơn bạn đã chia sẻ!",
+                "Thật thú vị!",
+                "Tôi hoàn toàn đồng ý với bạn",
+                "Chia sẻ thêm nữa đi bạn"
+            ]);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-  return (
-    <div className="comment-suggestions">
-      <div className="comment-suggestions-header">
-        <span>Gợi ý bình luận</span>
-        <button className="suggestion-close-btn" onClick={onHide}>
-          <FaTimes />
-        </button>
-      </div>
-      <div className="comment-suggestions-content">
-        {loading ? (
-          <div className="loading-container">
-            <LoadingOutlined spin />
-            <span>Đang tạo thêm gợi ý bình luận...</span>
-          </div>
-        ) : error ? (
-          <div className="error-message">{error}</div>
-        ) : suggestions && suggestions.length > 0 ? (
-          <div className="suggestions-list">
-            {suggestions.map((suggestion, index) => (
-              <div 
-                key={index} 
-                className="suggestion-item"
-                onClick={() => onSelectSuggestion(suggestion)}
-              >
-                {suggestion}
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="loading-container">
-            <span>Không có gợi ý cho bài viết này</span>
-          </div>
-        )}
-      </div>
-    </div>
-  );
+    const handleCloseSuggestions = () => {
+        setShowSuggestions(false);
+        if (onHide) onHide();
+    };
+
+    // Nếu không hiển thị, trả về null
+    if (!showSuggestions) return null;
+
+    return (
+        <div className="comment-suggestions">
+            <div className="comment-suggestions-header">
+                <span>Gợi ý bình luận</span>
+                <button className="suggestion-close-btn" onClick={handleCloseSuggestions}>
+                    <FaTimes />
+                </button>
+            </div>
+            <div className="comment-suggestions-content">
+                {loading ? (
+                    <div className="loading-container">Đang tải gợi ý...</div>
+                ) : error ? (
+                    <div className="error-message">{error}</div>
+                ) : (
+                    <div className="suggestions-list">
+                        {suggestions.map((suggestion, index) => (
+                            <div 
+                                key={index}
+                                className="suggestion-item"
+                                onClick={() => onSelectSuggestion(suggestion)}
+                            >
+                                {suggestion}
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
+        </div>
+    );
 };
 
 export default CommentSuggestions;

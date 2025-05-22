@@ -1,81 +1,60 @@
-import instance from '../config/chat.axios.config';
+import axios from 'axios';
+import { BASE_URLS } from '../config';
 
-export const get = async (uri,token, params) => {
-    try {
-        const headers = {};
-        if (token) {
-            headers.Authorization = `Bearer ${token}`;
-        }
+// Tạo instance axios với base URL cho chat service
+const chatApi = axios.create({
+  baseURL: BASE_URLS.CHAT_SERVICE
+});
 
-        const res = await instance.get(uri, { headers, params });
-        return res;
-    } catch (error) {
-        throw error;
-    }
+// Hàm set token cho mỗi request
+export const setAuthToken = (token) => {
+  if (token) {
+    chatApi.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  } else {
+    delete chatApi.defaults.headers.common['Authorization'];
+  }
 };
 
-export const post = async (uri, data, token) => {
-    try {
-        const headers = {};
-        if (token) {
-            headers.Authorization = `Bearer ${token}`;
-        }
-
-        const res = await instance.post(uri, data, { headers });
-        return res;
-    } catch (error) {
-        throw error;
-    }
+// GET request
+export const get = async (endpoint, token = null) => {
+  if (token) {
+    setAuthToken(token);
+  }
+  
+  console.log(`Sending GET request to: ${BASE_URLS.CHAT_SERVICE}${endpoint}`);
+  const response = await chatApi.get(endpoint);
+  return response;
 };
 
-export const put = async (uri, data, token) => {
-    try {
-        const headers = {};
-        if (token) {
-            headers.Authorization = `Bearer ${token}`;
-        }
-
-        const res = await instance.put(uri, data, { headers });
-        return res;
-    } catch (error) {
-        throw error;
-    }
+// POST request
+export const post = async (endpoint, data, token = null) => {
+  if (token) {
+    setAuthToken(token);
+  }
+  
+  console.log(`Sending POST request to: ${BASE_URLS.CHAT_SERVICE}${endpoint}`);
+  const response = await chatApi.post(endpoint, data);
+  return response;
 };
 
-export const del = async (uri, data, token) => {
-    try {
-        const headers = {};
-        if (token) {
-            headers.Authorization = `Bearer ${token}`;
-        }
-
-        const res = await instance.delete(uri, { headers, data });
-        return res;
-    } catch (error) {
-        throw error;
-    }
+// PUT request
+export const put = async (endpoint, data, token = null) => {
+  if (token) {
+    setAuthToken(token);
+  }
+  
+  const response = await chatApi.put(endpoint, data);
+  return response;
 };
 
-export const patch = async (uri, data, token) => {
-    try {
-        const headers = {};
-        if (token) {
-            headers.Authorization = `Bearer ${token}`;
-        }
-
-        const res = await instance.patch(uri, data, { headers });
-        return res;
-    } catch (error) {
-        throw error;
-    }
+// DELETE request
+export const del = async (endpoint, token = null) => {
+  if (token) {
+    setAuthToken(token);
+  }
+  
+  const response = await chatApi.delete(endpoint);
+  return response;
 };
 
-
-
-
-// Example usage functions
-// export const fetchBannerData = () => api.get<{ result: BannerData[] }>(ENDPOINTS.BANNER);
-// export const getCategories = () => api.get<{ result: Category[] }>(ENDPOINTS.CATEGORIES);
-// export const loginUser = (credentials: Credentials) => api.post<LoginResponse>(ENDPOINTS.LOGIN, credentials);
-// export const getAdvertisementById = (id: number) => api.get(`${ENDPOINTS.ADVERTISEMENT}/${id}`);
-// export const getAllReviewsAdvertisementById = (id: number) => api.get(`${ENDPOINTS.REVIEWS}/${id}`);
+export default chatApi;

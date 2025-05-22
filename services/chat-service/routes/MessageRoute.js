@@ -1,9 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const { sendMessage, getMessages, getListMessage, getBoxMessage, chatboxComment, getCommentSuggestions } = require('../controllers/MessageController');
+const { 
+  sendMessage, 
+  getMessages, 
+  getListMessage, 
+  getBoxMessage, 
+  chatboxComment, 
+  getCommentSuggestions,
+  healthCheck 
+} = require('../controllers/MessageController');
 const chatMiddleware = require('../middleware/ChatMiddleware');
 
-// Middleware đảm bảo người dùng đã đăng nhập
+// Health check endpoint - Không yêu cầu xác thực
+router.get('/health', healthCheck);
+
+// Tất cả các routes khác sẽ yêu cầu xác thực
 router.use(chatMiddleware);
 
 // Route để gửi tin nhắn

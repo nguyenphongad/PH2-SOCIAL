@@ -1,4 +1,14 @@
 services:
+  mongodb:
+    container_name: mongodb
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - social-network
+
   auth-service:
     container_name: auth-service
     build: 
@@ -20,6 +30,8 @@ services:
       timeout: 10s
       retries: 3
       start_period: 20s
+    depends_on:
+      - mongodb
     networks:
       - social-network
 
@@ -34,11 +46,14 @@ services:
     environment:
       - PORT=5555
       - NODE_ENV=development
+      - JWT_SECRET=your-secret-key
+      - MONGODB_URI=mongodb://mongodb:27017/ph2-social
     volumes:
       - ./services/chat-service:/app
       - /app/node_modules
     restart: always
     depends_on:
+      - mongodb
       - auth-service
     networks:
       - social-network
@@ -119,8 +134,8 @@ services:
       - SOCIAL_SERVICE_URL=http://social-service:5004
       - POST_SERVICE_URL=http://post-service:5003
       - CHAT_SERVICE_URL=http://chat-service:5555
-      - REQUEST_TIMEOUT=10000
-      - PROXY_TIMEOUT=10000
+      - REQUEST_TIMEOUT=30000
+      - PROXY_TIMEOUT=30000
     volumes:
       - ./services/api-gateway:/app
       - /app/node_modules
@@ -144,6 +159,9 @@ services:
         condition: service_started
     networks:
       - social-network
+
+volumes:
+  mongodb_data:
 
 networks:
   social-network:

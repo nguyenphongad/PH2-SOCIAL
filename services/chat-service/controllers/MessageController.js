@@ -9,6 +9,16 @@ function isConnectionActive(res) {
   return res && res.connection && !res.connection.destroyed && !res.headersSent;
 }
 
+// Endpoint health check không yêu cầu xác thực
+const healthCheck = (req, res) => {
+  res.status(200).json({
+    service: 'chat-service',
+    status: 'OK',
+    timestamp: new Date().toISOString(),
+    mongodb: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
+  });
+};
+
 // Lấy danh sách tin nhắn từ cuộc hội thoại
 const getMessages = async (req, res) => {
   try {
@@ -417,5 +427,6 @@ module.exports = {
   getListMessage,
   getBoxMessage,
   chatboxComment,
-  getCommentSuggestions
+  getCommentSuggestions,
+  healthCheck // Thêm health check vào exports
 };

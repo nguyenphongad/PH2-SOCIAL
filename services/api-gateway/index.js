@@ -4,6 +4,8 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 const dotenv = require('dotenv');
 const winston = require('winston');
 const fetch = require('node-fetch');
+const http = require('http');
+const socketIO = require('socket.io');
 
 // Cấu hình môi trường
 dotenv.config();
@@ -14,7 +16,7 @@ const serviceStatus = {
   'user-service': { status: 'unknown', lastChecked: null, healthEndpoint: '/health' },
   'social-service': { status: 'unknown', lastChecked: null, healthEndpoint: '/health' },
   'post-service': { status: 'unknown', lastChecked: null, healthEndpoint: '/health' },
-  'chat-service': { status: 'unknown', lastChecked: null, healthEndpoint: '/health' }
+  'chat-service': { status: 'unknown', lastChecked: null, healthEndpoint: '/health' } // Chắc chắn rằng chat-service có health endpoint đúng
 };
 
 function updateServiceStatus(name, status) {
@@ -42,6 +44,7 @@ const logger = winston.createLogger({
 });
 
 const app = express();
+const server = http.createServer(app);
 
 // Middleware
 app.use(cors({
@@ -231,12 +234,13 @@ app.use('/post', createProxyMiddleware({
 app.use('/chat', createProxyMiddleware({
   target: process.env.CHAT_SERVICE_URL,
   changeOrigin: true,
-  pathRewrite: {
-    '^/chat': '/chat' // Sửa từ 'chat' thành '/chat' để giữ tiền tố
-  },
+  // Cài đặt pathRewrite thành null để giữ nguyên path
+  pathRewrite: null,
   timeout: 60000,
   proxyTimeout: 60000,
   onProxyReq: (proxyReq, req, res) => {
+    console.log(`Proxying request to chat service: ${req.method} ${req.url} -> ${process.env.CHAT_SERVICE_URL}${req.url}`);
+    
     // Xử lý body cho POST/PUT request
     if (req.body && (req.method === 'POST' || req.method === 'PUT')) {
       const bodyData = JSON.stringify(req.body);
@@ -246,26 +250,37 @@ app.use('/chat', createProxyMiddleware({
       proxyReq.end();
     }
     
-    logger.info(`Redirecting to Chat Service: ${req.method} ${req.url}`);
+    logger.info({
+      message: 'Proxying to Chat Service',
+      method: req.method,
+      url: req.url,
+      target: `${process.env.CHAT_SERVICE_URL}${req.url}`
+    });
+  },
+  onProxyRes: (proxyRes, req, res) => {
+    console.log(`Got response from Chat Service: ${proxyRes.statusCode}`);
+    logger.info(`Got response from Chat Service: ${proxyRes.statusCode}`);
   },
   onError: (err, req, res) => {
+    console.error(`Proxy error to Chat Service: ${err.message}`);
     logger.error(`Proxy error to Chat Service: ${err.message}`);
     res.status(502).json({ error: 'Bad Gateway', details: err.message });
   }
 }));
 
-// Comment phần WebSocket proxy vì chưa sử dụng
-/*
-// Websocket proxy cho Chat Service (Socket.IO)
-app.use('/socket.io', createProxyMiddleware({
+// WebSocket proxy cho Chat Service
+const wsProxy = createProxyMiddleware('/socket.io', {
   target: process.env.CHAT_SERVICE_URL,
   changeOrigin: true,
   ws: true,
-  onProxyReq: (proxyReq, req, res) => {
-    logger.info(`Redirecting WS to Chat Service: ${req.method} ${req.url}`);
+  logLevel: 'debug',
+  onError: (err, req, res) => {
+    logger.error(`WebSocket proxy error to Chat Service: ${err.message}`);
   }
-}));
-*/
+});
+
+app.use(wsProxy);
+server.on('upgrade', wsProxy.upgrade); // Handle WebSocket upgrade
 
 // Endpoint để kiểm tra trạng thái tất cả service
 app.get('/services/status', (req, res) => {
@@ -311,10 +326,10 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 9999;
 
-// Khởi động server trực tiếp, không đợi health check
-app.listen(PORT, () => {
-  logger.info(`Gateway server running on port ${PORT}`);
-  console.log(`Gateway server running on port ${PORT}`);
+// Khởi động server với hỗ trợ WebSocket
+server.listen(PORT, () => {
+  logger.info(`Gateway server with WebSocket support running on port ${PORT}`);
+  console.log(`Gateway server with WebSocket support running on port ${PORT}`);
   
   // Kiểm tra kết nối sau khi khởi động (không chặn quá trình khởi động)
   setTimeout(() => {
@@ -340,13 +355,17 @@ async function checkServiceConnections() {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 5000);
       
-      const healthUrl = `${url}/health`;
+      const healthEndpoint = serviceStatus[name]?.healthEndpoint || '/health';
+      const healthUrl = `${url}${healthEndpoint}`;
       logger.info(`Testing connection to ${name} at ${healthUrl}`);
+      
+      // Chuẩn bị header cho request
+      const headers = { 'Accept': 'application/json' };
       
       const response = await fetch(healthUrl, {
         signal: controller.signal,
         method: 'GET',
-        headers: { 'Accept': 'application/json' }
+        headers
       }).catch(e => {
         logger.error(`Fetch error for ${name}: ${e.message}`);
         return null;
@@ -355,11 +374,12 @@ async function checkServiceConnections() {
       clearTimeout(timeoutId);
       
       if (response && response.ok) {
+        const data = await response.json();
         updateServiceStatus(name, 'up');
-        logger.info(`✅ Connection to ${name} successful`);
+        logger.info(`✅ Connection to ${name} successful: ${JSON.stringify(data)}`);
       } else {
         updateServiceStatus(name, 'down');
-        logger.warn(`❌ Connection to ${name} failed`);
+        logger.warn(`❌ Connection to ${name} failed with status: ${response?.status}`);
       }
     } catch (error) {
       updateServiceStatus(name, 'error');

@@ -1,20 +1,14 @@
-FROM node:18.16-alpine
+FROM node:16-alpine
 
 WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install --production
+RUN npm install
 
 COPY . .
 
-# Tạo thư mục logs
-RUN mkdir -p logs
-
-# Thiết lập volume cho logs để dễ theo dõi
-VOLUME ["/app/logs"]
-
+# Expose port for both HTTP and WebSocket
 EXPOSE 5555
 
-# Sử dụng node trực tiếp trong production
-CMD ["npm", "run", "start:prod"]
+CMD ["npm", "start"]
